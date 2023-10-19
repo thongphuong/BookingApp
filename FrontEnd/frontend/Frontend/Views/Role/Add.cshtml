@@ -1,0 +1,203 @@
+﻿@using Frontend.Resource
+@{
+    ViewBag.Title = "User";
+    Layout = "_Layout";
+}
+<style>
+    .function-tr {
+        display: flex;
+        flex-wrap: wrap
+    }
+
+    .function-div {
+        padding: 5px 0px
+    }
+
+    .function-name {
+        width: 125px
+    }
+</style>
+<div class="row clearfix">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2 class="pull-left">@Resource.lbl_role_add_header.ToUpper()</h2>
+            </div>
+            <div class="body clearfix">
+                <form id="form_data" class="formsubmit formdata" method="post" action="" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-md-4" style="border-right: 1px solid #d8d5d5;">
+                            <div style="padding-right:30px;display:inline-table;">
+                                <div class="col-md-12 no-padding">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label class="required">@Resource.lbl_name</label>
+                                            <div class="form-group">
+                                                <div class="form-group">
+                                                    <div class="form-line selectlist">
+                                                        <input class="form-control frmData" required type="text" id="name" name="name" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label class="required">@Resource.lbl_description</label>
+                                            <div class="form-group">
+                                                <div class="form-group">
+                                                    <div class="form-line selectlist">
+                                                        <textarea class="form-control frmData" maxlength="
+255" required type="text" id="description" name="description" style="height:100px"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <button type="button" onclick="GoBack()" class="btn waves-effect" style="margin-right:5px">@Resource.btn_back</button>
+                                            <button type="button" class="btn bg-aeon waves-effect" onclick="Save()">@Resource.btn_save</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="row" style="height:500px;overflow-y:auto;display:block">
+                                <label>@Resource.lbl_role</label>
+                                <table id="roledetailtable" class="table table-bordered table-striped table-hover dataTable js-exportable" style="min-width:100%;">
+                                    <thead>
+                                        <tr>
+                                            <th width="20%">Menu</th>
+                                            <th width="20%">SubMenu</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="scroll-body">
+                                        @*@for (int i = 0; i < 30; i++)
+                                        {
+                                        <tr>
+
+                                        <td>menu</td>
+                                        <td>submenu</td>
+                                        <td>
+                                        <input type="checkbox" id="test"
+                                        class="filled-in roledetail"
+                                        data-menu="àasfasf"
+                                        data-submenu="zxcvxcvb"
+                                        data-controller="ẫc"
+                                        data-action="sfas"
+                                        data-idsub=""
+                                        />
+                                        <label for="test">name</label>
+                                        <input type="checkbox" id="test"
+                                        class="filled-in roledetail"
+                                        data-menu="àasfasf"
+                                        data-submenu="zxcvxcvb"
+                                        data-controller="ẫc"
+                                        data-action="sfas"
+                                        data-idsub=""
+                                        />
+                                        <label for="test">name</label>
+                                        <input type="checkbox" id="test1"
+                                        class="filled-in roledetail"
+                                        data-menu="àasfasf"
+                                        data-submenu="zxcvxcvb"
+                                        data-controller="ẫc"
+                                        data-action="sfas"
+                                        data-idsub=""
+                                        />
+                                        <label for="test1">name</label>
+                                        <input type="checkbox" id="test2"
+                                        class="filled-in roledetail"
+                                        data-menu="àasfasf"
+                                        data-submenu="zxcvxcvb"
+                                        data-controller="ẫc"
+                                        data-action="sfas"
+                                        data-idsub=""
+                                        />
+                                        <label for="test2">name</label>
+                                        </td>
+                                        </tr>
+                                        }*@
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        $(document).ready(function() {
+            GetUrl(apiConfig.api.host_user_service,
+                apiConfig.api.role.controller,
+                apiConfig.api.role.action.get_function.path,
+                apiConfig.api.role.action.get_function.method,
+                null,
+                'fnGetSuccess', 'msgError');
+        })
+
+        function fnGetSuccess(result) {
+            $("#roledetailtable tbody").html(result.functionstr);
+        }
+        var required_mgs = '<label id="name-error" class="error">@Html.Raw(Resource.lbl_required)</label>';
+        var password_mgs = '<label id="name-error" class="error">@Html.Raw(Resource.lbl_password_validate)</label>';
+        function Save() {
+            var data = [];
+            var $filter = $('#form_data').find('.frmData');
+            $.each($filter, function(i, o) {
+                data.push({ "name": $(o).attr('name'), "value": $(o).val() });
+            });
+            var obj = {};
+            $("label.error").remove();
+            $(".error").removeClass("error");
+            var checkvalidate = false;
+            for (var key of data) {
+
+                if ($("#" + key.name).prop("required") && (key.value == null || key.value.toString().trim() == "")) {
+                    $("#" + key.name).parent().addClass("error");
+                    $("#" + key.name).parent().parent().append(required_mgs);
+                    checkvalidate = true;
+                }
+                obj[key.name] = key.value;
+            }
+            obj['functions'] = [];
+            var listroledetail = $(".roledetail:checked");
+            $.each(listroledetail, function(i, v) {
+                var detail = {
+                    menu: $(v).attr("data-menu"),
+                    sub_menu: $(v).attr("data-submenu"),
+                    controller: $(v).attr("data-controller"),
+                    action: $(v).attr("data-action"),
+                };
+                obj['functions'].push(detail);
+            })
+
+            if (!checkvalidate) {
+                PostBody(apiConfig.api.host_user_service,
+                    apiConfig.api.role.controller,
+                    apiConfig.api.role.action.add_role.path,
+                    apiConfig.api.role.action.add_role.method,
+                    obj,
+                    'fnAddSuccess', 'msgError');
+                return;
+            }
+        }
+
+        function fnAddSuccess(result) {
+            toastr.success('@Html.Raw(Resource.lbl_addSuccess)', '@Html.Raw(@Resource.lbl_noti)');
+            setTimeout(function() {
+                window.location.href = '/Role'
+            }, 600)
+        }
+
+        function GoBack() {
+            window.location.href = '/Role'
+        }
+
+    </script>
+}
+
+

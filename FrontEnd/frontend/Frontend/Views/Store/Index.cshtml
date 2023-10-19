@@ -1,0 +1,246 @@
+﻿@using Frontend.Resource
+@{
+    ViewBag.Title = "Store";
+    Layout = "_Layout";
+}
+<style>
+    .btn-header {
+        min-width: 100px;
+        margin-bottom: 10px;
+        padding: 3px;
+    }
+
+    .warptext {
+        white-space: normal;
+        width: 400px;
+    }
+</style>
+<div class="row clearfix">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2 class="pull-left">
+                    STORE
+                </h2>
+            </div>
+            <div class="body">
+                <div class="table-responsive">
+                    <form id="frmFilter" method="post" class="formsearch">
+                        <div class="row" style="justify-content: space-between;">
+                            <div class="col-md-1 col-sm-1 col-xs-1 col-xl-1" style="display: inline-grid;">
+                                <button type="submit" class="btn btn-sm btn-header bg-aeon waves-effect">
+                                    <i class="material-icons">search</i>
+                                    <span>@Resource.btn_search</span>
+                                </button>
+                                <button type="reset" class="btn btn-sm btn-header bg-cyan waves-effect" onclick="resetForm(this.form)">
+                                    <i class="material-icons">refresh</i>
+                                    <span>@Resource.btn_clear</span>
+                                </button>
+                                <button type="button" class="btn btn-sm btn-header btn-success waves-effect" onclick="window.location.href='/Store/Add'">
+                                    <i class="material-icons">add</i>
+                                    <span>@Resource.btn_add</span>
+                                </button>
+                                <p style="height:40px;width:0px">
+                                </p>
+                            </div>
+                            <div class="col-md-10">
+                                <div class="row">
+                                    <div class="col-md-1">
+                                        <label>@Resource.lbl_name</label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <div class="form-line selectlist">
+                                                <input class="form-control frmFilter" maxlength="200" id="Name" name="Name" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1 col-sm-1 col-xs-1 col-xl-1">
+                                        <label>@Resource.lbl_code</label>
+                                    </div>
+                                    <div class="col-md-4 col-sm-4 col-xs-4 col-xl-4">
+                                        <div class="form-group">
+                                            <div class="form-line selectlist">
+                                                <input class="form-control frmFilter" id="Code" name="Code" maxlength="50" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-1 col-sm-1 col-xs-1 col-xl-1">
+                                        <label>@Resource.lbl_address</label>
+                                    </div>
+                                    <div class="col-md-4 col-sm-4 col-xs-4 col-xl-4">
+                                        <div class="form-group">
+                                            <div class="form-line selectlist">
+                                                <input class="form-control frmFilter" maxlength="200" id="Address" name="Address" placeholder="" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1 col-sm-1 col-xs-1 col-xl-1">
+                                        <label>@Resource.lbl_phone</label>
+                                    </div>
+                                    <div class="col-md-4 col-sm-4 col-xs-4 col-xl-4">
+                                        <div class="form-group">
+                                            <div class="form-line selectlist">
+                                                <input class="form-control frmFilter" maxlength="20" id="PhoneNumber" name="PhoneNumber" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+
+                                    <div class="col-md-1 col-sm-1 col-xs-1 col-xl-1">
+                                        <label>@Resource.lbl_email</label>
+                                    </div>
+                                    <div class="col-md-4 col-sm-4 col-xs-4 col-xl-4">
+                                        <div class="form-group">
+                                            <div class="form-line selectlist">
+                                                <input class="form-control frmFilter" maxlength="200" id="Email" name="Email" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1 col-sm-1 col-xs-1 col-xl-1 col-lg-1">
+                                        <label>@Resource.lbl_status</label>
+                                    </div>
+                                    <div class="col-md-4 col-sm-4 col-xs-4 col-xl-4 col-lg-4">
+                                        <div class="form-group">
+                                            <div class="form-line selectlist">
+                                                <select id="Status" name="Status" class="form-control frmFilter select2">
+                                                    <option value="-1">All</option>
+                                                    <option value="1">Active</option>
+                                                    <option value="0">Inactive</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+
+
+
+                    </form>
+                    <div class="col-md-12">
+                        <table id="storetable" class="table table-bordered table-striped table-hover dataTable js-exportable" style="width:99%;">
+                            <thead>
+                                <tr>
+                                    <th>@Resource.lbl_no</th>
+                                    <th>@Resource.lbl_storecode</th>
+                                    <th>@Resource.lbl_storename</th>
+                                    <th>@Resource.lbl_contact</th>
+                                    <th>@Resource.lbl_address</th>
+                                    @*<th>Phone</th>*@
+                                    <th>@Resource.lbl_command</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                            <tbody role="alert" aria-live="polite" aria-relevant="all"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        var sTable;
+        $(document).ready(function() {
+
+            var customRow = [
+                {
+                    "targets": [1, 5],
+                    "width": "1%",
+                },
+                {
+                    "targets": 2,
+                    "className": "text-center aeon-img",
+                    "width": "1%",
+                },
+                {
+                    "targets": [4],
+                    "width": "50%",
+                    render: function(data, type, row, meta) {
+                        if (data == "") return "";
+                        return `<div class="warptext">${data}</div>`
+                    }
+                },
+                {
+                    orderable: false, targets: [0, 2, 5]
+                }
+            ];
+            sTable = initDataTable("#storetable", apiConfig.api.host_user_service + apiConfig.api.store.controller + apiConfig.api.store.action.get_table.path, customRow);
+            $('#frmFilter').submit(function(e) {
+                e.preventDefault();
+                sTable.draw();
+            });
+        });
+
+        function calldelete(id) {
+            swal({
+                title: "@Html.Raw(Resource.lbl_delete_message)",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "@Html.Raw(Resource.btn_accept)",
+                cancelButtonText: "@Html.Raw(Resource.btn_cancel)",
+                closeOnConfirm: true,
+                closeOnCancel: true
+            },
+                function(isConfirm) {
+                    if (isConfirm) {
+                        PostBody(apiConfig.api.host_user_service,
+                            apiConfig.api.store.controller,
+                            apiConfig.api.store.action.delete_store.path,
+                            apiConfig.api.store.action.delete_store.method,
+                            { referenceId: id },
+                            'fndeletesuccess',
+                            msgError);
+                    }
+                });
+        }
+
+        function fndeletesuccess(data) {
+            toastr.success('@Html.Raw(Resource.lbl_deleteSuccess)', '@Html.Raw(@Resource.lbl_noti)');
+            sTable.draw();
+        }
+
+        function callchange(id) {
+
+            swal({
+                title: "@Html.Raw(Resource.lbl_change_message)",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "@Html.Raw(Resource.btn_accept)",
+                cancelButtonText: "@Html.Raw(Resource.btn_cancel)",
+                closeOnConfirm: true,
+                closeOnCancel: true
+            },
+                function(isConfirm) {
+                    if (isConfirm) {
+                        PostBody(apiConfig.api.host_user_service, apiConfig.api.store.controller, apiConfig.api.store.action.change_store.path, apiConfig.api.store.action.change_store.method, { referenceId: id }, 'fnChangeSuccess', msgError);
+                    }
+                });
+        }
+
+        function fnChangeSuccess(result) {
+            toastr.success('@Html.Raw(Resource.lbl_ChangeSuccess)', '@Html.Raw(@Resource.lbl_noti)');
+            sTable.draw();
+        }
+
+        function Edit(referenceid) {
+            window.location.href = "/Store/Edit?reference_id=" + referenceid;
+        }
+        function ShowDetail(referenceid) {
+            window.location.href = "/Store/Detail?reference_id=" + referenceid;
+        }
+
+    </script>
+}
+
+

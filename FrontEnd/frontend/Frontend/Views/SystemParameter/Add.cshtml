@@ -1,0 +1,120 @@
+﻿@using Frontend.Resource
+@{
+    ViewBag.Title = "SystemParameter";
+    Layout = "_Layout";
+}
+<style>
+    .header {
+        text-transform: uppercase !important;
+    }
+</style>
+<div class="row clearfix">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2 class="pull-left">@Resource.lbl_add @Resource.lbl_header_system_parameter.ToLower()</h2>
+            </div>
+            <div class="body clearfix">
+                <form id="form_data" class="formsubmit formdata" method="post" action="" enctype="multipart/form-data">
+                    <div class="row" style="margin-bottom: 15px;">
+                        <div class="col-md-6" style="border-right: 1px solid #d8d5d5;">
+                            <div style="padding-right:30px">
+                                <div class="col-md-12 no-padding">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label class="required">@Resource.lbl_param_name</label>
+                                            <div class="form-group">
+                                                <div class="form-line selectlist">
+                                                    <input class="form-control frmData" required type="text" id="parameter_name" name="parameter_name" style="width:100%" />
+                                                </div>
+                                            </div>
+                                        </div>                                       
+                                    </div>
+                                </div>
+                                <div class="col-md-12 no-padding">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label class="required">@Resource.lbl_param_value</label>
+                                            <div class="form-group">
+                                                <div class="form-group">
+                                                    <div class="form-line selectlist">
+                                                        <input class="form-control frmData" required type="text" id="value" name="value" style="width:100%" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div style="padding-left:30px">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label >@Resource.lbl_param_note</label>
+                                        <div class="form-group">
+                                            <div class="form-line selectlist">
+                                                <textarea class="form-control frmData" required id="note" name="note" rows="4" cols="50" style="width:100%"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <button type="button" onclick="GoBack()" class="btn waves-effect" style="margin-right:5px">Back</button>
+                        <button type="button" class="btn bg-aeon waves-effect" onclick="Save()">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        var required_mgs = '<label id="name-error" class="error">@Html.Raw(Resource.lbl_required)</label>';
+        function Save() {
+            var data = [];
+            var $filter = $('#form_data').find('.frmData');
+            $.each($filter, function(i, o) {
+                data.push({ "name": $(o).attr('name'), "value": $(o).val() });
+            });
+            var obj = {};
+            $("label.error").remove();
+            $(".error").removeClass("error");
+            var checkvalidate = false;
+            for (var key of data) {
+
+                if ($("#" + key.name).prop("required") && (key.value == null || (key.value == null || key.value.toString().trim() == ""))) {
+                    $("#" + key.name).parent().addClass("error");
+                    $("#" + key.name).parent().parent().append(required_mgs);
+                    checkvalidate = true;
+                }
+                obj[key.name] = key.value;
+            }
+
+            if (!checkvalidate) {
+                PostBody(apiConfig.api.host_user_service,
+                    apiConfig.api.systemparameter.controller,
+                    apiConfig.api.systemparameter.action.add_systemparameter.path,
+                    apiConfig.api.systemparameter.action.add_systemparameter.method,
+                    obj,
+                    'fnAddSuccess', 'msgError');
+                return;
+            }
+        }
+
+        function fnAddSuccess(result) {
+            toastr.success('@Html.Raw(Resource.lbl_addSuccess)', '@Html.Raw(@Resource.lbl_noti)');
+            setTimeout(function() {
+                window.location.href = '/SystemParameter'
+            }, 600)
+        }
+        function GoBack() {
+           window.location.href = '/SystemParameter'
+        }
+    </script>
+}
+
+

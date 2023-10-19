@@ -1,0 +1,113 @@
+﻿@using Frontend.Resource
+@{
+    ViewBag.Title = "Role";
+    Layout = "_Layout";
+}
+<style>
+    .function-tr {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center
+    }
+
+    .function-div {
+        padding: 5px 0px
+    }
+
+    .function-name {
+        width: 125px
+    }
+</style>
+<div class="row clearfix">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2 class="pull-left">@Resource.lbl_role_detail_header.ToUpper()</h2>
+            </div>
+            <div class="body clearfix">
+                <form id="form_data" class="formsubmit formdata" method="post" action="" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-md-4" style="border-right: 1px solid #d8d5d5;">
+                            <div style="padding-right:30px;display:inline-table;">
+                                <div class="col-md-12 no-padding">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label>@Resource.lbl_name</label>
+                                            <div class="form-group">
+                                                <div class="form-group">
+                                                    <div class="form-line selectlist">
+                                                        <input class="form-control frmData" readonly type="text" id="name" name="name" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label>@Resource.lbl_description</label>
+                                            <div class="form-group">
+                                                <div class="form-group">
+                                                    <div class="form-line selectlist">
+                                                        <textarea class="form-control frmData" readonly maxlength="
+255" type="text" id="description" name="description" style="height:100px"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <button type="button" onclick="GoBack()" class="btn waves-effect" style="margin-right:5px">@Resource.btn_back</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="row" style="height:500px;overflow-y:auto;display:block">
+                                <label>@Resource.lbl_role</label>
+                                <table id="roledetailtable" class="table table-bordered table-striped table-hover dataTable js-exportable" style="min-width:100%;">
+                                    <thead>
+                                        <tr>
+                                            <th width="20%">Menu</th>
+                                            <th width="20%">SubMenu</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="scroll-body">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        $(document).ready(function() {
+            GetUrl(apiConfig.api.host_user_service,
+                apiConfig.api.role.controller,
+                apiConfig.api.role.action.get_function.path,
+                apiConfig.api.role.action.get_function.method,
+                {
+                    role_id: GetUrlParam('id')
+                },
+                'fnGetSuccess', 'msgError');
+        })
+
+        function fnGetSuccess(result) {
+            $("#id").val(GetUrlParam('id'));
+            $("#name").val(result.name);
+            $("#description").val(result.description);
+            $("#roledetailtable tbody").html(result.functionstr);
+            $("input[type=checkbox]").prop("disabled", true);
+        }
+
+        function GoBack() {
+            window.location.href = '/Role'
+        }
+
+    </script>
+}
+
+

@@ -1,0 +1,217 @@
+﻿@using Frontend.Resource
+@{
+    ViewBag.Title = "Return";
+    Layout = "_Layout";
+}
+<link href="~/css/register.css" rel="stylesheet" type="text/css" />
+<div class="mask d-flex align-items-center h-100 gradient-custom-3" style="overflow: auto">
+    <div class="container h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-lg-12 col-xl-12">
+                <div class="card rounded-3">
+                    <div class="card-body p-4 p-md-5">
+                        <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2 text-center">Vui lòng nhập thông tin bên dưới để phê duyệt</h3>
+                        <form id="form_data" class="px-md-2">
+                            <input type="hidden" class="frmData" id="reference_id" name="reference_id" />
+                            <!--Store-->
+                            <div class="row my-2">
+                                <div class="col-md-3 col-sm-3 col-xs-3 col-xl-3">
+                                    <label>@Resource.lbl_register_store</label>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <input class="form-control frmData" readonly id="store_reference" name="store_reference" style="width:100%" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Department code-->
+                            <div class="row my-2">
+                                <div class="col-md-3 col-sm-3 col-xs-3 col-xl-3">
+                                    <label>@Resource.lbl_register_department_code</label>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <input class="form-control frmData" readonly id="department_code" name="department_code" style="width:100%" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Receipt no-->
+                            <div class="row my-2">
+                                <div class="col-md-3 col-sm-3 col-xs-3 col-xl-3">
+                                    <label>@Resource.lbl_register_receipt_no</label>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <input class="form-control frmData" readonly id="receipt_no" name="receipt_no" style="width:100%" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Receiver name-->
+                            <div class="row my-2">
+                                <div class="col-md-3 col-sm-3 col-xs-3 col-xl-3">
+                                    <label class="required">@Resource.lbl_register_receiver_name</label>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <input class="form-control frmData" required id="receiver_name" name="receiver_name" style="width:100%" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Receiver department name-->
+                            <div class="row my-2">
+                                <div class="col-md-3 col-sm-3 col-xs-3 col-xl-3">
+                                    <label class="required">@Resource.lbl_register_receiver_department_name</label>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <input class="form-control frmData" required id="receiver_department" name="receiver_department" style="width:100%" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Reason-->
+                            <div class="row my-2">
+                                <div class="col-md-3 col-sm-3 col-xs-3 col-xl-3">
+                                    <label class="required">@Resource.lbl_register_reason</label>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <input class="form-control frmData" required id="reason" name="reason" style="width:100%" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Receipt status-->
+                            <div class="row my-2">
+                                <div class="col-md-3 col-sm-3 col-xs-3 col-xl-3">
+                                    <label>@Resource.lbl_register_receipt_status</label>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <select class="form-control frmData select2" id="receipt_status" name="receipt_status">
+                                            <option value="1">@Resource.lbl_receipt_full</option>
+                                            <option value="2">@Resource.lbl_receipt_missing</option>
+                                            <option value="3">@Resource.lbl_receipt_return</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Miss/Return invoice number-->
+                            <div class="row my-2 miss_invoice_number" style="display:none">
+                                <div class="col-md-3 col-sm-3 col-xs-3 col-xl-3">
+                                    <label class="required" id="receipt_label"></label>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <input type="number" min="0" class="form-control frmData required_item" id="miss_invoice_number" name="miss_invoice_number" style="width:100%" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Miss/Return invoice date-->
+                            <div class="row my-2 delivery_invoice_date" style="display:none">
+                                <div class="col-md-3 col-sm-3 col-xs-3 col-xl-3">
+                                    <label class="required">@Resource.lbl_register_delivery_invoice_date</label>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <input type="date" class="form-control frmData required_item" id="delivery_invoice_date" name="delivery_invoice_date" style="width:100%" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row my-2 text-center">
+                                <div class="col-md-6">
+                                    <button onclick="Submit()" type="button" class="btn btn-success btn-lg mb-1 m-auto col-md-6 float-right">@Resource.btn_approve</button>
+                                </div>
+                                <div class="col-md-6">
+                                    <button onclick="GoBack()" type="button" class="btn btn-lg mb-1 m-auto col-md-6 float-left">@Resource.btn_cancel</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function() {
+            $("#receipt_status").on('change', function() {
+                var value = $(this).val();
+                if (value == 2) {
+                    $("#receipt_label").text('@Html.Raw(Resource.lbl_register_miss_invoice)');
+                    $(".delivery_invoice_date").show();
+                    $(".miss_invoice_number").show();
+                    $(".required_item").prop("required", true);
+                } else
+                    if (value == 3) {
+                        $("#receipt_label").text('@Html.Raw(Resource.lbl_register_return_invoice)');
+                        $(".delivery_invoice_date").show();
+                        $(".miss_invoice_number").show();
+                        $(".required_item").prop("required", true);
+                    } else {
+                        $(".delivery_invoice_date").hide();
+                        $(".miss_invoice_number").hide();
+                        $(".required_item").prop("required", false);
+                    }
+            })
+            GetUrl(apiConfig.api.host_booking_service,
+                apiConfig.api.order.controller,
+                apiConfig.api.order.action.get_order.path,
+                apiConfig.api.order.action.get_order.method,
+                {
+                    reference_id: GetUrlParam('reference_id')
+                },
+                'fnGetSuccess', 'msgError');
+        })
+
+        function fnGetSuccess(result) {
+            $("#reference_id").val(GetUrlParam('reference_id'));
+            $("#store_reference").val(result.store_name);
+            $("#department_code").val(result.department_code);
+            $("#receipt_no").val(result.order_receipt.map(u => u.code).join(', '));
+        }
+
+        var required_mgs = '<label id="name-error" class="error">@Html.Raw(Resource.lbl_required)</label>';
+        function Submit() {
+            $("label.error").remove();
+            $(".error").removeClass("error");
+            var data = [];
+            var $filter = $('#form_data').find('.frmData');
+            $.each($filter, function(i, o) {
+                data.push({ "name": $(o).attr('name'), "value": $(o).val() });
+            });
+            var obj = {};
+            var checkvalidate = false;
+            for (var key of data) {
+
+                if ($("#" + key.name).prop("required") && (key.value == null || key.value.toString().trim() == "")) {
+                    $("#" + key.name).parent().addClass("error");
+                    $("#" + key.name).parent().append(required_mgs);
+                    checkvalidate = true;
+                }
+                obj[key.name] = key.value;
+            }
+
+            if (!checkvalidate) {
+                PostBody(apiConfig.api.host_booking_service,
+                    apiConfig.api.order.controller,
+                    apiConfig.api.order.action.return_order.path,
+                    apiConfig.api.order.action.return_order.method,
+                    obj,
+                    'fnReturnSuccess', 'msgError');
+                return;
+            }
+        }
+
+        function fnReturnSuccess(result) {
+            toastr.success('@Html.Raw(Resource.lbl_returnSuccess)', '@Html.Raw(@Resource.lbl_noti)');
+            setTimeout(function() {
+                window.location.href = '/Order'
+            }, 600)
+        }
+
+        function GoBack() {
+            window.location.href = '/Order'
+        }
+    </script>
+}

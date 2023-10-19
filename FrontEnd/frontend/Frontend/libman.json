@@ -1,0 +1,99 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "node-waves@0.7.6",
+      "destination": "wwwroot/lib/node-waves/"
+    },
+    {
+      "library": "animate.css@4.1.1",
+      "destination": "wwwroot/lib/animate.css/"
+    },
+    {
+      "library": "bootstrap-material-datetimepicker@2.7.1",
+      "destination": "wwwroot/lib/bootstrap-material-datetimepicker/"
+    },
+    {
+      "library": "bootstrap-sweetalert@1.0.1",
+      "destination": "wwwroot/lib/bootstrap-sweetalert/"
+    },
+    {
+      "library": "bootstrap-select@1.13.18",
+      "destination": "wwwroot/lib/bootstrap-select/"
+    },
+    {
+      "library": "datatables@1.10.21",
+      "destination": "wwwroot/lib/datatables/"
+    },
+    {
+      "library": "summernote@0.8.20",
+      "destination": "wwwroot/lib/summernote/"
+    },
+    {
+      "library": "fastselect@0.7.3",
+      "destination": "wwwroot/lib/fastselect/"
+    },
+    {
+      "library": "select2@4.0.13",
+      "destination": "wwwroot/lib/select2/"
+    },
+    {
+      "library": "autosize.js@5.0.1",
+      "destination": "wwwroot/lib/autosize.js/"
+    },
+    {
+      "library": "jquery-validate@1.19.5",
+      "destination": "wwwroot/lib/jquery-validate/"
+    },
+    {
+      "library": "jquery.inputmask@5.0.7",
+      "destination": "wwwroot/lib/jquery.inputmask/"
+    },
+    {
+      "library": "datatables.net-bs5@1.12.1",
+      "destination": "wwwroot/lib/datatables.net-bs5/"
+    },
+    {
+      "library": "jquery@3.6.0",
+      "destination": "wwwroot/lib/jquery/"
+    },
+    {
+      "library": "datatables.net@2.1.1",
+      "destination": "wwwroot/lib/datatables.net/"
+    },
+    {
+      "library": "toastr.js@2.1.4",
+      "destination": "wwwroot/assets/plugins/toastr",
+      "files": [
+        "toastr.min.js",
+        "toastr.css",
+        "toastr.js.map",
+        "toastr.min.css"
+      ]
+    },
+    {
+      "library": "twitter-bootstrap@5.2.0",
+      "destination": "wwwroot/twitter-bootstrap/"
+    },
+    {
+      "library": "font-awesome@6.1.2",
+      "destination": "wwwroot/lib/font-awesome/"
+    },
+    {
+      "library": "moment.js@2.29.4",
+      "destination": "wwwroot/lib/moment.js/"
+    },
+    {
+      "library": "bootstrap@5.2.0",
+      "destination": "wwwroot/lib/bootstrap/"
+    },
+    {
+      "library": "qrcodejs@1.0.0",
+      "destination": "wwwroot/lib/qrcodejs/",
+      "files": [
+        "qrcode.min.js"
+      ]
+    }
+  ]
+}

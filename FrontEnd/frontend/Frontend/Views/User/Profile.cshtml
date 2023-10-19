@@ -1,0 +1,287 @@
+﻿@using Frontend.Resource
+@{
+    ViewBag.Title = "Profile";
+    Layout = "_Layout";
+}
+<div class="row clearfix">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2 class="pull-left">@Resource.lbl_user_profile_header.ToUpper()</h2>
+            </div>
+            <div class="body clearfix">
+                <form id="form_data" class="formsubmit formdata" method="post" action="" enctype="multipart/form-data">
+                    <input type="hidden" class="frmData" id="reference_id" name="reference_id" />
+                    <input type="hidden" class="frmData" id="id" name="id" />
+                    <div class="row">
+                        <div class="col-md-6" style="border-right: 1px solid #d8d5d5;">
+                            <div style="padding-right:30px;display:inline-table;">
+                                <div class="col-md-12 no-padding">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label class="required">@Resource.lbl_staffid</label>
+                                            <div class="form-group">
+                                                <div class="form-line selectlist">
+                                                    <input class="form-control frmData" required type="text" id="staff_id" name="staff_id" style="width:100%" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label class="required">@Resource.lbl_username</label>
+                                            <div class="form-group">
+                                                <div class="form-line selectlist">
+                                                    <input class="form-control frmData" required type="text" id="user_name" name="user_name" style="width:100%" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label>@Resource.lbl_password</label>
+                                            <div class="form-group">
+                                                <div class="form-line selectlist">
+                                                    <input class="form-control frmData" type="text" id="password" name="password" style="width:100%" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label class="required">@Resource.lbl_fullname</label>
+                                            <div class="form-group">
+                                                <div class="form-line selectlist">
+                                                    <input class="form-control frmData" required type="text" id="full_name" name="full_name" style="width:100%" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label class="required">@Resource.lbl_store_managerment</label>
+                                            <div class="form-group">
+                                                <div class="form-line selectlist">
+                                                    <select class="form-control frmData" required id="store_management" name="store_management">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div style="padding-left:30px;display:inline-table;">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label>@Resource.lbl_email</label>
+                                        <div class="form-group">
+                                            <div class="form-group">
+                                                <div class="form-line selectlist">
+                                                    <input class="form-control frmData" type="email" id="email" name="email" style="width:100%" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label>@Resource.lbl_phone</label>
+                                        <div class="form-group">
+                                            <div class="form-group">
+                                                <div class="form-line selectlist">
+                                                    <input class="form-control frmData" type="tel" maxlength="10" id="phone" name="phone" style="width:100%" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label>@Resource.lbl_department</label>
+                                        <div class="form-group">
+                                            <div class="form-line selectlist">
+                                                <select class="form-control frmData" style="height:100px" id="department" name="department">
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label>@Resource.lbl_division</label>
+                                        <div class="form-group">
+                                            <div class="form-line selectlist">
+                                                <select class="form-control frmData" id="division" name="division">
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label>@Resource.lbl_working_location</label>
+                                        <div class="form-group">
+                                            <div class="form-line selectlist">
+                                                <select class="form-control frmData" id="working_location" name="working_location">
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label>@Resource.lbl_role</label>
+                                        <div class="form-group">
+                                            <div class="form-line selectlist">
+                                                <select class="form-control frmData" id="role_id" name="role_id">
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <button type="button" onclick="GoBack()" class="btn waves-effect" style="margin-right:5px">@Resource.btn_back</button>
+                        <button type="button" class="btn bg-aeon waves-effect" onclick="Save()">@Resource.btn_save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        $(document).ready(function() {
+            setInputFilter(document.getElementById("phone"), function(value) {
+                return /^-?\d*$/.test(value);
+            });
+
+            callApi_multipleselect(
+                "#department", '@Html.Raw(@Resource.lbl_choose_department)',
+                apiConfig.api.host_user_service,
+                apiConfig.api.department.controller,
+                apiConfig.api.department.action.dropdown_department.path,
+                false);
+
+            callApi_multipleselect(
+                "#division", '@Html.Raw(@Resource.lbl_choose_division)',
+                apiConfig.api.host_user_service,
+                apiConfig.api.department.controller,
+                apiConfig.api.department.action.dropdown_division.path,
+                false,
+                {
+                    "d": "#department"
+                }
+            );
+
+            callApi_multipleselect(
+                "#role_id", '@Html.Raw(Resource.lbl_choose_role)',
+                apiConfig.api.host_user_service,
+                apiConfig.api.role.controller,
+                apiConfig.api.role.action.dropdown_role.path,
+                false
+            );
+
+            GetStore("#store_management");
+            GetStore("#working_location");
+            ShowData(GetUrlParam('reference_id'));
+        })
+
+
+        function ShowData(referenceid) {
+            GetUrl(apiConfig.api.host_user_service,
+                apiConfig.api.user.controller,
+                apiConfig.api.user.action.get_user.path,
+                apiConfig.api.user.action.get_user.method,
+                {
+                    reference_id: referenceid
+                },
+                'fnGetSuccess', 'msgError');
+        }
+
+        function fnGetSuccess(result) {
+            $('#id').val(result.id)
+            $('#reference_id').val(result.reference_id)
+            $("#staff_id").val(result.staff_id);
+            $("#user_name").val(result.user_name);
+            $("#full_name").val(result.full_name);
+            $("#email").val(result.email);
+            $("#phone").val(result.phone);
+            $('#store_management').append(new Option(result.store_management_name, result.store_management, true, true)).trigger('change');
+            $('#department').append(new Option(result.department_name, result.department, true, true)).trigger('change');
+            $('#division').append(new Option(result.division_name, result.division, true, true)).trigger('change');
+            $('#working_location').append(new Option(result.working_location_name, result.working_location, true, true)).trigger('change');
+            $('#role_id').append(new Option(result.role_name, result.role_id, true, true)).trigger('change');
+        }
+
+        function GetStore(selector) {
+            callApi_multipleselect(
+                selector, '@Html.Raw(@Resource.lbl_choose_store)',
+                apiConfig.api.host_user_service,
+                apiConfig.api.store.controller,
+                apiConfig.api.store.action.dropdown_store.path,
+                false
+            );
+        }
+
+        $('#department').on('select2:select', function(e) {
+            $('#division').val('').trigger('change');
+        });
+
+        var required_mgs = '<label id="name-error" class="error">@Html.Raw(Resource.lbl_required)</label>';
+        var password_mgs = '<label id="name-error" class="error">@Html.Raw(Resource.lbl_password_validate)</label>';
+        function Save() {
+            var data = [];
+            var $filter = $('#form_data').find('.frmData');
+            $.each($filter, function(i, o) {
+                data.push({ "name": $(o).attr('name'), "value": $(o).val() });
+            });
+            var obj = {};
+            $("label.error").remove();
+            $(".error").removeClass("error");
+            var checkvalidate = false;
+            for (var key of data) {
+
+                if ($("#" + key.name).prop("required") && (key.value == 'null' || key.value.toString().trim() == "")) {
+                    $("#" + key.name).parent().addClass("error");
+                    $("#" + key.name).parent().parent().append(required_mgs);
+                    checkvalidate = true;
+                }
+                obj[key.name] = key.value;
+            }
+
+            if ($("#password").val() != '' && !CheckPassword($("#password").val())) {
+                $("#password").parent().addClass("error");
+                $("#password").parent().parent().append(password_mgs);
+                checkvalidate = true;
+            }
+
+            if (!validatePhone("#phone", $("#phone").val())) {
+                checkvalidate = true;
+            }
+
+            if (!validateEmail("#email", $("#email").val())) {
+                checkvalidate = true;
+            }
+
+            if (!checkvalidate) {
+                PostBody(apiConfig.api.host_user_service,
+                    apiConfig.api.user.controller,
+                    apiConfig.api.user.action.edit_user.path,
+                    apiConfig.api.user.action.edit_user.method,
+                    obj,
+                    'fnEditSuccess', 'msgError');
+                return;
+            }
+        }
+
+        function fnEditSuccess(result) {
+            toastr.success('@Html.Raw(Resource.lbl_editSuccess)', '@Html.Raw(@Resource.lbl_noti)');
+            setTimeout(function() {
+                window.location.href = '/'
+            }, 600)
+        }
+
+        function GoBack() {
+            window.location.href = '/'
+        }
+
+        function CheckPassword(input) {
+            let regexpassword = new RegExp('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])');
+            if (regexpassword.test(input))
+                return true;
+
+            else
+                return false
+        }
+
+    </script>
+}
+
+

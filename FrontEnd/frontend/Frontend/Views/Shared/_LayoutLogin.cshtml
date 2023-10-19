@@ -1,0 +1,90 @@
+﻿@using Frontend.Resource
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content=""><!-- Favicon-->
+    <link rel="icon" href="~/assets/images/favicon.ico" type="image/x-icon">
+
+    <title>BOOKING APP</title>
+    <link rel="stylesheet" href="~/css/style.css">
+    <link rel="stylesheet" href="~/assets/plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/lib/select2//css/select2.min.css">
+    <link rel="stylesheet" href="~/assets//plugins/toastr/toastr.min.css" />
+    <script src="~/lib/jquery/jquery.min.js"></script>
+    <script src="~/js/api.construct.js"></script>
+    <script src="~/js/common.js"></script>
+    <script defer src="~/assets/plugins/toastr/toastr.min.js"></script>
+    <style type="text/css">
+
+
+        html {
+            min-height: 100%;
+            background-image: url('/assets/images/bg/aeon-bg.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+        }
+
+        body {
+            zoom: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .login-form .form-login {
+            box-shadow: 6px 6px 15px -5px #000;
+            max-width: 30rem;
+            padding: 1rem;
+            background-color: rgba(255, 255, 255, 0.9);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            padding-bottom: 0px;
+            -webkit-transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="preloader">
+        <div class="loader">
+            <svg class="circular" viewBox="25 25 50 50">
+                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10" />
+            </svg>
+        </div>
+    </div>
+
+    <section class="login-form">
+        @RenderBody()
+    </section>
+</body>
+<script src="~/lib/select2/js/select2.full.min.js"></script>
+@RenderSection("Scripts", false)
+@RenderSection("jsFooter", false)
+<script>
+    hideLoading();
+    var API_KEY = '@((Configuration["UseEnv"] ?? "0") == "0" ? Configuration["API_KEY"] : Environment.GetEnvironmentVariable("API_KEY"))';
+    var USER_SERVICE = '@((Configuration["UseEnv"] ?? "0") == "0" ? Configuration["host_user_service"] : Environment.GetEnvironmentVariable("HOST_SERVICE"))';
+    var BOOKING_SERVICE = '@((Configuration["UseEnv"] ?? "0") == "0" ? Configuration["host_booking_service"] : Environment.GetEnvironmentVariable("HOST_BOOKING"))';
+    var localizationResources = {
+        'lbl_error': '@Html.Raw(Resource.lbl_error)',
+        'lbl_warning': '@Html.Raw(Resource.lbl_warning)',
+        'error401': '@Html.Raw(Resource.error401)',
+        'error400': '@Html.Raw(Resource.error400)',
+        'USER_NOT_CORRECT': '@Html.Raw(Resource.USER_NOT_CORRECT)',
+        'errorServer': '@Html.Raw(Resource.errorServer)',
+    };
+</script>
+<script src="~/js/api.function.js"></script>
+</html>

@@ -1,0 +1,118 @@
+﻿@using Frontend.Resource
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+<div class="form-login">
+    @Html.AntiForgeryToken()
+    <div class="form-group text-center">
+        <img src="~/assets/images/logo/aeon-logo.png" style="width:380px;height:179px" />
+    </div>
+    <div class="form-group">
+        <div class="text-center">
+            <h2>@Resource.lbl_loginTitle</h2>
+        </div>
+    </div>
+    <br />
+    <div class="form-group">
+        <input type="text" class="form-control" id="Username" required placeholder="@Resource.lbl_username">
+    </div>
+    <div class="form-group">
+        <input type="password" class="form-control" id="Password" required placeholder="@Resource.lbl_password">
+    </div>
+    <br />
+    <div class="form-group">
+        <button type="button" id="btnLogin" onclick="Login()" class="btn btn-primary form-control">
+            @Resource.lbl_login
+        </button>
+    </div>
+    <div class="form-group">
+        <div style="font-size: 11px; margin-top: 45px;">
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $(function() {
+        $("#Username").on("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                document.getElementById("btnLogin").click();
+            }
+        })
+
+        $("#Password").on("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                document.getElementById("btnLogin").click();
+            }
+        })
+    })
+
+    function Login() {
+        localStorage.clear();
+        var formdata = new FormData();
+        var body = {
+            "user_name": $('#Username').val(),
+            "password": $('#Password').val()
+        }
+        PostBody(apiConfig.api.host_user_service,
+            apiConfig.api.user.controller,
+            apiConfig.api.user.action.authenticate.path,
+            apiConfig.api.user.action.authenticate.method,
+            body,
+            'fnSuccess', 'msgError');
+    }
+
+    function fnSuccess(res) {
+        var currentUser = { 'id': res.id, 'user_name': res.user_name, 'full_name': res.full_name, 'role_name': res.role_name, 'reference_id': res.reference_id, 'first_login': res.first_login, 'role_detail': res.role_detail };
+        var objData = new FormData();
+        objData.append("Token", res.token);
+        objData.append("currentUsers", JSON.stringify(currentUser));
+        localStorage['systemParameter'] = JSON.stringify(res.system_parameter);
+        fetch('/ApplyLogin', {
+            method: 'POST',
+            body: objData,
+        })
+            .then(response => response.json())
+            .then(result => {
+                var currentUser = { 'id': res.id, 'user_name': res.user_name, 'full_name': res.full_name, 'role_name': res.role_name, 'reference_id': res.reference_id, 'first_login': res.first_login, 'role_detail': res.role_detail };
+                localStorage['SessionToken'] = res.token;
+                localStorage['CurrentUser'] = JSON.stringify(currentUser);
+                GetMenu(res.role);
+            }).catch((error) => {
+                toastr.error(error, localizationResources.lbl_error);
+                hideLoading();
+            });
+    }
+
+    function GetMenu(role) {
+        GetUrl(apiConfig.api.host_user_service,
+            apiConfig.api.menu.controller,
+            apiConfig.api.menu.action.get_menu.path,
+            apiConfig.api.menu.action.get_menu.method,
+            {
+                role_id: role
+            },
+            'fnMenuSuccess', 'msgError');
+    }
+
+    function fnMenuSuccess(res) {
+        fetch('/Authenticate/MenuComponent', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(res),
+        }).then(result => {
+            if (JSON.parse(localStorage["CurrentUser"]).first_login) {
+                window.location.href = "/User/Profile?reference_id=" + JSON.parse(localStorage['CurrentUser']).reference_id;
+                return false;
+            }
+            window.location.href = "/";
+        })
+    }
+
+</script>

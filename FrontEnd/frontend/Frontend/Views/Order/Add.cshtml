@@ -1,0 +1,273 @@
+﻿@*@model AeonDemo.Service.ViewModels.Masterdata.UserViewModel*@
+@{
+    //ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .note-editor .btn:not(.btn-link):not(.btn-circle) i {
+        font-size: 12px;
+        position: relative;
+        line-height: 1.5;
+        top: 0px;
+    }
+
+    .note-editor .btn:not(.btn-link):not(.btn-circle) i {
+        font-size: 12px;
+        position: relative;
+        line-height: 1.5;
+        top: 0px;
+    }
+
+    .note-editor.note-frame {
+        border-radius: 0;
+    }
+
+    .addform {
+    }
+
+    .fstElement {
+        width: 100%;
+        font-size: 9px;
+        border: none;
+        display: block;
+    }
+
+    .fstMultipleMode .fstControls {
+        width: 100%;
+        padding: 0.5em 0 0 0;
+    }
+
+    .fstMultipleMode.fstActive .fstResults {
+        z-index: 9999;
+    }
+
+    .drop_uploader.drop_zone {
+        border: 1px dashed #999999;
+        border-radius: 0;
+    }
+
+    #tableSurveyQuestion_wrapper div:first-child.row {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
+    #tableSurveyQuestion_filter input {
+        padding: 5px;
+        border: 1px solid #bbb;
+        border-radius: 2px;
+    }
+
+    table.dataTable thead > tr > th, table.dataTable thead > tr > td {
+        padding-right: 10px;
+    }
+
+    .btn-action {
+        margin: 0 !important;
+    }
+</style>
+<style>
+    tr.uncheck_qst {
+        display: none;
+    }
+
+    .calendar {
+        display: none;
+    }
+
+        .calendar.active {
+            display: unset;
+        }
+</style>
+
+@*@section jsFooter{
+
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(".focused").removeClass("focused");
+        });
+    </script>
+}*@
+<div class="row clearfix">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header clearfix">
+                <div>
+                    <h2 class="pull-left">Order Schedule Delivery </h2>                 
+                    <button type="button" onclick="window.location.href='/Survey'" class="btn waves-effect pull-right">Back</button>
+                      <button type="button" onclick="window.location.href='/Survey'" class="btn waves-effect pull-right">Submit</button>
+                </div>               
+            </div>
+            <div class="body clearfix">
+                <div class="col-md-12 formsearch">
+                    <div style="display:table">
+                      @*  <div class="col-md-12 no-padding" style="margin-bottom:20px;">
+                            <div class="col-md-6 no-padding">
+                                <div class="col-xs-1 no-padding" style="display:inline-table;">
+                                    <i class="material-icons icon-lang">language</i>
+                                </div>
+                               <div class="col-xs-11">
+                                    <ul class="nav nav-tabs tab-lang">
+                                        foreach (var item in Model.LstSurveyNewDTO)
+                                        {
+                                            <li class="@(item.langcode == "vi" ? "active" : "")"><a data-toggle="tab" href="#tab-@item.langcode">@item.langcode.ToUpper()</a></li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>*@
+                        <div class="col-md-6 no-padding">
+                            <div style="padding-right:30px;display:inline-table;width:100%;">
+                                <div class="col-md-12 no-padding formsearch">
+                                    <div class="tab-content">                                    
+                                            @*<div class="tab-pane fade">*@
+                                                <div class="addform">
+                                                   <div class="col-md-12 no-padding">
+                                                         <label>Store</label>
+                                                        <div class="form-group">
+                                                            <div class="form-line selectlist">
+                                                                @Html.TextBox("StaffID",null, new { @class = "form-control ", @readonly = "readonly", @disabled = "true" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 no-padding">
+                                                         <label>Supplier No</label>
+                                                        <div class="form-group">
+                                                            <div class="form-line selectlist">
+                                                                  @Html.TextBox("UserName",null, new { @class = "form-control ", @readonly = "readonly", @disabled = "true" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                 
+                                                    <div class="col-md-12 no-padding">
+                                                         <label>Supplier Name</label>
+                                                        <div class="form-group">
+                                                            <div class="form-line selectlist">
+                                                                  @Html.TextBox("UserName",null, new { @class = "form-control ", @readonly = "readonly", @disabled = "true" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                     <div class="col-md-12 no-padding">
+                                                         <label>Line Code</label>
+                                                        <div class="form-group">
+                                                            <div class="form-line selectlist">
+                                                                  @Html.TextBox("UserName",null, new { @class = "form-control ", @readonly = "readonly", @disabled = "true" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                     <div class="col-md-12 no-padding">
+                                                         <label>Email</label>
+                                                        <div class="form-group">
+                                                            <div class="form-line selectlist">
+                                                                  @Html.TextBox("UserName",null, new { @class = "form-control ", @readonly = "readonly", @disabled = "true" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                     <div class="col-md-12 no-padding">
+                                                         <label>Contact Phone</label>
+                                                        <div class="form-group">
+                                                            <div class="form-line selectlist">
+                                                                  @Html.TextBox("UserName",null, new { @class = "form-control ", @readonly = "readonly", @disabled = "true" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                     <div class="col-md-12 no-padding">
+                                                         <label>Delivery Order Quantity</label>
+                                                        <div class="form-group">
+                                                            <div class="form-line selectlist">
+                                                                  @Html.TextBox("UserName",null, new { @class = "form-control ", @readonly = "readonly", @disabled = "true" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @*</div> *@                              
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 no-padding">
+                            <div style="padding-left:30px;display:inline-table;width:100%;border-left: 1px solid #d8d5d5;">
+                                <div class="addform">
+                                     <div class="col-md-12 no-padding">
+                                            <label>Delivery Item Quantity</label>
+                                                        <div class="form-group">
+                                                            <div class="form-line selectlist">
+                                                                
+                                                                 @Html.TextBox("Birthday",null, new { @class = "form-control ", @readonly = "readonly", @disabled = "true" })
+                                                            </div>
+                                                        </div>
+                                     </div>
+                                    <div class="col-md-12 no-padding">
+                                            <label>Receipt No</label>
+                                                        <div class="form-group">
+                                                            <div class="form-line selectlist">
+                                                                 @Html.TextBox("Birthday",null, new { @class = "form-control ", @readonly = "readonly", @disabled = "true" })
+                                                            </div>
+                                                        </div>
+                                     </div>
+                                      <div class="col-md-12 no-padding">
+                                            <label>Delivery Vehicle</label>
+                                                        <div class="form-group">
+                                                            <div class="form-line selectlist">
+                                                                 @Html.TextBox("Birthday",null, new { @class = "form-control ", @readonly = "readonly", @disabled = "true" })
+                                                            </div>
+                                                        </div>
+                                     </div>
+                                      <div class="col-md-12 no-padding">
+                                            <label>Delivery Driver's Name'</label>
+                                                        <div class="form-group">
+                                                            <div class="form-line selectlist">
+                                                                 @Html.TextBox("Birthday",null, new { @class = "form-control ", @readonly = "readonly", @disabled = "true" })
+                                                            </div>
+                                                        </div>
+                                     </div>
+                                      <div class="col-md-12 no-padding">
+                                            <label>CMND/Lisense</label>
+                                                        <div class="form-group">
+                                                            <div class="form-line selectlist">
+                                                                 @Html.TextBox("Birthday",null, new { @class = "form-control ", @readonly = "readonly", @disabled = "true" })
+                                                            </div>
+                                                        </div>
+                                     </div>
+                                      <div class="col-md-12 no-padding">
+                                            <label>Delivery Date</label>
+                                                        <div class="form-group">
+                                                            <div class="form-line selectlist">
+                                                                 <button type="button" id="btn_b" style="position:absolute;z-index:11;height:100%">
+                                                                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                                                                </button>
+                                                                 @Html.TextBox("Birthday",null, new { @class = "form-control ", @readonly = "readonly", @disabled = "true" })
+                                                            </div>
+                                                        </div>
+                                     </div>
+                                      <div class="col-md-12 no-padding">
+                                            <label>Delivery Time</label>
+                                                        <div class="form-group">
+                                                            <div class="form-line selectlist">
+                                                                <button type="button" id="btn_b" style="position:absolute;z-index:11;height:100%">
+                                                                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                                                                </button>
+                                                                 @Html.TextBox("Birthday",null, new { @class = "form-control ", @readonly = "readonly", @disabled = "true" })
+                                                            </div>
+                                                        </div>
+                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                       
+                        
+                    </div>
+                </div>
+                @*<div style="padding-left:15px;">
+                    <button type="button" onclick="window.location.href='/Survey'" class="btn waves-effect" style="margin-right:5px">Back</button>
+                </div>*@
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+

@@ -1,0 +1,198 @@
+﻿@using Frontend.Resource;
+@using Frontend.Utils
+@{
+    ViewData["Title"] = "List";
+    Layout = "_Layout";
+}
+<style>
+    .btn-header {
+        min-width: 100px;
+        margin-bottom: 10px;
+        padding: 3px;
+    }
+</style>
+
+<div class="row clearfix">
+    <div class="col-md-12 col-sm-12 col-xs-12 col-xl-12 col-lg-12">
+        <div class="card">
+            <div class="header">
+                <h2>
+                    @Resource.lbl_header_time_frame.ToUpper()
+                </h2>
+            </div>
+            <div class="body">
+                <form id="frmFilter" method="post" class="formsearch">
+                    <div class="row" style="justify-content: space-between;">
+                        <div class="col-md-1 col-sm-1 col-xs-1 col-xl-1 col-lg-1" style="display: inline-grid;">
+                            <button type="submit" class="btn btn-sm btn-header bg-aeon waves-effect">
+                                <i class="material-icons">search</i>
+                                <span>@Resource.btn_search</span>
+                            </button>
+                            <button type="reset" class="btn btn-sm btn-header bg-cyan waves-effect" onclick="resetForm(this.form,'timeframetable')">
+                                <i class="material-icons">refresh</i>
+                                <span>@Resource.btn_clear</span>
+                            </button>
+                            @* <button type="button" class="btn btn-sm btn-header btn-success waves-effect" onclick="window.location.href='/TimeFrame/AddQuick'">
+                            <i class="material-icons">add</i>
+                            <span>@Resource.btn_quick_add</span>
+                            </button>*@
+                            @if (Permission.CheckPermissions("TimeFrame", "Add"))
+                            {
+                                <button type="button" class="btn btn-sm btn-header btn-success waves-effect" onclick="window.location.href='/TimeFrame/Add'">
+                                    <i class="material-icons">add</i>
+                                    <span>@Resource.btn_add</span>
+                                </button>
+                            }
+                        </div>
+                        <div class="col-md-10">
+                            <div class="row">
+                                <div class="col-md-1 col-sm-1 col-xs-1 col-xl-1">
+                                    <label>@Resource.lbl_store_title</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="form-line selectlist">
+                                            <select class="form-control frmFilter" id="StoreRef" name="StoreRef">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-1 col-sm-1 col-xs-1 col-xl-1">
+                                </div>
+                                <div class="col-md-2 col-sm-2 col-xs-2 col-xl-2">
+                                    <label>@Resource.lbl_time_frame_title</label>
+                                </div>
+                                <div class="col-md-2 col-sm-2 col-xs-2 col-xl-2">
+                                    <div class="form-group">
+                                        <div class="form-line ">
+                                            <input class="form-control frmFilter" type="time" id="TimeFrom" name="TimeFrom" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 col-sm-2 col-xs-2 col-xl-2">
+                                    <div class="form-group">
+                                        <div class="form-line ">
+                                            <input class="form-control frmFilter" type="time" id="TimeTo" name="TimeTo" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        <table id="timeframetable" class="table table-bordered table-striped table-hover dataTable js-exportable" style="min-width:100%;">
+                            <thead>
+                                <tr>
+                                    <th>@Resource.lbl_no</th>
+                                    <th>@Resource.lbl_store_title</th>
+                                    <th>@Resource.lbl_created_date</th>
+                                    <th>@Resource.lbl_time_frame_title</th>
+                                    <th>@Resource.lbl_supplier</th>
+                                    <th>@Resource.lbl_command</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                            <tbody role="alert" aria-live="polite" aria-relevant="all"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var sTable;
+    $(document).ready(function() {
+
+        var customRow = [
+            {
+                "targets": [1, 5],
+                "width": "10%",
+            },
+            {
+                orderable: false, targets: [0, 1, 2, 3, 4, 5]
+            }
+        ];
+        GetStore("#StoreRef");
+        sTable = initDataTable("#timeframetable", apiConfig.api.host_user_service + apiConfig.api.timeframe.controller + apiConfig.api.timeframe.action.table_timeframe.path, customRow);
+        $('#frmFilter').submit(function(e) {
+            e.preventDefault();
+            sTable.draw();
+        });
+
+    });
+    function GetStore(selector) {
+        callApi_multipleselect(
+            selector, '@Html.Raw(Resource.lbl_choose_store)',
+            apiConfig.api.host_user_service,
+            apiConfig.api.store.controller,
+            apiConfig.api.store.action.dropdown_store.path,
+            false
+        );
+    }
+
+    function Edit(reference_id) {
+        window.location.href = "/TimeFrame/Edit?reference_id=" + reference_id;
+    }
+
+    function ShowDetail(reference_id) {
+        window.location.href = "/TimeFrame/Detail?reference_id=" + reference_id;
+    }
+
+    function CallDelete(reference_id) {
+        swal({
+            title: "@Html.Raw(Resource.lbl_delete_message)",
+            showCancelButton: true,
+            confirmButtonClass: "btn-danger",
+            confirmButtonText: "@Html.Raw(Resource.btn_accept)",
+            cancelButtonText: "@Html.Raw(Resource.btn_cancel)",
+            closeOnConfirm: true,
+            closeOnCancel: true
+        },
+            function(isConfirm) {
+                if (isConfirm) {
+                    PostBody(apiConfig.api.host_user_service,
+                        apiConfig.api.timeframe.controller,
+                        apiConfig.api.timeframe.action.delete_timeframe.path,
+                        apiConfig.api.timeframe.action.delete_timeframe.method,
+                        reference_id,
+                        'fnDeleteSuccess', 'msgError');
+                }
+            });
+    }
+
+    function fnDeleteSuccess(result) {
+        toastr.success('@Html.Raw(Resource.lbl_deleteSuccess)', '@Html.Raw(@Resource.lbl_noti)');
+        sTable.draw();
+    }
+
+                //function CallChange(reference_id) {
+                //    swal({
+                //        title: "@Html.Raw(Resource.lbl_change_message)",
+                //        showCancelButton: true,
+                //        confirmButtonClass: "btn-danger",
+                //        confirmButtonText: "@Html.Raw(Resource.btn_accept)",
+                //        cancelButtonText: "@Html.Raw(Resource.btn_cancel)",
+                //        closeOnConfirm: true,
+                //        closeOnCancel: true
+                //    },
+                //        function(isConfirm) {
+                //            if (isConfirm) {
+                //                PostBody(apiConfig.api.host_user_service,
+                //                    apiConfig.api.timeframe.controller,
+                //                    apiConfig.api.timeframe.action.changeactive_timeframe.path,
+                //                    apiConfig.api.timeframe.action.changeactive_timeframe.method,
+                //                    reference_id,
+                //                    'fnChangeSuccess', 'msgError');
+                //            }
+                //        });
+                //}
+
+                //function fnChangeSuccess(result) {
+                //    toastr.success('@Html.Raw(Resource.lbl_ChangeSuccess)', '@Html.Raw(@Resource.lbl_noti)');
+                //    sTable.draw();
+                //}
+</script>

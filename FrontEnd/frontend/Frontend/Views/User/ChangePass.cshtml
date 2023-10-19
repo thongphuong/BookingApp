@@ -1,0 +1,110 @@
+﻿@*@model AeonDemo.Models.UserChangePasswordDTO*@
+@{
+    ViewBag.Title = "ChangePass";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section jsFooter{
+    <script>
+        $('#btnSubmit').on('click', function (e) {
+            e.preventDefault();
+
+            var curentPass = $('#CurrentPassword').val();
+            var newPass = $('#NewPassword').val();
+            var confmPass = $('#ConfirmPassword').val();
+            var URL = "/User/ChangePass"
+            if (curentPass == "") {
+                alert('Please enter your current password');
+                $('#CurrentPassword').focus();
+                return false;
+            }
+            if (newPass == "") {
+                alert('Please enter your new password');
+                $('#NewPassword').focus();
+                return false;
+            }
+            if (confmPass == "") {
+                alert('Please enter your confirm password');
+                $('#ConfirmPassword').focus();
+                return false;
+            }
+            if (newPass != confmPass) {
+                alert('New password does not match!');
+                $('#NewPassword').focus();
+                return false;
+            }
+            $.ajax({
+                url: URL,
+                type: 'POST',
+                data: $('#frmSubmit').serialize(),
+                success: function (res) {
+                    if (res.Status) {
+                        alert(res.messege);
+                        window.location.href = window.location.origin + "/Home/Index";
+                    } else {
+                        alert(res.messege);
+                    }
+                }
+
+            });
+        });
+    </script>
+}
+<style>
+    .navbtn{
+        margin-top:-5px!important;
+        float:right;
+    }
+</style>
+    <div class="row clearfix">
+        Do you want to create a new password and send it to consumer via SMS?
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="card">
+                <div class="header">
+                    <h2 class="pull-left">CHANGE PASS</h2>
+                      <button type="button" onclick="window.location.href='/Home'" class="btn waves-effect navbtn">Back</button>
+                      <button type="button" class="btn bg-aeon waves-effect navbtn" id="btnSubmit">Save</button>
+                </div>
+                <div class="body">
+                    <div style="display:table;width:100%">
+                        <div class="col-md-6 no-padding" style="margin-bottom:0">
+                            <form id="frmSubmit" class="formsearch">
+                                <div class="col-md-12">
+                                    <label>Current password</label>
+                                    <div class="form-group">
+                                        <div class="form-line selectlist">
+                                           <input type="text" id="" name="" style="width:100%"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <label>New Password</label>
+                                    <div class="form-group">
+                                        <div class="form-line selectlist">
+                                              <input type="text" id="" name="" style="width:100%"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <label>Confirm Password</label>
+                                    <div class="form-group">
+                                        <div class="form-line selectlist">
+                                            <input type="text" id="" name="" style="width:100%"/>
+                                        </div>
+                                    </div>
+                                </div>
+                               @* <div class="col-md-12" style="margin-bottom:0;margin-top:20px;">
+                                    <button type="button" onclick="window.location.href='/Home'" class="btn waves-effect" style="margin-right:5px">Back</button>
+                                    <button type="button" class="btn bg-aeon waves-effect" id="btnSubmit">Save</button>
+                                </div>*@
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+

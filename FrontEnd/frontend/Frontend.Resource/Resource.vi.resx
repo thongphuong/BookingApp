@@ -1,0 +1,744 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="btn_accept" xml:space="preserve">
+    <value>Đồng ý</value>
+  </data>
+  <data name="btn_add" xml:space="preserve">
+    <value>Thêm mới</value>
+  </data>
+  <data name="btn_cancel" xml:space="preserve">
+    <value>Hủy</value>
+  </data>
+  <data name="btn_change" xml:space="preserve">
+    <value>Chuyển trạng thái</value>
+  </data>
+  <data name="btn_clear" xml:space="preserve">
+    <value>Làm mới</value>
+  </data>
+  <data name="btn_delete" xml:space="preserve">
+    <value>Xóa</value>
+  </data>
+  <data name="btn_search" xml:space="preserve">
+    <value>Tìm kiếm</value>
+  </data>
+  <data name="error400" xml:space="preserve">
+    <value>Có lỗi xảy ra trong quá trình xử lý!</value>
+  </data>
+  <data name="error401" xml:space="preserve">
+    <value>Bạn cần đăng nhập vào hệ thống</value>
+  </data>
+  <data name="errorServer" xml:space="preserve">
+    <value>Không thể kết nối đến server</value>
+  </data>
+  <data name="lbl_address" xml:space="preserve">
+    <value>Địa Chỉ</value>
+  </data>
+  <data name="lbl_addSuccess" xml:space="preserve">
+    <value>Thêm mới thành công</value>
+  </data>
+  <data name="lbl_birthday" xml:space="preserve">
+    <value>Ngày sinh</value>
+  </data>
+  <data name="lbl_ChangeSuccess" xml:space="preserve">
+    <value>cập nhật trạng thái thành công</value>
+  </data>
+  <data name="lbl_change_message" xml:space="preserve">
+    <value>Bạn muốn cập nhật trạng thái?</value>
+  </data>
+  <data name="lbl_choose_department" xml:space="preserve">
+    <value>Chọn phòng ban</value>
+  </data>
+  <data name="lbl_choose_division" xml:space="preserve">
+    <value>Chọn chức vụ</value>
+  </data>
+  <data name="lbl_choose_store" xml:space="preserve">
+    <value>Chọn store</value>
+  </data>
+  <data name="lbl_code" xml:space="preserve">
+    <value>Mã</value>
+  </data>
+  <data name="lbl_command" xml:space="preserve">
+    <value>Thao tác</value>
+  </data>
+  <data name="lbl_deleteSuccess" xml:space="preserve">
+    <value>Xóa thông tin thành công</value>
+  </data>
+  <data name="lbl_delete_message" xml:space="preserve">
+    <value>Bạn muốn xóa dữ liệu?</value>
+  </data>
+  <data name="lbl_contact" xml:space="preserve">
+    <value>Liên hệ</value>
+  </data>
+  <data name="lbl_department" xml:space="preserve">
+    <value>Phòng ban</value>
+  </data>
+  <data name="lbl_division" xml:space="preserve">
+    <value>Chức vụ</value>
+  </data>
+  <data name="lbl_editSuccess" xml:space="preserve">
+    <value>Cập nhật thành công</value>
+  </data>
+  <data name="lbl_email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="lbl_error" xml:space="preserve">
+    <value>Lỗi</value>
+  </data>
+  <data name="lbl_fullname" xml:space="preserve">
+    <value>Tên</value>
+  </data>
+  <data name="lbl_gender" xml:space="preserve">
+    <value>Giới tính</value>
+  </data>
+  <data name="lbl_header_user" xml:space="preserve">
+    <value>Người dùng</value>
+  </data>
+  <data name="lbl_image" xml:space="preserve">
+    <value>Hình ảnh</value>
+  </data>
+  <data name="lbl_login" xml:space="preserve">
+    <value>Đăng nhập</value>
+  </data>
+  <data name="lbl_loginTitle" xml:space="preserve">
+    <value>Đăng nhập tài khoản của bạn</value>
+  </data>
+  <data name="lbl_modifyat" xml:space="preserve">
+    <value>Thời gian chỉnh sửa</value>
+  </data>
+  <data name="lbl_modifyby" xml:space="preserve">
+    <value>Người cập nhật</value>
+  </data>
+  <data name="lbl_name" xml:space="preserve">
+    <value>Tên</value>
+  </data>
+  <data name="lbl_no" xml:space="preserve">
+    <value>Stt</value>
+  </data>
+  <data name="lbl_noti" xml:space="preserve">
+    <value>Thông báo</value>
+  </data>
+  <data name="lbl_password" xml:space="preserve">
+    <value>Mật khẩu</value>
+  </data>
+  <data name="lbl_password_validate" xml:space="preserve">
+    <value>Mật khẩu phải bao gồm chữ hoa, chữ thường và số, không giới hạn ký tự đặc biệt</value>
+  </data>
+  <data name="lbl_phone" xml:space="preserve">
+    <value>Số điện thoại</value>
+  </data>
+  <data name="lbl_required" xml:space="preserve">
+    <value>Trường bắt buộc</value>
+  </data>
+  <data name="lbl_role" xml:space="preserve">
+    <value>Quyền hạn</value>
+  </data>
+  <data name="lbl_staffid" xml:space="preserve">
+    <value>Mã nhân viên</value>
+  </data>
+  <data name="lbl_status" xml:space="preserve">
+    <value>Trạng thái</value>
+  </data>
+  <data name="lbl_storecode" xml:space="preserve">
+    <value>Mã cửa hàng</value>
+  </data>
+  <data name="lbl_storename" xml:space="preserve">
+    <value>Tên cửa hàng</value>
+  </data>
+  <data name="lbl_store_managerment" xml:space="preserve">
+    <value>Quản lý store</value>
+  </data>
+  <data name="lbl_store_title" xml:space="preserve">
+    <value>Cửa Hàng</value>
+  </data>
+  <data name="lbl_username" xml:space="preserve">
+    <value>Tên đăng nhập</value>
+  </data>
+  <data name="lbl_warning" xml:space="preserve">
+    <value>Cảnh báo</value>
+  </data>
+  <data name="lbl_working_location" xml:space="preserve">
+    <value>Nơi làm việc</value>
+  </data>
+  <data name="USER_IS_EXIST" xml:space="preserve">
+    <value>Mã nhân viên/Tên đăng nhập đã tồn tại</value>
+  </data>
+  <data name="USER_NOT_CORRECT" xml:space="preserve">
+    <value>Tên đăng nhập/mật khẩu không đúng</value>
+  </data>
+  <data name="USER_NOT_FOUND" xml:space="preserve">
+    <value>Không tìm thấy người dùng</value>
+  </data>
+  <data name="lbl_description" xml:space="preserve">
+    <value>Mô tả</value>
+  </data>
+  <data name="lbl_choose_role" xml:space="preserve">
+    <value>Chọn quyền hạn</value>
+  </data>
+  <data name="lbl_add" xml:space="preserve">
+    <value>Thêm mới</value>
+  </data>
+  <data name="lbl_detail" xml:space="preserve">
+    <value>Chi tiết</value>
+  </data>
+  <data name="lbl_edit" xml:space="preserve">
+    <value>Chỉnh sửa</value>
+  </data>
+  <data name="lbl_header_role" xml:space="preserve">
+    <value>Quyền hạn</value>
+  </data>
+  <data name="lbl_created_date" xml:space="preserve">
+    <value>Ngày tạo</value>
+  </data>
+  <data name="lbl_supplier" xml:space="preserve">
+    <value>Nhà cung cấp</value>
+  </data>
+  <data name="lbl_time_frame" xml:space="preserve">
+    <value>Khung giờ</value>
+  </data>
+  <data name="lbl_header_system_parameter" xml:space="preserve">
+    <value>Tham số hệ thống</value>
+  </data>
+  <data name="lbl_param_name" xml:space="preserve">
+    <value>Tham số</value>
+  </data>
+  <data name="lbl_param_note" xml:space="preserve">
+    <value>Ghi chú</value>
+  </data>
+  <data name="lbl_param_value" xml:space="preserve">
+    <value>Giá trị</value>
+  </data>
+  <data name="STORE_IS_EXIST" xml:space="preserve">
+    <value>Store đã tồn tại</value>
+  </data>
+  <data name="btn_submit" xml:space="preserve">
+    <value>Đăng ký</value>
+  </data>
+  <data name="lbl_register_delivery_date" xml:space="preserve">
+    <value>Ngày giao hàng theo đơn đặt hàng</value>
+  </data>
+  <data name="lbl_register_delivery_item_quantity" xml:space="preserve">
+    <value>Số lượng mặt hàng đi giao</value>
+  </data>
+  <data name="lbl_register_delivery_order_code" xml:space="preserve">
+    <value>Mã đơn hàng</value>
+  </data>
+  <data name="lbl_register_delivery_order_quantity" xml:space="preserve">
+    <value>Số lượng đơn hàng đi giao</value>
+  </data>
+  <data name="lbl_register_delivery_registration_date" xml:space="preserve">
+    <value>Ngày đăng ký giao hàng</value>
+  </data>
+  <data name="lbl_register_delivery_registration_time" xml:space="preserve">
+    <value>Khung giờ đăng ký giao hàng</value>
+  </data>
+  <data name="lbl_register_delivery_vehicle" xml:space="preserve">
+    <value>Loại xe vận chuyển</value>
+  </data>
+  <data name="lbl_register_department" xml:space="preserve">
+    <value>Bộ phận</value>
+  </data>
+  <data name="lbl_register_driver_cmnd" xml:space="preserve">
+    <value>CMND/Bằng lái xe</value>
+  </data>
+  <data name="lbl_register_driver_emergency_email" xml:space="preserve">
+    <value>Địa chỉ email trong trường hợp khẩn cấp</value>
+  </data>
+  <data name="lbl_register_driver_emergency_phone" xml:space="preserve">
+    <value>Số điện thoại trong trường hợp khẩn cấp</value>
+  </data>
+  <data name="lbl_register_driver_license_plates" xml:space="preserve">
+    <value>Biển số xe</value>
+  </data>
+  <data name="lbl_register_driver_name" xml:space="preserve">
+    <value>Tên lái xe</value>
+  </data>
+  <data name="lbl_register_form" xml:space="preserve">
+    <value>FORM ĐẶT LỊCH GIAO HÀNG</value>
+  </data>
+  <data name="lbl_register_invoice_number" xml:space="preserve">
+    <value>Số lượng tờ hóa đơn</value>
+  </data>
+  <data name="lbl_register_line" xml:space="preserve">
+    <value>Ngành hàng</value>
+  </data>
+  <data name="lbl_register_receipt_no" xml:space="preserve">
+    <value>Số hóa đơn</value>
+  </data>
+  <data name="lbl_register_store" xml:space="preserve">
+    <value>Tên cửa hàng</value>
+  </data>
+  <data name="lbl_register_supplier_email" xml:space="preserve">
+    <value>Địa chỉ email của nhà cung cấp</value>
+  </data>
+  <data name="lbl_register_supplier_name" xml:space="preserve">
+    <value>Tên của nhà cung cấp</value>
+  </data>
+  <data name="lbl_register_supplier_no" xml:space="preserve">
+    <value>Mã của nhà cung cấp</value>
+  </data>
+  <data name="lbl_register_supplier_phone" xml:space="preserve">
+    <value>Số điện thoại của nhà cung cấp</value>
+  </data>
+  <data name="SUPPLIER_NOT_FOUND" xml:space="preserve">
+    <value>Không tìm thấy nhà cung cấp</value>
+  </data>
+  <data name="lbl_choose_line" xml:space="preserve">
+    <value>Chọn ngành hàng</value>
+  </data>
+  <data name="lbl_choose_line_department" xml:space="preserve">
+    <value>Chọn bộ phận</value>
+  </data>
+  <data name="lbl_choose_supplier" xml:space="preserve">
+    <value>Chọn nhà cung cấp</value>
+  </data>
+  <data name="lbl_choose_time_frame" xml:space="preserve">
+    <value>Chọn thời gian</value>
+  </data>
+  <data name="ORDER_MAX_AMOUNT" xml:space="preserve">
+    <value>Max amount </value>
+  </data>
+  <data name="btn_download" xml:space="preserve">
+    <value>Tải xuống</value>
+  </data>
+  <data name="lbl_modal_qr_code" xml:space="preserve">
+    <value>Mã Code :</value>
+  </data>
+  <data name="lbl_modal_qr_tile" xml:space="preserve">
+    <value>bạn đã đăng ký thành công &lt;br/&gt; Vui lòng lưu lại thông tin để xác thực khi giao hàng!</value>
+  </data>
+  <data name="lbl_logout" xml:space="preserve">
+    <value>Đăng xuất</value>
+  </data>
+  <data name="lbl_header_time_frame" xml:space="preserve">
+    <value>Khung giờ đăng ký</value>
+  </data>
+  <data name="lbl_time_frame_from" xml:space="preserve">
+    <value>Khung giờ từ</value>
+  </data>
+  <data name="lbl_time_frame_title" xml:space="preserve">
+    <value>Khung giờ</value>
+  </data>
+  <data name="lbl_time_frame_to" xml:space="preserve">
+    <value>Khung giờ đến</value>
+  </data>
+  <data name="btn_generate" xml:space="preserve">
+    <value>Xử lý</value>
+  </data>
+  <data name="btn_quick_add" xml:space="preserve">
+    <value>Thêm nhanh</value>
+  </data>
+  <data name="lbl_key_note" xml:space="preserve">
+    <value>Khoảng thời gian giữa các khung giờ. Đơn vị phút</value>
+  </data>
+  <data name="lbl_result_generate" xml:space="preserve">
+    <value>KẾT QUẢ XỬ LÝ</value>
+  </data>
+  <data name="lbl_email_invalid" xml:space="preserve">
+    <value>Email không đúng định dạng</value>
+  </data>
+  <data name="lbl_phone_invalid" xml:space="preserve">
+    <value>Số điện thoại không đúng định dạng</value>
+  </data>
+  <data name="btn_export" xml:space="preserve">
+    <value>Xuất file</value>
+  </data>
+  <data name="lbl_header_order" xml:space="preserve">
+    <value>DANH SÁCH THÔNG TIN ĐẶT HÀNG</value>
+  </data>
+  <data name="lbl_register_approve" xml:space="preserve">
+    <value>Phê duyệt</value>
+  </data>
+  <data name="lbl_register_check_in" xml:space="preserve">
+    <value>Check-in</value>
+  </data>
+  <data name="lbl_register_check_out" xml:space="preserve">
+    <value>Check-out</value>
+  </data>
+  <data name="lbl_register_delivery_status" xml:space="preserve">
+    <value>TT giao hàng</value>
+  </data>
+  <data name="lbl_register_department_code" xml:space="preserve">
+    <value>Mã phòng ban</value>
+  </data>
+  <data name="lbl_register_public_link" xml:space="preserve">
+    <value>Public Link</value>
+  </data>
+  <data name="lbl_register_reason" xml:space="preserve">
+    <value>Lý do</value>
+  </data>
+  <data name="lbl_register_receipt_status" xml:space="preserve">
+    <value>TT đơn hàng</value>
+  </data>
+  <data name="lbl_register_receiver_name" xml:space="preserve">
+    <value>Tên người nhận</value>
+  </data>
+  <data name="lbl_date" xml:space="preserve">
+    <value>Ngày</value>
+  </data>
+  <data name="lbl_register_receive_time" xml:space="preserve">
+    <value>Thời gian nhận</value>
+  </data>
+  <data name="lbl_time" xml:space="preserve">
+    <value>Thời gian</value>
+  </data>
+  <data name="lbl_delivered_full" xml:space="preserve">
+    <value>Đã giao hàng thành công</value>
+  </data>
+  <data name="lbl_delivered_partialy" xml:space="preserve">
+    <value>Đơn hàng không đủ</value>
+  </data>
+  <data name="lbl_delivered_not" xml:space="preserve">
+    <value>Chưa giao hàng</value>
+  </data>
+  <data name="lbl_delivered_return" xml:space="preserve">
+    <value>Trả lại hàng</value>
+  </data>
+  <data name="lbl_receipt_full" xml:space="preserve">
+    <value>Đơn hàng đầy dủ</value>
+  </data>
+  <data name="lbl_receipt_missing" xml:space="preserve">
+    <value>Đơn hàng thiếu hóa đơn</value>
+  </data>
+  <data name="lbl_receipt_return" xml:space="preserve">
+    <value>Đơn hàng bị trả lại</value>
+  </data>
+  <data name="btn_back" xml:space="preserve">
+    <value>Quay lại</value>
+  </data>
+  <data name="btn_save" xml:space="preserve">
+    <value>Lưu</value>
+  </data>
+  <data name="lbl_register_delivery_information" xml:space="preserve">
+    <value>Thông tin vận chuyển</value>
+  </data>
+  <data name="ORDER_NOT_FOUND" xml:space="preserve">
+    <value>Đơn hàng không tìm thấy</value>
+  </data>
+  <data name="lbl_register_delivery_invoice_date" xml:space="preserve">
+    <value>Ngày giao lại hóa dơn</value>
+  </data>
+  <data name="lbl_register_miss_invoice" xml:space="preserve">
+    <value>Số lượng tờ hóa đơn đang thiếu</value>
+  </data>
+  <data name="lbl_register_return_invoice" xml:space="preserve">
+    <value>Số lượng tờ hóa đơn bị trả lại</value>
+  </data>
+  <data name="btn_update" xml:space="preserve">
+    <value>Cập nhật</value>
+  </data>
+  <data name="btn_approve" xml:space="preserve">
+    <value>Phê duyệt</value>
+  </data>
+  <data name="lbl_register_receiver_department_name" xml:space="preserve">
+    <value>Tên phòng ban</value>
+  </data>
+  <data name="lbl_approveSuccess" xml:space="preserve">
+    <value>Phê duyệt thành công</value>
+  </data>
+  <data name="lbl_returnSuccess" xml:space="preserve">
+    <value>Trả đơn hàng thành công</value>
+  </data>
+  <data name="lbl_register_refuse" xml:space="preserve">
+    <value>Từ chôi</value>
+  </data>
+  <data name="lbl_product_code" xml:space="preserve">
+    <value>Mã sản phẩm</value>
+  </data>
+  <data name="lbl_product_name" xml:space="preserve">
+    <value>Tên sản phẩm</value>
+  </data>
+  <data name="lbl_product_note" xml:space="preserve">
+    <value>Ghi chú</value>
+  </data>
+  <data name="lbl_product_total_order" xml:space="preserve">
+    <value>SL sản phẩm</value>
+  </data>
+  <data name="lbl_product_total_refuse" xml:space="preserve">
+    <value>SL từ chối</value>
+  </data>
+  <data name="lbl_product_upload_image" xml:space="preserve">
+    <value>hình ảnh</value>
+  </data>
+  <data name="lbl_refuseSuccess" xml:space="preserve">
+    <value>Đơn hàng từ chối thành công</value>
+  </data>
+  <data name="PRODUCT_NOT_FOUND" xml:space="preserve">
+    <value>Không tìm thấy sản phẩm</value>
+  </data>
+  <data name="lbl_line" xml:space="preserve">
+    <value>Bộ phận</value>
+  </data>
+  <data name="lbl_line_code" xml:space="preserve">
+    <value>Mã bộ phận</value>
+  </data>
+  <data name="lbl_note" xml:space="preserve">
+    <value>Ghi chú</value>
+  </data>
+  <data name="lbl_number" xml:space="preserve">
+    <value>Số lượng</value>
+  </data>
+  <data name="lbl_return_search_title" xml:space="preserve">
+    <value>Thông tin đổi hàng</value>
+  </data>
+  <data name="lbl_return_title" xml:space="preserve">
+    <value>Thông tin phiếu đổi trả đơn hàng</value>
+  </data>
+  <data name="lbl_search" xml:space="preserve">
+    <value>Tìm kiếm</value>
+  </data>
+  <data name="lbl_store" xml:space="preserve">
+    <value>Cửa hàng</value>
+  </data>
+  <data name="lbl_supplier_name" xml:space="preserve">
+    <value>Tên nhà cung cấp</value>
+  </data>
+  <data name="lbl_supplier_no" xml:space="preserve">
+    <value>Mã nhà cung cấp</value>
+  </data>
+  <data name="lbl_detail_store" xml:space="preserve">
+    <value>THÔNG TIN STORE</value>
+  </data>
+  <data name="lbl_placeholder_address" xml:space="preserve">
+    <value>Nhập địa chỉ cửa hàng</value>
+  </data>
+  <data name="lbl_placeholder_storecode" xml:space="preserve">
+    <value>Nhập mã cửa hàng</value>
+  </data>
+  <data name="lbl_placeholder_storename" xml:space="preserve">
+    <value>Nhập tên cửa hàng</value>
+  </data>
+  <data name="lbl_place_holder_email" xml:space="preserve">
+    <value>Nhập email cửa hàng</value>
+  </data>
+  <data name="lbl_place_holder_phone" xml:space="preserve">
+    <value>Nhập số điện thoại cửa hàng</value>
+  </data>
+  <data name="lbl_register_status_information" xml:space="preserve">
+    <value>Thông tin trạng thái</value>
+  </data>
+  <data name="lbl_status_active" xml:space="preserve">
+    <value>Hoạt động</value>
+  </data>
+  <data name="lbl_status_delete" xml:space="preserve">
+    <value>Xóa</value>
+  </data>
+  <data name="lbl_status_inactive" xml:space="preserve">
+    <value>Ngừng hoạt động</value>
+  </data>
+  <data name="lbl_user_add_header" xml:space="preserve">
+    <value>Thêm mới người dùng</value>
+  </data>
+  <data name="lbl_user_detail_header" xml:space="preserve">
+    <value>Thông tin tài khoản</value>
+  </data>
+  <data name="lbl_user_edit_header" xml:space="preserve">
+    <value>Chỉnh sửa thông tin người dùng</value>
+  </data>
+  <data name="lbl_role_add_header" xml:space="preserve">
+    <value>Thêm mới quyền hạn</value>
+  </data>
+  <data name="lbl_role_detail_header" xml:space="preserve">
+    <value>Thông tin quyền hạn</value>
+  </data>
+  <data name="lbl_role_edit_header" xml:space="preserve">
+    <value>chỉnh sửa thông tin quyền hạn</value>
+  </data>
+  <data name="TIMEFRAME_IS_EXIST" xml:space="preserve">
+    <value>Khung thời gian đã tồn tại</value>
+  </data>
+  <data name="lbl_register_detail" xml:space="preserve">
+    <value>Thông tin vận chuyển</value>
+  </data>
+  <data name="lbl_register_detail_status" xml:space="preserve">
+    <value>Thông tin vận chuyển của nhà cung cấp</value>
+  </data>
+  <data name="lbl_day" xml:space="preserve">
+    <value>Ngày</value>
+  </data>
+  <data name="lbl_month" xml:space="preserve">
+    <value>Tháng</value>
+  </data>
+  <data name="lbl_register_refuse_apart" xml:space="preserve">
+    <value>Phiếu từ chối một phần đơn hàng</value>
+  </data>
+  <data name="lbl_register_refuse_full" xml:space="preserve">
+    <value>Phiếu từ chối toàn bộ đơn hàng</value>
+  </data>
+  <data name="lbl_year" xml:space="preserve">
+    <value>Năm</value>
+  </data>
+  <data name="lbl_user_profile_header" xml:space="preserve">
+    <value>Thông tin người dùng</value>
+  </data>
+  <data name="lbl_choose_date" xml:space="preserve">
+    <value>Chọn ngày</value>
+  </data>
+  <data name="lbl_choose_time" xml:space="preserve">
+    <value>Chọn giờ</value>
+  </data>
+  <data name="lbl_header_time_frame_add" xml:space="preserve">
+    <value>Thêm mới thời gian</value>
+  </data>
+  <data name="lbl_header_time_frame_detail" xml:space="preserve">
+    <value>Thông tin thời gian</value>
+  </data>
+  <data name="lbl_header_time_frame_edit" xml:space="preserve">
+    <value>chỉnh sửa thông tin thời gian</value>
+  </data>
+  <data name="lbl_enter_store_name" xml:space="preserve">
+    <value>Chọn tên cửa hàng</value>
+  </data>
+  <data name="lbl_enter_supplier_name" xml:space="preserve">
+    <value>Chọn tên nhà cung cấp</value>
+  </data>
+  <data name="lbl_enter_supplier_no" xml:space="preserve">
+    <value>Chọn nhà cung cấp</value>
+  </data>
+  <data name="VALIDATE_TIME" xml:space="preserve">
+    <value>{0} phải lớn hơn {1}</value>
+  </data>
+  <data name="lbl_header_detail_system_parameter" xml:space="preserve">
+    <value>Thông tin tham số hệ thống</value>
+  </data>
+  <data name="ERROR_TIMEFROM_TIMETO" xml:space="preserve">
+    <value>Giờ bắt đầu phải nhỏ hơn giừo kết thúc</value>
+  </data>
+  <data name="SYSTEM_PARAMETER_NOT_FOUND" xml:space="preserve">
+    <value>Không tìm thấy tham số</value>
+  </data>
+  <data name="TIMEFRAME_NOT_FOUND" xml:space="preserve">
+    <value>Khung tìm thấy khung giờ</value>
+  </data>
+  <data name="lbl_minute" xml:space="preserve">
+    <value>Phút</value>
+  </data>
+  <data name="lbl_timeout" xml:space="preserve">
+    <value>Thời gian hết hạn</value>
+  </data>
+  <data name="DEPARTMENT_NOT_FOUND" xml:space="preserve">
+    <value>Phòng ban không có dữ liệu</value>
+  </data>
+  <data name="LINE_NOT_FOUND" xml:space="preserve">
+    <value>Ngành hàng không có dữ liệu</value>
+  </data>
+  <data name="lbl_choose_product" xml:space="preserve">
+    <value>Vui lòng chọn sản phẩm</value>
+  </data>
+</root>

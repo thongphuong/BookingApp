@@ -1,0 +1,259 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .dataTables_wrapper {
+        position: relative;
+        margin-top: 30px;
+    }
+
+    .btn-header {
+        min-width: 100px;
+        margin-bottom: 10px;
+        padding: 3px;
+    }
+
+    .aeon-img {
+        min-width: 100px;
+        padding: 0px 5px !important;
+    }
+
+        .aeon-img img {
+            border-radius: 5px;
+        }
+
+    .fstElement {
+        width: 100%;
+        font-size: 9px;
+        border: none;
+        display: block;
+    }
+
+    .fstMultipleMode .fstControls {
+        width: 100%;
+        padding: 0.5em 0 0 0;
+    }
+
+    .fstToggleBtn {
+        font-size: 14px;
+        padding: 4px 6px;
+    }
+
+    .description-text {
+        width: 30%;
+    }
+
+    .btn-header i {
+        font-size: 18px !important;
+    }
+
+    .maxwidth {
+        min-width: 200px !important;
+        max-width: 200px !important;
+        white-space: normal !important;
+    }
+</style>
+@section jsFooter{
+    <script type="text/javascript">
+        var sTable;
+        $(document).ready(function () {
+            $(".focused").removeClass("focused")
+            $(".fastselect").fastselect();
+            var customRow = [                          
+                {
+                    targets: [0,1,2, 3, 4],
+                    orderable: false,
+                }
+            ];
+            sTable = initDataTable("#lst_Table", "/Role/AjaxHandler", customRow);
+            $('#frmFilter').submit(function (e) {
+                e.preventDefault();
+                sTable.draw();
+            });
+        });
+
+        function Reset() {
+            var formdata = new FormData($("#frmFilter")[0]);
+            for (var key of formdata.keys()) {
+                if ($("#" + key).is("input")) {
+                    $("#" + key).val("");
+                }
+                if ($("#" + key).is("select")) {
+                    $("#" + key).prop('selectedIndex', 0)
+                    $("#" + key).data("fastselect").destroy();
+                    $("#" + key).fastselect();
+                }
+            }
+        }
+
+        function calldelete(id) {
+            notify.confirm("Bạn có chắc chắn muốn xóa không?", "Confirm", TITLE_STATUS_DANGER, deletesubmit, id);
+        }
+
+        function deletesubmit(id) {
+            spinner.open();
+            $.ajax({
+                type: 'POST',
+                url: "/Role/delete",
+                datatype: 'json',
+                data: { id: id },
+                success: function (data) {
+                    if (data.result) {
+
+                        notify.alert(data.message, 'SUCCESS', TITLE_STATUS_SUCCESS);
+                        sTable.draw();
+                    }
+                    else {
+                        notify.alert(data.message, 'ERROR', TITLE_STATUS_DANGER);
+                    }
+
+                }, complete: function () {
+                    spinner.close();
+                    sTable.fnDraw();
+                }
+            });
+        }
+
+        function callchange(id) {
+            notify.confirm("Bạn có chắc chắn muốn thay đổi trạng thái này không?", "Confirm", TITLE_STATUS_DANGER, changesubmit, id);
+        }
+
+        function changesubmit(id) {
+            spinner.open();
+            $.ajax({
+                type: 'POST',
+                url: "/Role/changeactive",
+                datatype: 'json',
+                data: { id: id },
+                success: function (data) {
+                    if (data.result) {
+                        notify.alert(data.message, 'SUCCESS', TITLE_STATUS_SUCCESS);
+                        sTable.draw();
+                    }
+                    else {
+                        notify.alert(data.message, 'ERROR', TITLE_STATUS_DANGER);
+                    }
+                }, complete: function () {
+                    spinner.close();
+                    sTable.draw();
+                }
+            });
+        }
+
+        function Edit(referenceid) {
+            window.location.href = "/Role/Modify?id=" + referenceid;
+        }
+
+    </script>
+}
+<div class="row clearfix">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2>Vui lòng nhập thông tin bên dưới để từ chối đơn hàng!</h2>             
+            </div>
+
+            <div class="body">
+                <div class="table-responsive">
+                    <form id="frmFilter" method="post" class="formsearch">
+                        <div>
+                            <div class="col-md-12">
+                                      <div class="col-md-1 lbl-title no-padding" style="display:inline-table;">
+                                    <label>Store</label>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <div class="form-line selectlist">
+                                            @Html.TextBox("SearchString", string.Empty, new { @class = "form-control frmFilter" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> 
+                            <div class="col-md-12">
+                                <div class="col-md-1 lbl-title no-padding">
+                                <label>Line Code</label>
+                            </div>
+                             <div class="col-md-5">
+                                    <div class="form-group">
+                                        <div class="form-line selectlist">
+                                            @Html.TextBox("SearchString", string.Empty, new { @class = "form-control frmFilter" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                             <div class="col-md-12">
+                                <div class="col-md-1 lbl-title no-padding">
+                                <label>Receiver's Name</label>
+                            </div>
+                             <div class="col-md-5">
+                                    <div class="form-group">
+                                        <div class="form-line selectlist">
+                                            @Html.TextBox("SearchString", string.Empty, new { @class = "form-control frmFilter" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                              <div class="col-md-12">
+                                <div class="col-md-1 lbl-title no-padding">
+                                <label>Reason</label>
+                            </div>
+                             <div class="col-md-5">
+                                    <div class="form-group">
+                                        <div class="form-line selectlist">
+                                            @Html.TextBox("SearchString", string.Empty, new { @class = "form-control frmFilter" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> 
+                              <div class="col-md-12">
+                                <div class="col-md-1 lbl-title no-padding">
+                                <label>Supplier No</label>
+                            </div>
+                             <div class="col-md-5">
+                                    <div class="form-group">
+                                        <div class="form-line selectlist">
+                                            @Html.TextBox("SearchString", string.Empty, new { @class = "form-control frmFilter" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>          
+                             <div class="col-md-12">
+                                <div class="col-md-1 lbl-title no-padding">
+                                <label>Supplier Name</label>
+                            </div>
+                             <div class="col-md-5">
+                                    <div class="form-group">
+                                        <div class="form-line selectlist">
+                                            @Html.TextBox("SearchString", string.Empty, new { @class = "form-control frmFilter" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>         
+                        </div>
+                    </form>
+                    <div class="col-md-12">
+                        <table id="lst_Table" class="table table-bordered table-striped table-hover dataTable js-exportable" style="min-width:100%">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">No.</th>                                
+                                    <th>Product Code</th>
+                                    <th>Product Name</th>
+                                    <th>Number</th>
+                                    <th>Note</th>                                   
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                     <div style="margin-left:40%"> 
+                   <button type="button" onclick="window.location.href='/Survey'" class="btn btn-info">Approve</button>
+                <button type="button" onclick="window.location.href='/Survey'" class="btn btn-danger">Cancel</button>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,277 @@
+﻿@using Frontend.Resource
+@{
+    ViewBag.Title = "Refuse";
+    Layout = "_LayoutPrint";
+}
+<link href="~/css/register.css" rel="stylesheet" type="text/css" />
+<style>
+
+    .img-content {
+        width: 100%;
+    }
+
+    .img-content {
+        position: relative;
+        border: 1px solid #ddd;
+        display: inline-block;
+    }
+
+    .product {
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+        width: 30px;
+        height: 30px;
+    }
+
+        .product img {
+            flex-shrink: 0;
+            width: 30px;
+            height: 30px
+        }
+
+</style>
+<div class="mask d-flex align-items-center h-100 gradient-custom-3" style="overflow: auto">
+    <div class="container h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-lg-12 col-xl-12">
+                <div class="card rounded-3">
+                    <div class="card-body p-4 p-md-5">
+                        <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2 text-center print-header"></h3>
+                        <form id="form_data" class="px-md-2">
+                            <input type="hidden" class="frmData" id="reference_id" name="reference_id" />
+                            <!--Store-->
+                            <div class="row my-2 justify-content-md-center">
+                                <div class="col-md-3 col-sm-3 col-xs-3 col-xl-3">
+                                    <label>@Resource.lbl_register_store</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input class="form-control" readonly id="store_reference" name="store_reference" style="width:100%" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Department code-->
+                            <div class="row my-2 justify-content-md-center">
+                                <div class="col-md-3 col-sm-3 col-xs-3 col-xl-3">
+                                    <label>@Resource.lbl_register_department_code</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input class="form-control" readonly id="department_code" name="department_code" style="width:100%" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Receipt no-->
+                            <div class="row my-2 justify-content-md-center">
+                                <div class="col-md-3 col-sm-3 col-xs-3 col-xl-3">
+                                    <label>@Resource.lbl_register_receipt_no</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input class="form-control" readonly id="receipt_no" name="receipt_no" style="width:100%" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Receiver name-->
+                            <div class="row my-2 justify-content-md-center">
+                                <div class="col-md-3 col-sm-3 col-xs-3 col-xl-3">
+                                    <label class="required">@Resource.lbl_register_receiver_name</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input class="form-control frmData" required id="receiver_name" name="receiver_name" style="width:100%" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Receiver department name-->
+                            <div class="row my-2 justify-content-md-center">
+                                <div class="col-md-3 col-sm-3 col-xs-3 col-xl-3">
+                                    <label class="required">@Resource.lbl_register_receiver_department_name</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input class="form-control frmData" required id="receiver_department" name="receiver_department" style="width:100%" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Reason-->
+                            <div class="row my-2 justify-content-md-center">
+                                <div class="col-md-3 col-sm-3 col-xs-3 col-xl-3">
+                                    <label class="required">@Resource.lbl_register_reason</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input class="form-control frmData" required id="reason" name="reason" style="width:100%" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Image info-->
+                            <div class="row my-2 full">
+                                <div class="col-md-12">
+                                    <label>Image</label>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="img-content">
+                                                <input type="file" hidden id="ImageFile1" name="ImageFile1" required onchange="readURLC(this);" data-imageid="Image1" />
+                                                <img id="Image1" src="https://dummyimage.com/600x400/000/fff" onclick="$('#ImageFile1').click()" style="cursor:pointer;width:100%;" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="img-content">
+                                                <input type="file" hidden id="ImageFile2" name="ImageFile2" required onchange="readURLC(this);" data-imageid="Image2" />
+                                                <img id="Image2" src="https://dummyimage.com/600x400/000/fff" onclick="$('#ImageFile2').click()" style="cursor:pointer;width:100%;" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="img-content">
+                                                <input type="file" hidden id="ImageFile3" name="ImageFile3" required onchange="readURLC(this);" data-imageid="Image3" />
+                                                <img id="Image3" src="https://dummyimage.com/600x400/000/fff" onclick="$('#ImageFile3').click()" style="cursor:pointer;width:100%;" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Suplier info-->
+                            <div class="apart" style="display:none">
+                                <div class="row my-2 justify-content-md-center">
+                                    <div class="col-md-3 col-sm-3 col-xs-3 col-xl-3">
+                                        <label>@Resource.lbl_register_supplier_no</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <input class="form-control" readonly id="supplier_code" name="supplier_code" style="width:100%" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row my-2 justify-content-md-center">
+                                    <div class="col-md-3 col-sm-3 col-xs-3 col-xl-3">
+                                        <label>@Resource.lbl_register_supplier_name</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <input class="form-control" readonly id="supplier_name" name="supplier_name" style="width:100%" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--product-->
+                            <div class="row my-2 apart" style="display:none">
+                                <div class="col-md-12 mb-4">
+                                    <div class="table-responsive">
+                                        <table id="tableproduct" class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col" class="fw-bold">@Resource.lbl_product_code</th>
+                                                    <th scope="col" class="fw-bold">@Resource.lbl_product_name</th>
+                                                    <th scope="col" class="fw-bold">@Resource.lbl_product_total_order</th>
+                                                    <th scope="col" class="fw-bold">@Resource.lbl_product_total_refuse</th>
+                                                    <th scope="col" class="fw-bold">@Resource.lbl_product_upload_image</th>
+                                                    <th scope="col" class="fw-bold">@Resource.lbl_product_note</th>
+                                                    <th scope="col" class="fw-bold"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-start">
+                                @Resource.lbl_day   @DateTime.Now.Day   @Resource.lbl_month   @DateTime.Now.Month   @Resource.lbl_year   @DateTime.Now.Year
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <label>MMD Department</label>
+                                <label>Department</label>
+                                <label>Supplier Repsentative</label>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function() {
+            GetUrl(apiConfig.api.host_booking_service,
+                apiConfig.api.order.controller,
+                apiConfig.api.order.action.get_order.path,
+                apiConfig.api.order.action.get_order.method,
+                {
+                    reference_id: GetUrlParam('reference_id')
+                },
+                'fnGetSuccess', 'msgError');
+        })
+
+
+        function fnGetSuccess(result) {
+            $("#store_reference").val(result.store_name);
+            $("#department_code").val(result.department_code);
+            $("#receiver_name").val(result.receiver_name);
+            $("#receiver_department").val(result.receiver_department);
+            $("#receipt_no").val(result.order_receipt.map(u => u.code).join(', '));
+            $("#reason").val(result.reason);
+            $("#supplier_code").val(result.supplier_code);
+            $("#supplier_name").val(result.supplier_name);
+            GenerationProductTable("#tableproduct tbody", result.order_product);
+            var index = 0;
+            for (var item of result.image.split(';')) {
+                if (index == 0)
+                    $("#Image1").prop("src", AZURE_STORAGE_URL + item);
+                if (index == 1)
+                    $("#Image2").prop("src", AZURE_STORAGE_URL + item);
+                if (index == 2)
+                    $("#Image3").prop("src", AZURE_STORAGE_URL + item);
+                index++;
+            }
+
+            if (result.refuse_status == 0) {
+                $(".print-header").text('@Html.Raw(Resource.lbl_register_refuse_full)');
+                $(".full").css("display", "")
+                $(".apart").css("display", "none")
+            }
+            else {
+                $(".print-header").text('@Html.Raw(Resource.lbl_register_refuse_apart)');
+                $(".full").css("display", "none")
+                $(".apart").css("display", "");
+            }
+
+            setTimeout(function() {
+                window.print();
+            }, 500)
+        }
+
+        function GenerationProductTable(selector, value) {
+            $(selector).html('');
+            var index = 1;
+            var html = '';
+            for (var item of value) {
+                html += `<tr>\
+                        <td>${index}</td>\
+                        <td style="width:120px">${item.product_code}</td>\
+                        <td style="word-break: break-word;">${item.product_name}</td>\
+                        <td style="width:100px">${item.product_total_order}</td>\
+                        <td style="width:100px">${item.product_total_refuse}</td>\
+                        <td style="width:120px">\
+                            <div class="d-flex flex-wrap" >\
+                                <div class="product justify-content-center align-items-center">\
+                                    <img id="ProductImage1" src="https://dummyimage.com/600x400/000/fff" style="cursor:pointer;width:100%;" />\
+                                </div>\
+                                <div class="product justify-content-center align-items-center">\
+                                    <img id="ProductImage2" src="https://dummyimage.com/600x400/000/fff" style="cursor:pointer;width:100%;" />\
+                                </div>\
+                                <div class="product justify-content-center align-items-center">\
+                                    <img id="ProductImage3" src="https://dummyimage.com/600x400/000/fff" style="cursor:pointer;width:100%;" />\
+                                </div>\
+                            </div>\
+                        </td>\
+                        <td style="word-break: break-word;">${item.product_note}</td>\
+                        </tr>`;
+                index++;
+            }
+            $(selector).html(html);
+        }
+    </script>
+}

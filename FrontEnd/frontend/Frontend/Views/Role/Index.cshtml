@@ -1,0 +1,189 @@
+﻿@using Frontend.Resource
+@using Frontend.Utils
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "_Layout";
+}
+<style>
+    .btn-header {
+        min-width: 100px;
+        margin-bottom: 10px;
+        padding: 3px;
+    }
+
+    .warptext {
+        white-space: pre-wrap;
+        width: 900px;
+    }
+</style>
+<div class="row clearfix">
+    <div class="col-md-12 col-sm-12 col-xs-12 col-xl-12 col-lg-12">
+        <div class="card">
+            <div class="header">
+                <h2>
+                    @Resource.lbl_header_role.ToUpper()
+                </h2>
+            </div>
+            <div class="body">
+                <form id="frmFilter" method="post" class="formsearch">
+                    <div class="row" style="justify-content: space-between;">
+                        <div class="col-md-1 col-sm-1 col-xs-1 col-xl-1 col-lg-1" style="display: inline-grid;">
+                            <button type="submit" class="btn btn-sm btn-header bg-aeon waves-effect">
+                                <i class="material-icons">search</i>
+                                <span>@Resource.btn_search</span>
+                            </button>
+                            <button type="reset" class="btn btn-sm btn-header bg-cyan waves-effect" onclick="resetForm(this.form,'roletable')">
+                                <i class="material-icons">refresh</i>
+                                <span>@Resource.btn_clear</span>
+                            </button>
+                            @if (Permission.CheckPermissions("Role", "Add"))
+                            {
+                                <button type="button" class="btn btn-sm btn-header btn-success waves-effect" onclick="window.location.href='/Role/Add'">
+                                    <i class="material-icons">add</i>
+                                    <span>@Resource.btn_add</span>
+                                </button>
+                            }
+                        </div>
+                        <div class="col-md-10">
+                            <div class="row">
+                                <div class="col-md-2 col-sm-2 col-xs-2 col-xl-2">
+                                    <label>@Resource.lbl_role</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input class="form-control frmFilter" id="Role" name="Role" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 col-sm-2 col-xs-2 col-xl-2">
+                                    <label>@Resource.lbl_status</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <select class="form-control frmFilter select2" id="Status" name="Status">
+                                                <option value="">All</option>
+                                                <option value="1">@Resource.lbl_status_active</option>
+                                                <option value="0">@Resource.lbl_status_inactive</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        <table id="roletable" class="table table-bordered table-striped table-hover dataTable js-exportable" style="min-width:100%">
+                            <thead>
+                                <tr>
+                                    <th>@Resource.lbl_no</th>
+                                    <th>@Resource.lbl_role</th>
+                                    <th>@Resource.lbl_description</th>
+                                    <th>@Resource.lbl_modifyby</th>
+                                    <th>@Resource.lbl_command</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                            <tbody role="alert" aria-live="polite" aria-relevant="all"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var sTable;
+    $(document).ready(function() {
+
+        var customRow = [
+            {
+                "targets": [1, 4],
+                "width": "10%",
+            },
+            {
+                "targets": [2],
+                "width": "50%",
+                render: function(data, type, row, meta) {
+                    if (data == "") return "";
+                    return `<div class="warptext">${data}</div>`
+                }
+            },
+            {
+                orderable: false, targets: [0, 1, 2, 3, 4]
+            }
+        ];
+        sTable = initDataTable("#roletable", apiConfig.api.host_user_service + apiConfig.api.role.controller + apiConfig.api.role.action.table_role.path, customRow);
+        $('#frmFilter').submit(function(e) {
+            e.preventDefault();
+            sTable.draw();
+        });
+    });
+
+    function Edit(reference_id) {
+        window.location.href = "/Role/Edit?id=" + reference_id;
+    }
+
+    function ShowDetail(reference_id) {
+        window.location.href = "/Role/Detail?id=" + reference_id;
+    }
+
+    function CallDelete(id) {
+        swal({
+            title: "@Html.Raw(Resource.lbl_delete_message)",
+            showCancelButton: true,
+            confirmButtonClass: "btn-danger",
+            confirmButtonText: "@Html.Raw(Resource.btn_accept)",
+            cancelButtonText: "@Html.Raw(Resource.btn_cancel)",
+            closeOnConfirm: true,
+            closeOnCancel: true
+        },
+            function(isConfirm) {
+                if (isConfirm) {
+                    PostBody(apiConfig.api.host_user_service,
+                        apiConfig.api.role.controller,
+                        apiConfig.api.role.action.delete_role.path,
+                        apiConfig.api.role.action.delete_role.method,
+                        id,
+                        'fnDeleteSuccess', 'msgError');
+                }
+            });
+    }
+
+    function fnDeleteSuccess(result) {
+        toastr.success('@Html.Raw(Resource.lbl_deleteSuccess)', '@Html.Raw(@Resource.lbl_noti)');
+        sTable.draw();
+    }
+
+    function CallChange(id) {
+        swal({
+            title: "@Html.Raw(Resource.lbl_change_message)",
+            showCancelButton: true,
+            confirmButtonClass: "btn-danger",
+            confirmButtonText: "@Html.Raw(Resource.btn_accept)",
+            cancelButtonText: "@Html.Raw(Resource.btn_cancel)",
+            closeOnConfirm: true,
+            closeOnCancel: true
+        },
+            function(isConfirm) {
+                if (isConfirm) {
+                    PostBody(apiConfig.api.host_user_service,
+                        apiConfig.api.role.controller,
+                        apiConfig.api.role.action.changeactive_role.path,
+                        apiConfig.api.role.action.changeactive_role.method,
+                        id,
+                        'fnChangeSuccess', 'msgError');
+                }
+            });
+    }
+
+    function fnChangeSuccess(result) {
+        toastr.success('@Html.Raw(Resource.lbl_ChangeSuccess)', '@Html.Raw(@Resource.lbl_noti)');
+        sTable.draw();
+    }
+</script>

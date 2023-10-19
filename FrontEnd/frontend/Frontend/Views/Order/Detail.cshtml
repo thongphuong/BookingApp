@@ -1,0 +1,567 @@
+﻿@using Frontend.Resource
+@{
+    ViewBag.Title = "Detail";
+    Layout = "_Layout";
+}
+<link href="~/css/register.css" rel="stylesheet" type="text/css" />
+<style>
+
+    .img-content {
+        width: 100%;
+    }
+
+    .img-content {
+        position: relative;
+        border: 1px solid #ddd;
+        display: inline-block;
+    }
+
+    .product {
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+        width: 30px;
+        height: 30px;
+    }
+
+        .product img {
+            flex-shrink: 0;
+            width: 30px;
+            height: 30px
+        }
+
+
+    .zoom:hover {
+        -ms-transform: scale(1.5); /* IE 9 */
+        -webkit-transform: scale(1.5); /* Safari 3-8 */
+        transform: scale(1.5);
+        position: absolute;
+        width: 120px !important;
+        height: 120px !important;
+    }
+
+</style>
+<div class="mask d-flex align-items-center h-100 gradient-custom-3" style="overflow: auto">
+    <div class="container h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-lg-12 col-xl-12">
+                <div class="card rounded-3">
+                    <div class="header">
+                        <h2 id="header-order-detail">
+                            @Resource.lbl_register_detail_status.ToUpper()
+                        </h2>
+                    </div>
+                    <div class="card-body md-3">
+                        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-delivery" type="button" role="tab" aria-controls="pills-delivery" aria-selected="true">@Resource.lbl_register_delivery_information.ToUpper()</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-status" type="button" role="tab" aria-controls="pills-status" aria-selected="false">@Resource.lbl_register_status_information.ToUpper()</button>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="pills-tabContent">
+                            <!--Delivery information-->
+                            <div class="tab-pane fade show active" id="pills-delivery" role="tabpanel" aria-labelledby="pills-delivery-tab">
+                                <form id="form_delivery" class="px-md-2">
+                                    <!--Store/Delivery vehicle-->
+                                    <div class="row my-2">
+                                        <div class="col-md-6 mb-4">
+                                            <label>@Resource.lbl_register_store</label>
+                                            <input class="form-control" readonly id="store_reference" name="store_reference" style="width:100%" />
+                                        </div>
+                                        <div class="col-md-6 mb-4">
+                                            <label>@Resource.lbl_register_delivery_vehicle</label>
+                                            <input class="form-control" readonly type="text" style="width:100%" id="vehicle_name" name="vehicle_name" />
+                                        </div>
+                                    </div>
+                                    <!--Supplier No/License plates-->
+                                    <div class="row my-2">
+                                        <div class="col-md-6 mb-4">
+                                            <label>@Resource.lbl_register_supplier_no</label>
+                                            <input class="form-control" readonly id="supplier_reference" name="supplier_reference" style="width:100%" />
+                                        </div>
+                                        <div class="col-md-6 mb-4">
+                                            <label>@Resource.lbl_register_driver_license_plates</label>
+                                            <input class="form-control" readonly type="text" style="width:100%" id="license_plate" name="license_plate" />
+                                        </div>
+                                    </div>
+                                    <!--Supplier name/Dilivery driver name-->
+                                    <div class="row my-2">
+                                        <div class="col-md-6 mb-4">
+                                            <label>@Resource.lbl_register_supplier_name</label>
+                                            <input class="form-control" readonly type="text" style="width:100%" id="supplier_name" name="supplier_name" />
+                                        </div>
+                                        <div class="col-md-6 mb-4">
+                                            <label>@Resource.lbl_register_driver_name</label>
+                                            <input class="form-control" readonly type="text" style="width:100%" id="driver_name" name="driver_name" />
+                                        </div>
+                                    </div>
+                                    <!--Email/CMND-->
+                                    <div class="row my-2">
+                                        <div class="col-md-6 mb-4">
+                                            <label>@Resource.lbl_register_supplier_email</label>
+                                            <input class="form-control" readonly type="text" style="width:100%" id="supplier_email" name="supplier_email" />
+                                        </div>
+                                        <div class="col-md-6 mb-4">
+                                            <label>@Resource.lbl_register_driver_cmnd</label>
+                                            <input class="form-control" readonly type="text" style="width:100%" id="cmnd" name="cmnd" />
+                                        </div>
+                                    </div>
+                                    <!--Contract phone/Emergency Email-->
+                                    <div class="row my-2">
+                                        <div class="col-md-6 mb-4">
+                                            <label>@Resource.lbl_register_supplier_phone</label>
+                                            <input class="form-control" readonly type="text" style="width:100%" id="supplier_phone" name="supplier_phone" />
+                                        </div>
+                                        <div class="col-md-6 mb-4">
+                                            <label>@Resource.lbl_register_driver_emergency_email</label>
+                                            <input class="form-control" readonly type="text" style="width:100%" id="emergn_email" name="emergn_email" />
+                                        </div>
+                                    </div>
+                                    <!--Department/Emergency Phone-->
+                                    <div class="row my-2">
+                                        <div class="col-md-6 mb-4">
+                                            <label>@Resource.lbl_register_department</label>
+                                            <input class="form-control" readonly id="department_reference" name="department_reference" style="width:100%" />
+                                        </div>
+                                        <div class="col-md-6 mb-4">
+                                            <label>@Resource.lbl_register_driver_emergency_phone</label>
+                                            <input class="form-control" readonly type="text" style="width:100%" id="emergn_phone" name="emergn_phone" />
+                                        </div>
+                                    </div>
+                                    <!--Line/Delivery item quantity-->
+                                    <div class="row my-2">
+                                        <div class="col-md-6 mb-4">
+                                            <label>@Resource.lbl_register_line</label>
+                                            <input class="form-control" readonly id="line_reference" name="line_reference" style="width:100%" />
+                                        </div>
+                                        <div class="col-md-6 mb-4">
+                                            <label>@Resource.lbl_register_delivery_item_quantity</label>
+                                            <input class="form-control" readonly type="number" min="0" style="width:100%" id="delivery_item_quantity" name="delivery_item_quantity" value="0" />
+                                        </div>
+                                    </div>
+                                    <!--Delivery date/Delivery registration date-->
+                                    <div class="row my-2">
+                                        <div class="col-md-6 mb-4">
+                                            <label>@Resource.lbl_register_delivery_date</label>
+                                            <input type="date" class="form-control" readonly id="delivery_date" name="delivery_date">
+                                        </div>
+                                        <div class="col-md-6 mb-4">
+                                            <label>@Resource.lbl_register_delivery_registration_date</label>
+                                            <input type="date" class="form-control" readonly id="delivery_regis_date" name="delivery_regis_date">
+                                        </div>
+                                    </div>
+                                    <!--Delivery status/Delivery registration time-->
+                                    <div class="row my-2">
+                                        <div class="col-md-6 mb-4">
+                                            <label>@Resource.lbl_register_delivery_status</label>
+                                            <input class="form-control" readonly id="delivery_status" name="delivery_status" style="width:100%" />
+                                        </div>
+                                        <div class="col-md-6 mb-4">
+                                            <label>@Resource.lbl_register_delivery_registration_time</label>
+                                            <input class="form-control" readonly id="registime_reference" name="registime_reference" style="width:100%" />
+                                        </div>
+                                    </div>
+                                    <!--Receipt status/Miss invoice-->
+                                    <div class="row my-2">
+                                        <div class="col-md-6 mb-4 receipt_status">
+                                            <label>@Resource.lbl_register_receipt_status</label>
+                                            <input class="form-control" readonly id="receipt_status" name="receipt_status" style="width:100%" />
+                                        </div>
+                                        <div class="col-md-6 mb-4 miss_invoice_number">
+                                            <label class='receipt_label'>@Resource.lbl_register_miss_invoice</label>
+                                            <input class="form-control " readonly id="miss_invoice_number" name="miss_invoice_number" style="width:100%" />
+                                        </div>
+                                    </div>
+                                    <!--Register delivery invoice date-->
+                                    <div class="row my-2 delivery_invoice_date">
+                                        <div class="col-md-6 mb-4">
+                                        </div>
+                                        <div class="col-md-6 mb-4">
+                                            <label>@Resource.lbl_register_delivery_invoice_date</label>
+                                            <input class="form-control" type="date" readonly id="delivery_invoice_date" name="delivery_invoice_date" style="width:100%" />
+                                        </div>
+                                    </div>
+                                    <!--Delivery Order Quantity/Invoice Number-->
+                                    <div class="row my-2">
+                                        <div class="col-md-6 mb-4">
+                                            <label>@Resource.lbl_register_delivery_order_quantity</label>
+                                            <input class="form-control" readonly min="0" type="number" style="width:100%" id="delivery_order_quantity" name="delivery_order_quantity" value="0" />
+                                        </div>
+                                        <div class="col-md-6 mb-4">
+                                            <label>@Resource.lbl_register_invoice_number</label>
+                                            <input class="form-control" readonly type="number" min="0" style="width:100%" id="invoice_number" name="invoice_number" value="0" />
+                                        </div>
+                                    </div>
+                                    <!--Delivery Order Code Table/Receipt No Table-->
+                                    <div class="row my-2">
+                                        <div class="col-md-6 mb-4">
+                                            <label>@Resource.lbl_register_delivery_order_code</label>
+                                            <div class="table-responsive">
+                                                <table id="table-order-code" class="table table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col" class="fw-bold col-no">@Resource.lbl_no</th>
+                                                            <th scope="col" class="fw-bold">@Resource.lbl_register_delivery_order_code</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-4">
+                                            <label>@Resource.lbl_register_receipt_no</label>
+                                            <div class="table-responsive">
+                                                <table id="table-invoice" class="table table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col" class="fw-bold col-no">@Resource.lbl_no</th>
+                                                            <th scope="col" class="fw-bold">@Resource.lbl_register_receipt_no</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row my-2 text-center">
+                                        <button type="button" onclick="GoBack()" class="btn btn bg-aeon waves-effect btn-lg mb-1 m-auto col-md-2">@Resource.btn_back</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <!--Status information-->
+                            <div class="tab-pane fade" id="pills-status" role="tabpanel" aria-labelledby="pills-status-tab">
+                                <form id="form_status" class="px-md-2">
+                                    <!--Receiver name-->
+                                    <div class="row my-2">
+                                        <div class="col-md-3 col-sm-3 col-xs-3 col-xl-3">
+                                            <label>@Resource.lbl_register_receipt_no</label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <div class="form-group">
+                                                <input class="form-control frmData" readonly id="receipt_no" name="receipt_no" style="width:100%" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--Receiver name-->
+                                    <div class="row my-2">
+                                        <div class="col-md-3 col-sm-3 col-xs-3 col-xl-3">
+                                            <label>@Resource.lbl_register_receiver_name</label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <div class="form-group">
+                                                <input class="form-control frmData" readonly id="receiver_name" name="receiver_name" style="width:100%" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--Receiver department name-->
+                                    <div class="row my-2">
+                                        <div class="col-md-3 col-sm-3 col-xs-3 col-xl-3">
+                                            <label>@Resource.lbl_register_receiver_department_name</label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <div class="form-group">
+                                                <input class="form-control frmData" readonly id="receiver_department" name="receiver_department" style="width:100%" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--Reason-->
+                                    <div class="row my-2 reason" style="display:none">
+                                        <div class="col-md-3 col-sm-3 col-xs-3 col-xl-3">
+                                            <label class="required">@Resource.lbl_register_reason</label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <div class="form-group">
+                                                <input class="form-control frmData" readonly id="reason" name="reason" style="width:100%" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--Refuse status-->
+                                    <div class="row my-2 refuse_status">
+                                        <div class="col-md-3 col-sm-3 col-xs-3 col-xl-3">
+                                            <label>@Resource.lbl_register_refuse</label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    <input type="radio" name="refuse_status" id="Full" class="with-gap" disabled value="0">
+                                                    <label for="Full" style="margin-bottom:0">Full</label>
+                                                </div>
+                                                <div class="col-md-2" style="border-left:0;">
+                                                    <input type="radio" name="refuse_status" id="Apart" class="with-gap" disabled value="1">
+                                                    <label for="Apart" style="margin-bottom:0">A Part</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--Receipt status-->
+                                    <div class="row my-2">
+                                        <div class="col-md-3 col-sm-3 col-xs-3 col-xl-3">
+                                            <label>@Resource.lbl_register_receipt_status</label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <div class="form-group">
+                                                <input class="form-control" readonly id="receipt_status" name="receipt_status" style="width:100%" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--Miss/Return invoice number-->
+                                    <div class="row my-2 miss_invoice_number" style="display:none">
+                                        <div class="col-md-3 col-sm-3 col-xs-3 col-xl-3">
+                                            <label class="receipt_label"></label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <div class="form-group">
+                                                <input type="number" min="0" class="form-control frmData" readonly id="miss_invoice_number" name="miss_invoice_number" style="width:100%" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--Miss/Return invoice date-->
+                                    <div class="row my-2 delivery_invoice_date" style="display:none">
+                                        <div class="col-md-3 col-sm-3 col-xs-3 col-xl-3">
+                                            <label>@Resource.lbl_register_delivery_invoice_date</label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <div class="form-group">
+                                                <input class="form-control frmData" readonly id="delivery_invoice_date" name="delivery_invoice_date" style="width:100%" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--Image info-->
+                                    <div class="row my-2 full" style="display:none">
+                                        <div class="col-md-12">
+                                            <label>Image</label>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="img-content">
+                                                        <img id="Image1" src="https://dummyimage.com/600x400/000/fff" style="cursor:pointer;width:100%;" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="img-content">
+                                                        <img id="Image2" src="https://dummyimage.com/600x400/000/fff" style="cursor:pointer;width:100%;" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="img-content">
+                                                        <img id="Image3" src="https://dummyimage.com/600x400/000/fff" style="cursor:pointer;width:100%;" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--Suplier info-->
+                                    <div class="row my-2 apart" style="display:none">
+                                        <div class="row my-2">
+                                            <div class="col-md-3 col-sm-3 col-xs-3 col-xl-3">
+                                                <label>@Resource.lbl_register_supplier_no</label>
+                                            </div>
+                                            <div class="col-md-9">
+                                                <div class="form-group">
+                                                    <input class="form-control" readonly id="supplier_code" name="supplier_code" style="width:100%" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row my-2">
+                                            <div class="col-md-3 col-sm-3 col-xs-3 col-xl-3">
+                                                <label>@Resource.lbl_register_supplier_name</label>
+                                            </div>
+                                            <div class="col-md-9">
+                                                <div class="form-group">
+                                                    <input class="form-control" readonly id="supplier_name" name="supplier_name" style="width:100%" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--product-->
+                                    <div class="row my-2 apart" style="display:none">
+                                        <div class="col-md-12 mb-4">
+                                            <div class="table-responsive">
+                                                <table id="tableproduct" class="table table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col" class="fw-bold">@Resource.lbl_no</th>
+                                                            <th scope="col" class="fw-bold">@Resource.lbl_product_code</th>
+                                                            <th scope="col" class="fw-bold">@Resource.lbl_product_name</th>
+                                                            <th scope="col" class="fw-bold">@Resource.lbl_product_total_order</th>
+                                                            <th scope="col" class="fw-bold">@Resource.lbl_product_total_refuse</th>
+                                                            <th scope="col" class="fw-bold">@Resource.lbl_product_upload_image</th>
+                                                            <th scope="col" class="fw-bold">@Resource.lbl_product_note</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row my-2 text-center">
+                                        <button type="button" onclick="GoBack()" class="btn btn bg-aeon waves-effect btn-lg mb-1 m-auto col-md-2">@Resource.btn_back</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function() {
+            ShowData(GetUrlParam('reference_id'));
+        })
+
+
+        function ShowData(referenceid) {
+            GetUrl(apiConfig.api.host_booking_service,
+                apiConfig.api.order.controller,
+                apiConfig.api.order.action.get_order.path,
+                apiConfig.api.order.action.get_order.method,
+                {
+                    reference_id: referenceid
+                },
+                'fnGetSuccess', 'msgError');
+        }
+
+        function fnGetSuccess(result) {
+            $('#form_delivery #store_reference').val(result.store_name);
+            $('#form_delivery #vehicle_name').val(result.vehicle_name);
+            $('#form_delivery #supplier_reference').val(result.supplier_code);
+            $('#form_delivery #license_plate').val(result.license_plate);
+            $('#form_delivery #supplier_name').val(result.supplier_name);
+            $('#form_delivery #driver_name').val(result.driver_name);
+            $('#form_delivery #supplier_email').val(result.supplier_email);
+            $('#form_delivery #cmnd').val(result.cmnd);
+            $('#form_delivery #supplier_phone').val(result.supplier_phone);
+            $('#form_delivery #emergn_email').val(result.emergn_email);
+            $('#form_delivery #line_reference').val(result.line_name);
+            $('#form_delivery #emergn_phone').val(result.emergn_phone);
+            $('#form_delivery #department_reference').val(result.department_code + " - " + result.department_name);
+            $('#form_delivery #delivery_item_quantity').val(result.delivery_item_quantity);
+            $('#form_delivery #delivery_date').val(moment(result.delivery_date).format("YYYY-MM-DD"));
+            $('#form_delivery #delivery_regis_date').val(moment(result.delivery_regis_date).format("YYYY-MM-DD"));
+            $('#form_delivery #delivery_status').val(localizationResources[result.delivery_status_name]);
+            $('#form_delivery #registime_reference').val(result.registime_from + " - " + result.registime_to);
+            $('#form_delivery #receipt_status').val(localizationResources[result.receipt_status_name]);
+            $('#form_delivery #miss_invoice_number').val(result.miss_invoice_number);
+            $('#form_delivery #delivery_order_quantity').val(result.delivery_order_quantity);
+            $('#form_delivery #delivery_invoice_date').val(moment(result.delivery_invoice_date).format("YYYY-MM-DD"));
+            $('#form_delivery #invoice_number').val(result.invoice_number);
+
+            $("#form_status #receiver_name").val(result.receiver_name);
+            $("#form_status #receiver_department").val(result.receiver_department);
+            $("#form_status #receipt_no").val(result.order_receipt.map(u => u.code).join(', '));
+            $("#form_status #reason").val(result.reason);
+            $("#form_status #receipt_status").val(localizationResources[result.receipt_status_name]);
+            $("#form_status input[name=refuse_status][value=" + result.refuse_status + "]").attr('checked', 'checked');
+            $("#form_status #supplier_code").val(result.supplier_code);
+            $("#form_status #supplier_name").val(result.supplier_name);
+            $('#form_status #delivery_invoice_date').val(moment(result.delivery_invoice_date).format("YYYY-MM-DD"));
+            $('#form_status #miss_invoice_number').val(result.miss_invoice_number);
+            var index = 0;
+            for (var item of (result.image || "").split(';')) {
+                if (index == 0)
+                    $("#Image1").prop("src", AZURE_STORAGE_URL + item);
+                if (index == 1)
+                    $("#Image2").prop("src", AZURE_STORAGE_URL + item);
+                if (index == 2)
+                    $("#Image3").prop("src", AZURE_STORAGE_URL + item);
+                index++;
+            }
+
+
+            GenerationTable("#table-order-code tbody", result.order_delivery);
+            GenerationTable("#table-invoice tbody", result.order_receipt);
+            GenerationProductTable("#tableproduct tbody", result.order_product);
+
+            if (result.delivery_status_value == 1 || result.delivery_status_value == 2) {
+                if (result.receipt_status_value == 2) {
+                    $(".delivery_invoice_date").css("display", "");
+                    $(".miss_invoice_number").css("display", "");
+                    $(".receipt_label").text('@Html.Raw(Resource.lbl_register_miss_invoice)');
+                }
+                //else if (result.receipt_status_value == 3) {
+                //    $(".delivery_invoice_date").css("display", "");
+                //    $(".miss_invoice_number").css("display", "");
+                //    $(".receipt_label").text('@Html.Raw(Resource.lbl_register_return_invoice)');
+                //}
+                $(".reason").css("display", "none");
+
+                if (result.refuse_status == 0) {
+                    $(".full").css("display", "")
+                    $(".apart").css("display", "none")
+                }
+                else {
+                    $(".full").css("display", "none")
+                    $(".apart").css("display", "");
+                }
+            }
+            else if (result.delivery_status_value == 4) {
+                $(".reason").css("display", "");
+                if (result.refuse_status == 0) {
+                    $(".full").css("display", "")
+                    $(".apart").css("display", "none")
+                }
+                else {
+                    $(".full").css("display", "none")
+                    $(".apart").css("display", "");
+                }
+            }
+            else {
+                $("#pills-tab").hide();
+                $("#header-order-detail").text('@Html.Raw(Resource.lbl_register_detail.ToUpper())')
+            }
+        }
+
+        function GoBack() {
+            window.location.href = '/Order'
+        }
+
+        function GenerationTable(selector, value) {
+            $(selector).html('');
+            var index = 1;
+            var html = '';
+            for (var item of value) {
+                html += '<tr>';
+                html += `<th scope="row" class="col-no">${index}</th>`;
+                html += `<th scope="row" style="font-weight:normal">${item.code}</th>`;
+                html += '</tr>'
+                index++;
+            }
+            $(selector).html(html);
+
+        }
+
+        function GenerationProductTable(selector, value) {
+            $(selector).html('');
+            var index = 1;
+            var html = '';
+            for (var item of value) {
+                html += `<tr>\
+                                                 <td>${index}</td>\
+                                                 <td style="width:120px">${item.product_code}</td>\
+                                                 <td style="word-break: break-word;">${item.product_name}</td>\
+                                                 <td style="width:100px">${item.product_total_order}</td>\
+                                                 <td style="width:100px">${item.product_total_refuse}</td>\
+                                                 <td style="width:120px">\
+                                                 <div class="d-flex flex-wrap" >`;
+                for (var image of (item.image || "").split(';')) {
+                    html += `<div class="product justify-content-center align-items-center">
+                                                        <img class='zoom' id="ProductImage1" src="${(AZURE_STORAGE_URL + image)}" style="cursor:pointer;width:100%;" />
+                                                    </div>`;
+                }
+                html += `</div>\
+                                                </td>\
+                                                <td style="word-break: break-word;">${item.product_note}</td>\
+                                                </tr>`;
+                index++;
+            }
+            $(selector).html(html);
+        }
+    </script>
+    }

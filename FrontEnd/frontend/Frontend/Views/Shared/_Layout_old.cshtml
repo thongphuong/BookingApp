@@ -1,0 +1,484 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>Aeon Mall Management</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="~/Content/Aeon/js/pages/forms/basic-form-elements.js"></script>
+    <script src="~/Content/Canvasjs-Aeon.js"></script>
+
+    <link rel="icon" href="~/Content/Aeon/favicon.ico" type="image/x-icon">
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/node-waves/0.7.6/waves.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-datetimepicker/2.7.1/css/bootstrap-material-datetimepicker.min.css" rel="stylesheet" />
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.3/css/bootstrap-select.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/css/dataTables.bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/fastselect/0.7.3/fastselect.min.css" rel="stylesheet" />
+    <link href="~/Content/UploadImage/drop_uploader.css" rel="stylesheet" />
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
+
+
+    <link href="~/Content/Aeon/plugins/waitme/waitMe.css" rel="stylesheet" />
+    <link href="~/Content/Aeon/css/style.css" rel="stylesheet">
+    <link href="~/Content/Aeon/css/themes/all-themes.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" />
+
+    @RenderSection("cssHeard", false)
+    <style>
+        .theme-red .navbar {
+            z-index: 999;
+        }
+
+        .material-icons {
+            font-size: 19px;
+        }
+
+        a {
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .block-header {
+            margin-bottom: 0 !important;
+        }
+
+        #banner {
+            height: 100px;
+            width: 110px;
+            margin-top: -2.2em;
+        }
+
+        #title-banner {
+            margin-top: -3.3em;
+            margin-left: 7em;
+        }
+
+        .material-icons.sbm {
+            font-size: 19px;
+            border: 1px solid;
+            padding: 5px;
+            margin: 5px;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        i.delete {
+            color: red;
+        }
+
+        body {
+            padding-right: 0 !important;
+        }
+
+        .formsearch label {
+            margin-bottom: 8px;
+        }
+
+        .formsearch .form-group {
+            margin-bottom: 10px;
+        }
+
+        .formsearch .form-control {
+            height: 28px;
+            border-radius: 2px;
+            padding-left: 7px;
+        }
+
+        .lbl-title {
+            line-height: 29px;
+        }
+
+        .selectlist.form-line {
+            border: 1px solid #ddd;
+            border-radius: 2px;
+        }
+
+        .card .body .formsearch [class^='col-'] {
+            margin-bottom: 0px;
+        }
+
+        .btn-action {
+            margin-right: 5px !important;
+            padding: 4px 6px;
+        }
+
+            .btn-action i {
+                font-size: 16px !important;
+            }
+
+        .table-bordered thead tr th {
+            padding: 7px 10px;
+        }
+
+        .table-bordered tbody tr td, .table-bordered tbody tr th {
+            padding: 5px 10px;
+        }
+
+        .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+            vertical-align: middle;
+        }
+
+        .tab-lang.nav-tabs > li > a:before {
+            display: none !important;
+        }
+
+        .tab-lang.nav-tabs {
+            border-bottom: 0;
+        }
+
+            .tab-lang.nav-tabs > li > a {
+                padding: 6px 10px;
+                margin: 0 0 6px 6px;
+                color: #333 !important;
+                background-color: #bbb;
+            }
+
+            .tab-lang.nav-tabs > li.active > a, .tab-lang.nav-tabs > li.active > a:hover, .tab-lang.nav-tabs > li.active > a:focus {
+                color: #fff !important;
+                font-weight: bold;
+                cursor: default;
+                background-color: #2196F3 !important;
+                min-width: 38px;
+                text-align: center;
+            }
+
+        .icon-lang {
+            font-size: 32px;
+            line-height: 40px;
+        }
+
+        .no-padding {
+            padding: 0 !important;
+        }
+
+        span.req {
+            color: red;
+        }
+
+        .card .header h2 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: normal;
+            color: #111;
+            padding-left: 15px;
+        }
+
+        .note-view.btn-group > .btn:last-child {
+            display: none;
+        }
+
+        section.content {
+            margin-top: 90px;
+        }
+
+        .dataTables_scrollBody::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+
+        .dataTables_scrollBody::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .dataTables_scrollBody::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 3px;
+        }
+
+            .dataTables_scrollBody::-webkit-scrollbar-thumb:hover {
+                background: #555;
+            }
+
+        .fstToggleBtn {
+            font-size: 14px;
+            padding: 4px 6px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+            padding-right: 28px !important;
+        }
+
+        .wrapok {
+            white-space: normal;
+            min-width: 150px;
+        }
+
+        .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+            background-color: #eee;
+        }
+
+        .required::after {
+            content: "*";
+            color: red;
+            font-size: 14px;
+            padding-left: 2px;
+        }
+
+        .img-content {
+            position: relative;
+            border: 1px solid #ddd;
+            display: inline-block;
+        }
+
+            .img-content i {
+                position: absolute;
+                right: 3px;
+                top: 3px;
+                color: red;
+                cursor: pointer;
+            }
+
+        .aeon-img img {
+            object-fit: contain;
+        }
+
+        .modal-open {
+            overflow: auto;
+        }
+
+        .ajs-message {
+            color: #fff;
+        }
+
+        .img-content {
+            width: 100%;
+        }
+
+        table.dataTable {
+            min-width: 100% !important;
+/*            max-width: 100% !important;*/
+        }
+
+        .loader.spinner {
+            position: relative;
+            top: calc(50% - 20px);
+        }
+    </style>
+</head>
+
+<body class="theme-red">
+    <!-- Page Loader -->
+    <div class="page-loader-wrapper">
+        <div class="loader">
+            <div class="preloader">
+                <div class="spinner-layer pl-purple">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+            <p>Please wait...</p>
+        </div>
+    </div>
+    <!-- #END# Page Loader -->
+    <!-- Overlay For Sidebars -->
+    <div class="overlay"></div>
+    <!-- #END# Overlay For Sidebars -->
+    <!-- Search Bar -->
+    <div class="search-bar">
+        <div class="search-icon">
+            <i class="material-icons">search</i>
+        </div>
+        <input type="text" placeholder="START TYPING...">
+        <div class="close-search">
+            <i class="material-icons">close</i>
+        </div>
+    </div>
+    <!-- #END# Search Bar -->
+    <!-- Top Bar -->
+    <nav class="navbar">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"></a>
+                <a href="javascript:void(0);" class="bars"></a>
+                <a class="navbar-brand" href="~/Home/Index">
+                    <img src="" id="banner" /> <p id="title-banner">Loyalty Mobile App Management</p>
+                </a>
+            </div>
+        </div>
+    </nav>
+    <!-- #Top Bar -->
+    <section>
+        <!-- Left Sidebar -->
+        <aside id="leftsidebar" class="sidebar">
+            <!-- User Info -->
+            <div class="user-info">
+               @* @Html.Partial("_UserInfo")*@
+            </div>
+            <!-- Menu -->
+            <div class="menu">
+              @*  @{Html.RenderAction("_MenuLeft", "Home");}*@
+            </div>
+            <!-- #Menu -->
+            <!-- Footer -->
+            <div class="legal">
+                <div class="copyright">
+                    Copyright &copy; 2018 <a href="javascript:void(0);">AEON Vietnam</a>
+                </div>
+                <div class="version">
+                    <b>Version: </b>@* @version*@
+                </div>
+            </div>
+            <!-- #Footer -->
+        </aside>
+        <!-- #END# Left Sidebar -->
+        <!-- Right Sidebar -->
+        <!-- #END# Right Sidebar -->
+    </section>
+
+    <section class="content">
+        @*@if (staticMessage != null)
+            {
+                <div class="alert @(staticMessage.result ? "alert-info" : "alert-danger")" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    @staticMessage.message
+                </div>
+            }*@
+        @RenderBody()
+    </section>
+
+    @*@Html.PartialAsync("PartialView/_PartialModal")*@
+    <script src="~/Content/Aeon/plugins/jquery/jquery.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="~/js/jquery.slimscroll.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/node-waves/0.7.6/waves.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/autosize.js/4.0.2/autosize.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fastselect/0.7.3/fastselect.standalone.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+
+    <!-- Jquery DataTable Plugin Js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
+
+    @*<script src="https://cdn.ckeditor.com/4.11.1/full/ckeditor.js"></script>*@
+   @* <script src="~/assets/plugins/ckeditor/ckeditor.js"></script>
+    <script src="~/assets/plugins/ckfinder/ckfinder.js"></script>
+
+    <script src="https://cdn.ckeditor.com/4.11.1/full/adapters/jquery.js"></script>*@
+
+    <!-- Bootstrap Material Datetime Picker Plugin Js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-datetimepicker/2.7.1/js/bootstrap-material-datetimepicker.min.js"></script>
+
+    <!-- alertify -->
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+
+    <!-- Custom Js -->
+    <script src="~/Content/Aeon/js/admin.js"></script>
+    <script src="~/Content/Aeon/js/pages/forms/basic-form-elements.js"></script>
+    <script src="~/js/common.js"></script>
+    <script src="~/Content/Aeon/js/pages/forms/form-validation.js"></script>
+    <script src="~/Content/UploadImage/drop_uploader.js"></script>
+
+    <!-- input mas Js -->
+    <script src="~/js/jquery.inputmask.min.js"></script>
+    <script src="~/js/inputmask.min.js"></script>
+
+    @RenderSection("Scripts", false)
+    <script>
+
+        $("[role=alert]").fadeTo(5000, 500).slideUp(500, function () {
+            $("[role=alert]").slideUp(500);
+        });
+
+        function showChangePass() {
+            spinner.open();
+            $.ajax({
+                url: '/User/ChangePass',
+                success: function (response) {
+                    var $modal = $(response).modal({ backdrop: 'static', show: true });
+                    $modal.on('submit', 'form', function (e) {
+                        proccessFormInModalChangePass($modal);
+                        e.preventDefault();
+                    });
+                    $modal.on('hidden.bs.modal', function () { $(this).remove(); });
+                },
+                error: function (response) {
+                    response.alert(response);
+                },
+                complete: function () {
+                    spinner.close();
+                }
+            });
+        }
+
+        function proccessFormInModalChangePass($modal) {
+            var $this = $modal.find('form');
+            var formData = $this.serialize();
+            $.ajax({
+                url: $this.attr('action'),
+                data: formData,
+                type: 'POST',
+                success: function (data) {
+                    if (data.result) {
+                        notify.alert(data.message, 'SUCCESS', TITLE_STATUS_SUCCESS);
+                        $modal.on('hidden.bs.modal', function () { $(this).remove(); });
+                        $modal.modal('hide');
+                    } else {
+                        notify.alert(data.message, 'Warning', TITLE_STATUS_DANGER);
+                    }
+                },
+                complete: function () {
+                    spinner.close();
+                }
+            });
+        }
+
+        var $_ajax = $.ajax;
+        $.ajax = function (options) {
+            var success = options.success;
+            var error = options.error;
+            options.beforeSend = function (data, textStatus, jqXHR) {
+                $("[type=submit]").prop("disabled", true)
+                $("[type=button]").prop("disabled", true)
+            }
+            options.success = function (data, textStatus, jqXHR) {
+                if (data.Authenticate != undefined && !data.Authenticate) {
+                    window.location.href = "/Authenticate/index";
+                    j.abort();
+                }
+                else {
+                    if (success) {
+                        $("[type=submit]").prop("disabled", false)
+                        $("[type=button]").prop("disabled", false)
+                        success(data, textStatus, jqXHR);
+                    }
+
+                }
+            };
+            options.error = function (data, textStatus, jqXHR) {
+                $("[type=submit]").prop("disabled", false)
+                $("[type=button]").prop("disabled", false)
+                if (error) {
+                    error(data, textStatus, jqXHR);
+                }
+
+            };
+            $_ajax.apply($, arguments);
+        }
+
+        
+
+    </script>
+    @RenderSection("jsFooter", false)
+</body>
+</html>

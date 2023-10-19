@@ -1,0 +1,57 @@
+﻿@media (min-width: 1025px) {
+    .h-custom {
+        height: 100vh !important;
+    }
+}
+
+.required::after {
+    content: "*";
+    color: red;
+    font-size: 14px;
+    padding-left: 2px;
+}
+
+.col-no {
+    text-align: center;
+    vertical-align: middle;
+    width: 1% !important;
+}
+.select2-selection__rendered {
+    line-height: 35px !important;
+}
+
+.select2-container .select2-selection--single {
+    height: 35px !important;
+}
+
+.select2-selection__arrow {
+    height: 35px !important;
+}
+
+.select2-selection__rendered {
+    line-height: 31px !important;
+}
+
+.select2-container .select2-selection--single {
+    height: 35px !important;
+}
+
+.select2-selection__arrow {
+    height: 34px !important;
+}
+
+label.error {
+    font-size: 12px;
+    display: block;
+    margin-top: 5px;
+    font-weight: normal;
+    color: #F44336;
+}
+
+.form-control:disabled, 
+.form-control[readonly], 
+.select2-container--default.select2-container--disabled .select2-selection--single {
+    background-color: #fff !important;
+    opacity: 1 !important;
+    cursor: not-allowed !important
+}

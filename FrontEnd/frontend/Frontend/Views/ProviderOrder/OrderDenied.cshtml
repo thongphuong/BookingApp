@@ -1,0 +1,296 @@
+﻿@{
+    ViewBag.Title = "Store";
+}
+
+<style>
+    .dataTables_wrapper {
+        position: relative;
+        margin-top: 30px;
+    }
+
+    .btn-header {
+        min-width: 100px;
+        margin-bottom: 10px;
+        padding: 3px;
+    }
+
+    .aeon-img {
+        min-width: 100px;
+        padding-left: 5px !important;
+        padding-right: 5px !important;
+    }
+
+        .aeon-img img {
+            border-radius: 5px;
+        }
+
+    .fstElement {
+        width: 100%;
+        font-size: 9px;
+        border: none;
+        display: block;
+    }
+
+    .fstMultipleMode .fstControls {
+        width: 100%;
+        padding: 0.5em 0 0 0;
+    }
+
+    .fstToggleBtn {
+        font-size: 14px;
+        padding: 4px 6px;
+    }
+
+    .description-text {
+        width: 30%;
+    }
+
+    .btn-header i {
+        font-size: 18px !important;
+    }
+
+    .wrapok {
+        white-space: normal;
+        min-width: 200px;
+        word-break: break-word;
+        max-width: 300px;
+    }
+</style>
+<div class="row clearfix">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2 class="pull-left">
+                    LIST ORDER INFORMATION
+                </h2>
+            </div>
+            <div class="body">
+                <div class="table-responsive">
+                    <form id="frmFilter" method="post" class="formsearch">
+                        <div>
+                            <div class="col-md-1" style="display:inline-table">
+                                <button type="submit" class="btn btn-sm btn-header bg-aeon waves-effect">
+                                    <i class="material-icons">search</i>
+                                    <span>SEARCH</span>
+                                </button>
+                                <button type="reset" class="btn btn-sm btn-header bg-cyan waves-effect" onclick="resetForm(this.form)">
+                                    <i class="material-icons">refresh</i>
+                                    <span>CLEAR</span>
+                                </button>
+                                <button type="button" class="btn btn-sm btn-header btn-success waves-effect" onclick="window.location.href='/Store/Add'">
+                                    <i class="material-icons">arrow_downward</i>
+                                    <span>EXPORT</span>
+                                </button>
+                                <p style="height:40px;width:0px">
+                                </p>
+                            </div>
+                            <div class="col-md-10">
+                                <div class="col-md-2 lbl-title">
+                                    <label>Store</label>
+                                </div>
+                                <div class="col-md-3" style="width:20%">
+                                    <div class="form-group" >
+                                        <div class="form-line selectlist">
+                                            <input class="form-control frmFilter" maxlength="200" id="Name" name="Name" />
+                                        </div>
+                                    </div>
+                                </div>
+                                 <div class="col-md-2 lbl-title">
+                                    <label>Line Code</label>
+                                </div>
+                                <div class="col-md-3" style="width:20%">
+                                    <div class="form-group">
+                                        <div class="form-line selectlist">
+                                            <input class="form-control frmFilter" maxlength="200" id="Name" name="Name" />
+                                        </div>
+                                    </div>
+                                </div>
+                                
+
+                                
+                               
+                                  
+                           
+                            </div>
+                            <div class="col-md-10">
+                                <div class="col-md-2 lbl-title">
+                                    <label>Supplier No</label>
+                                </div>
+                                <div class="col-md-3" style="width:20%">
+                                    <div class="form-group">
+                                        <div class="form-line selectlist">
+                                            <select id="Status" name="Status" class="form-control frmFilter select2">
+                                                <option value="-1">All</option>
+                                                <option value="1">Active</option>
+                                                <option value="0">Inactive</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                 <div class="col-md-2 lbl-title" style="display:inline-table">
+                                <label style="min-width:30px;">Time</label>
+                            </div>
+                                 <div class="col-md-3" style="width:20%">
+                                <div class="form-group">
+                                    <div class="form-line selectlist">
+                                        <button type="button" id="btn_StartDate" style="position:absolute;z-index:11;height:100%">
+                                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                                        </button>
+                                        <div style="display:block;z-index:50;">
+                                            @Html.TextBox("DateStart", string.Empty, new { @class = "form-control frmFilter datetime-mask", @required = "required", @style = "position: absolute;z-index: 2;padding-left: 32px", data_inputmask_alias = "datetime", data_inputmask_inputformat = "yyyy-mm-dd", data_inputmask_placeholder = "YYYY-MM-DD" })
+                                            <input class="form-control" style="display:block;z-index:100" id="StartDate_Picker" name="StartDate_Picker" tabindex="-1" type="text">
+                                        </div>
+                                        @*@Html.TextBox("DateStart", string.Empty, new { @class = "form-control frmFilter" })*@
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-3" style="width:20%">
+                                <div class="form-group">
+                                    <div class="form-line selectlist">
+                                        <button type="button" id="btn_EndDate" style="position:absolute;z-index:11;height:100%">
+                                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                                        </button>
+                                        <div style="display:block;z-index:50;">
+                                            @Html.TextBox("DateEnd", string.Empty, new { @class = "form-control frmFilter datetime-mask", @required = "required", @style = "position: absolute;z-index: 2;padding-left: 32px", data_inputmask_alias = "datetime", data_inputmask_inputformat = "yyyy-mm-dd", data_inputmask_placeholder = "YYYY-MM-DD" })
+                                            <input class="form-control" style="display:block;z-index:100" id="EndDate_Picker" name="EndDate_Picker" tabindex="-1" type="text">
+                                        </div>
+                                        @*@Html.TextBox("DateEnd", string.Empty, new { @class = "form-control frmFilter" })*@
+                                    </div>
+                                </div>
+                            </div>
+                               <div class="col-md-2 lbl-title">
+                                    <label>Supplier Name</label>
+                                </div>
+                                <div class="col-md-3" style="width:20%">
+                                    <div class="form-group">
+                                        <div class="form-line selectlist">
+                                            <input class="form-control frmFilter" id="Code" name="Code" maxlength="50" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="col-md-12">
+                        <table id="storetable" class="table table-bordered table-striped table-hover dataTable js-exportable" style="width:99%;">
+                            <thead>
+                                <tr>
+                                    <th>No.</th>                                                              
+                                    <th>Line Code</th>
+                                    <th>Supplier No</th>
+                                    <th>Supplier Name</th>
+                                    <th>Store</th>
+                                    <th>Date<th>
+                                    <th>Command</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                            <tbody role="alert" aria-live="polite" aria-relevant="all"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/Content/fastselect/fastselect.standalone.js"></script>
+    <script type="text/javascript">
+        var sTable;
+        $(document).ready(function () {
+            $(".focused").removeClass("focused")
+            $(".fastselect").fastselect();
+            var customRow = [
+                {
+                    "targets": [1,6],
+                    "width": "1%",
+                },
+                {
+                    "targets": 2,
+                    "className": "text-center aeon-img",
+                    "width": "1%",
+                },
+                {
+                    "targets": [3, 4, 5],
+                    "className": "wrapok",
+                },
+                {
+                    orderable: false, targets: [0, 2, 6]
+                }
+            ];
+            sTable = initDataTable("#storetable", "/Store/AjaxHandler", customRow);
+            $('#frmFilter').submit(function (e) {
+                e.preventDefault();
+                sTable.draw();
+            });
+        });
+
+        function calldelete(id) {
+            notify.confirm("Bạn có chắc chắn muốn xóa không?", "Confirm", TITLE_STATUS_DANGER, deletesubmit, id);
+        }
+
+        function deletesubmit(id) {
+            spinner.open();
+            $.ajax({
+                type: 'POST',
+                url: "/Store/delete",
+                datatype: 'json',
+                data: { referenceId: id },
+                success: function (data) {
+                    if (data.result) {
+
+                        notify.alert(data.message, 'SUCCESS', TITLE_STATUS_SUCCESS);
+                        sTable.draw();
+                    }
+                    else {
+                        notify.alert(data.message, 'ERROR', TITLE_STATUS_DANGER);
+                    }
+
+                }, complete: function () {
+                    spinner.close();
+                    sTable.fnDraw();
+                }
+            });
+        }
+
+        function callchange(id) {
+            notify.confirm("Bạn có chắc chắn muốn thay đổi trạng thái này không?", "Confirm", TITLE_STATUS_DANGER, changesubmit, id);
+        }
+
+        function changesubmit(id) {
+            spinner.open();
+            $.ajax({
+                type: 'POST',
+                url: "/Store/changeactive",
+                datatype: 'json',
+                data: { referenceId: id },
+                success: function (data) {
+                    if (data.result) {
+                        notify.alert(data.message, 'SUCCESS', TITLE_STATUS_SUCCESS);
+                        sTable.draw();
+                    }
+                    else {
+                        notify.alert(data.message, 'ERROR', TITLE_STATUS_DANGER);
+                    }
+                }, complete: function () {
+                    spinner.close();
+                    sTable.draw();
+                }
+            });
+        }
+
+        function Edit(referenceid) {
+            window.location.href = "/Store/Edit?referenceId=" + referenceid;
+        }
+
+        function ShowDetail(referenceid) {
+            window.location.href = "/Floor?storeReference=" + referenceid;
+        }
+
+    </script>
+}
+
+

@@ -1,0 +1,154 @@
+﻿@using Frontend.Resource
+@{
+    ViewBag.Title = "User";
+    Layout = "_Layout";
+}
+<div class="row clearfix">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2 class="pull-left">@Resource.lbl_header_time_frame_add.ToUpper()</h2>
+            </div>
+            <div class="body clearfix">
+                <form id="form_data" class="formsubmit formdata" method="post" action="" enctype="multipart/form-data">
+                    <div class="row" style="margin-bottom: 15px;">
+                        <div class="col-md-6" style="border-right: 1px solid #d8d5d5;">
+                            <div style="padding-right:30px;">
+                                <div class="col-md-12 no-padding">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label class="required">@Resource.lbl_store_title</label>
+                                            <div class="form-group">
+                                                <div class="form-line selectlist">
+                                                    <select class="form-control frmData" required id="store_ref" name="store_ref" style="width:100%">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div style="display: flex;">
+                                                <div class="col-md-5">
+                                                    <label class="required">@Resource.lbl_time_frame_from</label>
+                                                    <div class="form-group">
+                                                        <div class="form-line">
+                                                            <input class="form-control frmData" required type="time" id="time_from" name="time_from" style="width:100%" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                </div>
+                                                <div class="col-md-5">
+                                                    <label class="required">@Resource.lbl_time_frame_to</label>
+                                                    <div class="form-group">
+                                                        <div class="form-line">
+                                                            <input class="form-control frmData" required type="time" id="time_to" name="time_to" style="width:100%" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div style="padding-left:30px;">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label class="required">@Resource.lbl_supplier</label>
+                                        <div class="form-group">
+                                            <div class="form-line selectlist">
+                                                <input class="form-control frmData" required type="number" onforminput="0" id="amount" name="amount" min="1" style="width:100%" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <button type="button" onclick="GoBack()" class="btn waves-effect" style="margin-right:5px">Back</button>
+                        <button type="button" class="btn bg-aeon waves-effect" onclick="Save()">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        $(document).ready(function() {
+            GetStore("#store_ref");
+
+            $('#time_from').on('change', function() {
+                var value = $(this).val();
+                $("#time_to").attr("min", moment(value).format("HH:mm"));
+            })
+
+        })
+
+        function GetStore(selector) {
+            callApi_multipleselect(
+                selector, '@Html.Raw(Resource.lbl_choose_store)',
+                apiConfig.api.host_user_service,
+                apiConfig.api.store.controller,
+                apiConfig.api.store.action.dropdown_store.path,
+                false
+            );
+        }
+
+        var required_mgs = '<label id="name-error" class="error">@Html.Raw(Resource.lbl_required)</label>';
+        function Save() {
+            var data = [];
+            var $filter = $('#form_data').find('.frmData');
+            $.each($filter, function(i, o) {
+                data.push({ "name": $(o).attr('name'), "value": $(o).val() });
+            });
+            var obj = {};
+            $("label.error").remove();
+            $(".error").removeClass("error");
+            var checkvalidate = false;
+            for (var key of data) {
+
+                if ($("#" + key.name).prop("required") && (key.value == null || (key.value == null || key.value.toString().trim() == ""))) {
+                    $("#" + key.name).parent().addClass("error");
+                    $("#" + key.name).parent().parent().append(required_mgs);
+                    checkvalidate = true;
+                }
+                obj[key.name] = key.value;
+            }
+
+            var time_from = moment("2022-01-01 " + $("#time_from").val());
+            var time_to = moment("2022-01-01 " + $("#time_to").val());
+                    if (time_from > time_to) {
+                $("#time_from").parent().addClass("error");
+                $("#time_from").parent().parent().append('<label id="name-error" class="error">@Html.Raw(string.Format(Resource.VALIDATE_TIME,Resource.lbl_time_frame_from,Resource.lbl_time_frame_to))</label>');
+                checkvalidate = true;
+            }
+
+
+            if (!checkvalidate) {
+                PostBody(apiConfig.api.host_user_service,
+                    apiConfig.api.timeframe.controller,
+                    apiConfig.api.timeframe.action.add_timeframe.path,
+                    apiConfig.api.timeframe.action.add_timeframe.method,
+                    obj,
+                    'fnAddSuccess', 'msgError');
+                return;
+            }
+        }
+
+        function fnAddSuccess(result) {
+            toastr.success('@Html.Raw(Resource.lbl_addSuccess)', '@Html.Raw(@Resource.lbl_noti)');
+            setTimeout(function() {
+                window.location.href = '/TimeFrame'
+            }, 600)
+        }
+
+        function GoBack() {
+            window.location.href = '/TimeFrame'
+        }
+    </script>
+}
+
+

@@ -1,0 +1,589 @@
+﻿@using Frontend.Resource
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .dataTables_wrapper {
+        position: relative;
+        margin-top: 30px;
+    }
+
+    .btn-header {
+        min-width: 100px;
+        margin-bottom: 10px;
+        padding: 3px;
+    }
+
+    .aeon-img {
+        min-width: 100px;
+        padding: 0px 5px !important;
+    }
+
+        .aeon-img img {
+            border-radius: 5px;
+        }
+
+    .fstElement {
+        width: 100%;
+        font-size: 9px;
+        border: none;
+        display: block;
+    }
+
+    .fstMultipleMode .fstControls {
+        width: 100%;
+        padding: 0.5em 0 0 0;
+    }
+
+    .fstToggleBtn {
+        font-size: 14px;
+        padding: 4px 6px;
+    }
+
+    .description-text {
+        width: 30%;
+    }
+
+    .btn-header i {
+        font-size: 18px !important;
+    }
+
+    .maxwidth {
+        min-width: 200px !important;
+        max-width: 200px !important;
+        white-space: normal !important;
+    }
+    .index{
+        text-align:center
+    }
+     .number{
+        text-align:right
+    }
+     .error{
+        color:red
+    }
+         a {
+      text-decoration: none;
+      display: inline-block;
+      padding: 8px 16px;
+    }
+
+    a:hover {
+      background-color: #ddd;
+      color: black;
+    }
+
+    .previous {
+      background-color: #f1f1f1;
+      color: black;
+    }
+
+    .next {
+      background-color: #04AA6D;
+      color: white;
+    }
+
+    .round {
+      border-radius: 50%;
+    }
+</style>
+@section jsFooter{
+    <script type="text/javascript">
+        var sTable;
+        var totalrow = 0;
+        var ArrayDelete = [];
+        var skip = 0;
+        var toprow = 100;
+        var total = 0;
+        $(document).ready(function () { 
+              callApi_multipleselect(
+
+            '#store_reference', '@Html.Raw(Resource.lbl_choose_store)',
+            apiConfig.api.host_user_service,
+            apiConfig.api.store.controller,
+            apiConfig.api.store.action.dropdown_store.path,
+             false,
+            );
+
+             callApi_multipleselect(
+            '#supplier_reference', '@Html.Raw(Resource.lbl_choose_supplier)',
+            apiConfig.api.host_booking_service,
+            apiConfig.api.supplier.controller,
+            apiConfig.api.supplier.action.dropdown_supplier.path,
+            false,
+            );
+
+            callApi_multipleselect(
+               '#line_reference', '@Html.Raw(Resource.lbl_choose_line)',
+               apiConfig.api.host_booking_service,
+                apiConfig.api.line.controller,
+               apiConfig.api.line.action.dropdown_line.path,
+               false,
+            );
+
+              callApi_multipleselect(
+            "#department_reference", '@Html.Raw(@Resource.lbl_choose_line_department)',
+            apiConfig.api.host_booking_service,
+            apiConfig.api.line.controller,
+            apiConfig.api.line.action.dropdown_linedepartment.path,
+             false,
+            {
+                "l": "#line_reference"
+            }
+            );
+            $('#supplier_reference').on('select2:select', function(e) {
+                $("#supplier_name").empty();
+                $("#supplier_name").val
+                (
+                   GetUrl1(apiConfig.api.host_booking_service,
+                    apiConfig.api.supplier.controller,
+                    apiConfig.api.supplier.action.get_supplier.path,
+                    apiConfig.api.supplier.action.get_supplier.method,
+                    {
+                        reference_id: $(this).val()
+                    },
+                    'fnSuccess1', 'msgError').supplier_name
+                );
+
+         });
+            ShowData(GetUrlParam('reference_id'));
+           
+        });
+        
+        function fnGetSuccess(result) { 
+            bindDataHeader(result.returnModel);
+            bindDataDetail(result.returnDetailModelUpdate);
+        };
+
+         function initializeSelect2(selector) {
+            callApi_multipleselectPaging(
+                selector, '@Html.Raw(@Resource.lbl_choose_line_department)',
+                apiConfig.api.host_booking_service,
+                apiConfig.api.product.controller,
+                apiConfig.api.product.action.dropdown_product.path,
+                false
+            );
+        };
+
+        function bindDataHeader(data) 
+        {
+            $("#store_reference").append('<option value="' + (data.store_reference != null ? data.store_reference : '') + '">' + (data.store_name != null ? data.store_name : '') +'</option>');
+            $("#line_reference").append('<option value="' + (data.line_reference != null ? data.line_reference : '') + '">' + (data.line_name != null ? data.line_name :'') +'</option>');
+            $("#supplier_reference").append('<option value="' + (data.supplier_reference != null ? data.supplier_reference :'')  + '">' + (data.supplier_code != null ? data.supplier_code :'') +'</option>');
+            $("#department_reference").append('<option value="' + (data.department_reference != null ? data.department_reference :'') + '">' + (data.department_name != null ? data.department_name :'') +'</option>');
+            $("#supplier_name").val(data.supplier_name != null ? data.supplier_name : '' );
+            $("#date").val(data.date != null ? getFormattedDate(data.date) : '');
+            $("#time").val(data.time != null ? data.time :'');
+            $("#reference_id").text(data.reference_id);
+            $("#id").text(data.id);
+        };
+
+        function bindDataDetail(data) { 
+            data.forEach((item) => {
+                var markup = "<tr class='update " + item.product_reference.toUpperCase() + "'>"
+                    + "<td class='index'></td>"
+                    + "<td><select class='productcode form-control frmFilter' onchange='getNameByCode(event)' required></select></td>"
+                    + "<td><label class='productname form-control frmFilter'/>" + (item.product_name != null ? item.product_name : '') + "</label></td>"
+                    + "<td><input  maxlength = '9' class='number form-control frmFilter' onkeypress='return IsNumeric(event);' type='text' value='" + (item.number != null ? item.number :'') + "'/></td>"
+                    + "<td><input class='note form-control frmFilter' maxlength = '200' value='" + (item.note != null ? item.note :'') + "'/></td>"
+                    + "<td> <button type='button' class='btn bg-aeon waves-effect' onClick='Deleterow(event)'><i class='material-icons'>remove</i></button></td>"
+                    + "<td style='display:none'><label class='detail_reference_id'/>" + item.reference_id + "</label></td>"
+                    + "<td style='display:none'><label class='detail_id'/>" + item.id + "</label></td>"
+                    + "</tr>";
+                
+                tableBody = $("#Return tbody");
+                tableBody.append(markup);
+                var newSelection = $("#Return tr.update").last().find(".productcode");
+                initializeSelect2(newSelection);
+                var detail = tableBody.find("." + item.product_reference.toUpperCase() + "");
+                detail.find(".productcode").append('<option value="' + (item.product_reference != null ? item.product_reference : '') + '">' + (item.product_code != null ? item.product_code : '') + '</option>');
+                //detail.find(".productcode option[value=" + item.product_reference.toUpperCase() + "]").attr('selected', 'selected');
+                addindex();
+            }   
+            );
+        };
+
+        function getFormattedDate(result) {
+            var date = new Date(result);
+             var year = date.getFullYear();
+             var month = (1 + date.getMonth()).toString();
+                 month = month.length > 1 ? month : '0' + month;
+                var day = date.getDate().toString();
+                 day = day.length > 1 ? day : '0' + day;
+            return year + '-' + month + '-' + day;
+        };
+
+        function ShowData(referenceid) {
+            GetUrl(apiConfig.api.host_booking_service,
+                apiConfig.api.return.controller,
+                apiConfig.api.return.action.get_edit.path,
+                apiConfig.api.return.action.get_edit.method,
+                {
+                    reference_id: referenceid
+                },
+                'fnGetSuccess', 'msgError1');
+        };
+
+        function msgError1(data) { 
+        };
+
+        function IsNumeric(e) {
+            var specialKeys = new Array();
+            specialKeys.push(8);
+            var keyCode = e.which ? e.which : e.keyCode
+            var ret = ((keyCode >= 48 && keyCode <= 57) || specialKeys.indexOf(keyCode) != -1);
+            return ret;
+        }
+
+        function createdatadropdown(data) 
+        {
+            var html = ''
+            if (data != null) {
+                html += '<option value=""></option>';
+                data.forEach((item) => {
+                html += '<option value="' + item.key + '">' + item.value + '</option>';
+                toprow = data.length;
+                total = data[0].total;
+            });
+            }      
+            return html;
+        }
+
+        
+        function fnSuccess(result)
+        { 
+            return createdatadropdown(result);
+        }
+        function fnSuccess1(result) { 
+            return result;
+        }
+        function fnError(request,status,error) 
+        { 
+            return request;
+        }
+
+        //add new row
+        function addrow() {         
+                  var markup = "<tr class='create'>"
+                    + "<td class='index'></td>"
+                      + "<td><select class='productcode form-control frmFilter' onchange='getNameByCode(event)' required></select></td>"
+                    + "<td><label class='productname form-control frmFilter'></label></td>"
+                    + "<td><input  class='number form-control frmFilter' onkeypress='return IsNumeric(event);' type='text' value='' maxlength = '9'/></td>"
+                    + "<td><input class='note form-control frmFilter' maxlength = '200' value=''/></td>"
+                    + "<td> <button type='button' class='btn bg-aeon waves-effect' onClick='Deleterow(event)'><i class='material-icons'>remove</i></button></td>"
+                    + "<td style='display:none'><label class='detail_reference_id'></label></td>"
+                    + "<td style='display:none'><label class='detail_id'></label></td>"
+                    + "</tr>";
+                tableBody = $("#Return tbody");
+                tableBody.append(markup);
+                var newSelection = $("#Return tr.create").last().find(".productcode");
+                initializeSelect2(newSelection);
+            addindex();
+        };
+         function addindex() {
+            $.each($("#Return tr"), function(i, v) {               
+               $(v).find(".index").html(i);
+                totalrow = i;
+            });
+        };
+
+        function Deleterow(event) {                                
+                    if (totalrow > 1) {
+                        if ($(event.target).closest("tr").hasClass("update")) {
+                            var object = {
+                            reference_id: $(event.target).closest("tr").find(".detail_reference_id").text(),
+                            id: $(event.target).closest("tr").find(".detail_id").text()
+                            };
+                            ArrayDelete.push(object);
+                        }
+                        
+                        $(event.target).closest("tr").remove();
+                        addindex();
+                    }
+                    else {                       
+                         $(event.target).closest("tr").find(".productcode").empty();
+                         $(event.target).closest("tr").find(".productname").text('');
+                         $(event.target).closest("tr").find(".number").val('');
+                         $(event.target).closest("tr").find(".note").val('');
+                    }                                
+        };
+
+        //get name when select change
+        function getNameByCode(event) { 
+            
+            var result =  GetUrl1(apiConfig.api.host_booking_service,
+                apiConfig.api.product.controller,
+                apiConfig.api.product.action.get_product.path,
+                apiConfig.api.product.action.get_product.method,
+                {
+                    reference_id: $(event.target).val()
+                },
+                'fnSuccess1', 'fnError');
+
+                $(event.target).closest("tr").find(".productname").text(result.product_name != null ? result.product_name :'');
+               
+        };
+
+        function Save() {
+            var formdata = new FormData($(".formdata")[0]);      
+            validateform(formdata);
+        }
+        
+        function fnAddSuccess(result) {
+            toastr.success('@Html.Raw(Resource.lbl_addSuccess)', '@Html.Raw(@Resource.lbl_noti)');
+            setTimeout(function() {
+                window.location.href = '/Return'
+            }, 600)
+        }
+
+         function fnEditSuccess(result) {
+            toastr.success('@Html.Raw(Resource.lbl_editSuccess)', '@Html.Raw(@Resource.lbl_noti)');
+            setTimeout(function() {
+                window.location.href = '/Return'
+            }, 600)
+        }
+
+        function fnEditError(request,status,error) { 
+            toastr.error('@Html.Raw(Resource.lbl_error)', '@Html.Raw(@Resource.lbl_noti)');
+
+        }
+        var required_mgs = '<label id="name-error" class="error">This field is required.</label>';
+        function validateform(formdata) {
+            $("label.error").remove();
+            $(".error").removeClass("error");
+            var checkvalidate = false;
+                if ($("#" + "store_reference").val() == null) {
+                    $(".formdata #" + "store_reference").parent().addClass("error");
+                    $(".formdata #" + "store_reference").parent().parent().append(required_mgs);
+                    checkvalidate = true;
+                }
+                 if ($("#" + "line_reference").val() == null) {
+                    $(".formdata #" + "line_reference").parent().addClass("error");
+                    $(".formdata #" + "line_reference").parent().parent().append(required_mgs);
+                    checkvalidate = true;
+                }
+                 if ($("#" + "department_reference").val() == null) {
+                    $(".formdata #" + "department_reference").parent().addClass("error");
+                    $(".formdata #" + "department_reference").parent().parent().append(required_mgs);
+                    checkvalidate = true;
+                }
+                 if ($("#" + "supplier_reference").val() == null) {
+                    $(".formdata #" + "supplier_reference").parent().addClass("error");
+                    $(".formdata #" + "supplier_reference").parent().parent().append(required_mgs);
+                    checkvalidate = true;
+                }
+
+                 $("#Return tr.update").each(function(i, v) {
+                    if ($(v).find(".productcode").val() == null) {
+                        $(v).find(".productcode").parent().addClass("error");
+                        $(v).find(".productcode").parent().append(required_mgs);
+                        checkvalidate = true;
+                    };
+                }); 
+
+                $("#Return tr.create").each(function(i, v) {
+                    if ($(v).find(".productcode").val() == null) {
+                        $(v).find(".productcode").parent().addClass("error");
+                        $(v).find(".productcode").parent().append(required_mgs);
+                        checkvalidate = true;
+                    };
+                });
+                   
+            if (!checkvalidate) {
+                var formdata = new FormData();
+                var index = 0;
+                
+                 $(".formdata").each(function () {
+                    var _formdata = new FormData(this);
+                    formdata.append("ReturnParam.ReturnModel.store_reference", $("#store_reference").val());
+                    formdata.append("ReturnParam.ReturnModel.line_reference", $("#line_reference").val());
+                    formdata.append("ReturnParam.ReturnModel.department_reference", $("#department_reference").val());
+                    formdata.append("ReturnParam.ReturnModel.supplier_reference", $("#supplier_reference").val())
+                    formdata.append("ReturnParam.ReturnModel.supplier_name", $("#supplier_name").val());
+                    formdata.append("ReturnParam.ReturnModel.date", $("#date").val());
+                    formdata.append("ReturnParam.ReturnModel.time", $("#time").val());
+                    formdata.append("ReturnParam.ReturnModel.reference_id", $("#reference_id").text());
+                    formdata.append("ReturnParam.ReturnModel.id", $("#id").text());
+                    
+
+                     $.each($("#Return tr.update"), function(i, v) {
+                         if ($(v).find(".productcode :selected").text() != null) { 
+                              formdata.append("ReturnParam.ReturnDetailModelUpdate[" + i + "].product_code", $(v).find(".productcode :selected").text());
+                              formdata.append("ReturnParam.ReturnDetailModelUpdate[" + i + "].product_name", $(v).find(".productname").text());
+                              formdata.append("ReturnParam.ReturnDetailModelUpdate[" + i + "].number", $(v).find(".number").val());
+                              formdata.append("ReturnParam.ReturnDetailModelUpdate[" + i + "].note", $(v).find(".note").val());
+                              formdata.append("ReturnParam.ReturnDetailModelUpdate[" + i + "].product_reference", $(v).find(".productcode").val());
+                              formdata.append("ReturnParam.ReturnDetailModelUpdate[" + i + "].reference_id", $(v).find(".detail_reference_id").text());
+                              formdata.append("ReturnParam.ReturnDetailModelUpdate[" + i + "].id", $(v).find(".detail_id").text());
+                         }                      
+                     }
+                     );
+
+                     $.each($("#Return tr.create"), function(i, v) {
+                         if ($(v).find(".productcode :selected").text() != null) { 
+                              formdata.append("ReturnParam.ReturnDetailModelCreate[" + i + "].product_code", $(v).find(".productcode :selected").text());
+                              formdata.append("ReturnParam.ReturnDetailModelCreate[" + i + "].product_name", $(v).find(".productname").text());
+                              formdata.append("ReturnParam.ReturnDetailModelCreate[" + i + "].number", $(v).find(".number").val());
+                              formdata.append("ReturnParam.ReturnDetailModelCreate[" + i + "].note", $(v).find(".note").val());
+                              formdata.append("ReturnParam.ReturnDetailModelCreate[" + i + "].product_reference", $(v).find(".productcode").val());
+                             formdata.append("ReturnParam.ReturnDetailModelCreate[" + i + "].reference_id", $(v).find(".detail_reference_id").text());
+                              formdata.append("ReturnParam.ReturnDetailModelCreate[" + i + "].id", $(v).find(".detail_id").text());
+                             formdata.append("ReturnParam.ReturnDetailModelCreate[" + i + "].return_reference", $("#reference_id").text());
+                         }                      
+                     }
+                     );
+
+                     ArrayDelete.forEach(function(item, index){
+                         formdata.append("ReturnParam.ReturnDetailModelDelete[" + index + "].reference_id", item.reference_id);
+                         formdata.append("ReturnParam.ReturnDetailModelDelete[" + index + "].id", item.id);
+                     });
+                     index++;
+                   
+                })            
+                PostFormData(apiConfig.api.host_booking_service,apiConfig.api.return.controller,apiConfig.api.return.action.edit_return.path,apiConfig.api.return.action.edit_return.method,formdata
+                   ,'fnEditSuccess', 'fnEditError');
+            }
+       }  
+    </script>
+}
+<div class="row clearfix">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2>@Resource.lbl_return_title</h2>
+               
+            </div>
+
+            <div class="body">
+                <div class="table-responsive">
+                    <form id="form_data" class="formsubmit formdata" method="post" action="" enctype="multipart/form-data">
+                        <div>
+                            <label id="reference_id" style="display:none"></label>
+                            <label id="id" style="display:none"></label>
+                            <div class="col-md-12">
+                                      <div class="col-md-1 lbl-title no-padding" style="display:inline-table;">
+                                    <label class="required">@Resource.lbl_store</label>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <div class="form-line selectlist">
+                                           <select class="form-control frmFilter" required id="store_reference" name="store_reference" style="width:100%" placeholder="@Resource.lbl_placeholder_storename">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> 
+                            <div class="col-md-12">
+                                <div class="col-md-1 lbl-title no-padding">
+                                <label class="required">@Resource.lbl_line</label>
+                            </div>
+                             <div class="col-md-5">
+                                    <div class="form-group">
+                                        <div class="form-line selectlist">
+                                            <select class="form-control frmFilter" id="line_reference" name="line_reference" style="width:100%" placeholder="@Resource.lbl_choose_line">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-1 lbl-title no-padding">
+                                <label class="required">@Resource.lbl_department</label>
+                            </div>
+                             <div class="col-md-5">
+                                    <div class="form-group">
+                                        <div class="form-line selectlist">
+                                            <select class="form-control frmFilter" id="department_reference" name="department_reference" style="width:100%" placeholder="@Resource.lbl_choose_department">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                             <div class="col-md-12">
+                                <div class="col-md-1 lbl-title no-padding">
+                                <label class="required">@Resource.lbl_supplier_no</label>
+                            </div>
+                             <div class="col-md-5">
+                                    <div class="form-group">
+                                        <div class="form-line selectlist">
+                                            <select class="form-control frmFilter" id="supplier_reference" name="supplier_reference" style="width:100%" placeholder="@Resource.lbl_choose_supplier">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> 
+                             <div class="col-md-12">
+                                <div class="col-md-1 lbl-title no-padding">
+                                <label>@Resource.lbl_supplier_name</label>
+                            </div>
+                             <div class="col-md-5">
+                                    <div class="form-group">
+                                        <div class="form-line selectlist">
+                                            <input type="text"  class="form-control frmFilter" id="supplier_name" name="supplier_name" style="width:100%" disabled placeholder =@Resource.lbl_enter_supplier_name/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>          
+                               <div class="col-md-2 lbl-title" style="display:inline-table">
+                                      <label style="min-width:30px;">@Resource.lbl_date</label>
+                              </div>
+                              <div class="col-md-3">
+                                <div class="form-group">
+                                    <div class="form-line selectlist">                       
+                                        <div style="display:block;z-index:50;">
+                                            <input class="form-control frmFilter" id="date" name="date" tabindex="-1" type="date" placeholder="@Resource.lbl_choose_date">
+                                        </div>
+                                    </div>
+                               </div>
+                                                          
+                               </div>
+
+                                <div class="col-md-2 lbl-title" style="display:inline-table">
+                                      <label style="min-width:30px;">@Resource.lbl_time</label>
+                              </div>
+                               <div class="col-md-3">
+                                <div class="form-group">
+                                    <div class="form-line selectlist">                       
+                                        <div style="display:block;z-index:50;">
+                                            <input class="form-control frmFilter" id="time" name="date" tabindex="-1" type="time" placeholder="@Resource.lbl_time">
+                                        </div>
+                                    </div>
+                                </div>
+                               </div>
+                                <div class="col-md-12">
+                                    <table id="Return" class="table table-bordered table-striped table-hover dataTable js-exportable" style="min-width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center">@Resource.lbl_no</th>                                
+                                                <th><label class="required">@Resource.lbl_product_code</label></th>
+                                                <th>@Resource.lbl_product_name</th>
+                                                <th>@Resource.lbl_number</th>
+                                                <th>@Resource.lbl_note</th>
+                                                 <th style="width:1%"><button type="button" onclick="addrow()" class="btn btn-success"><i class="material-icons">add</i></button></th>                                            
+                                                 <th class="detail_reference_id"  style="display:none"></th>
+                                                <th class="detail_id"  style="display:none"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                               
+                      </div>
+                     <div>                    
+                </div>
+                    </form>
+                    
+
+                </div>
+
+            </div>
+           
+        </div>
+        <div>
+            <button type="button" onclick="window.location.href='/Return'" class="btn waves-effect" style="margin-right:5px">Back</button>
+            <button type="button" class="btn bg-aeon waves-effect" onclick="Save()">Save</button>
+        </div>
+    </div>
+</div>
+

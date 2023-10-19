@@ -1,0 +1,80 @@
+﻿@using Frontend.Resource
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Booking Register</title>
+
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="favicon.ico">
+    <base href="/" />
+    <!-- FontAwesome JS-->
+    <!-- App CSS -->
+    <script src="~/lib/jquery/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css">
+    <link href="~/css/mdb.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/css/register.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="~/assets/plugins/toastr/toastr.min.css" />
+    <link rel="stylesheet" href="~/lib/select2/css/select2.min.css">
+
+    @*<link href="~/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" />*@
+    <style>
+        .gradient-custom-3 {
+            /* fallback for old browsers */
+            background: #84fab0;
+            /* Chrome 10-25, Safari 5.1-6 */
+            background: -webkit-linear-gradient(to right, rgba(132, 250, 176, 0.5), rgba(143, 211, 244, 0.5));
+            /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            background: linear-gradient(to right, rgba(181, 28, 142, 0.5), rgba(181, 28, 142, 0.5))
+        }
+    </style>
+</head>
+
+<body>
+    @*<div id="preloader">
+    <div class="loader">
+    <svg class="circular" viewBox="25 25 50 50">
+    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10" />
+    </svg>
+    </div>
+    </div>*@
+    @RenderBody()
+    <script src="~/js/mdb.min.js"></script>
+    <script src="~/lib/bootstrap/js/bootstrap.js"></script>
+    <script src="~/assets/plugins/toastr/toastr.min.js"></script>
+    <script src="~/js/api.construct.js"></script>
+    <script src="~/lib/select2/js/select2.full.min.js"></script>
+    <script src="~/js/common.js"></script>
+    <script src="~/lib/moment.js/moment.min.js"></script>
+    <script src="~/lib/qrcodejs/qrcode.min.js"></script>
+
+    @RenderSection("Scripts", false)
+    <script>
+        hideLoading();
+        var API_KEY = '@((Configuration["UseEnv"] ?? "0") == "0" ? Configuration["API_KEY"] : Environment.GetEnvironmentVariable("API_KEY"))';
+        var USER_SERVICE = '@((Configuration["UseEnv"] ?? "0") == "0" ? Configuration["host_user_service"] : Environment.GetEnvironmentVariable("HOST_SERVICE"))';
+        var BOOKING_SERVICE = '@((Configuration["UseEnv"] ?? "0") == "0" ? Configuration["host_booking_service"] : Environment.GetEnvironmentVariable("HOST_BOOKING"))';
+        var localizationResources = {
+            'lbl_error': '@Html.Raw(Resource.lbl_error)',
+            'lbl_warning': '@Html.Raw(Resource.lbl_warning)',
+            'error401': '@Html.Raw(Resource.error401)',
+            'error400': '@Html.Raw(Resource.error400)',
+            'USER_NOT_FOUND': '@Html.Raw(Resource.USER_NOT_FOUND)',
+            'USER_IS_EXIST': '@Html.Raw(Resource.USER_IS_EXIST)',
+            'STORE_IS_EXIST': '@Html.Raw(Resource.STORE_IS_EXIST)',
+            'ORDER_MAX_AMOUNT': '@Html.Raw(Resource.ORDER_MAX_AMOUNT)',
+            'errorServer': '@Html.Raw(Resource.errorServer)',
+            'lbl_phone_invalid': '@Html.Raw(Resource.lbl_phone_invalid)',
+            'lbl_email_invalid': '@Html.Raw(Resource.lbl_email_invalid)'
+        };
+    </script>
+    <script src="~/js/api.function.js"></script>
+</body>
+</html>
+

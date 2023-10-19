@@ -1,0 +1,30 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@inject Microsoft.Extensions.Options.IOptions<Microsoft.AspNetCore.Builder.RequestLocalizationOptions> locOptions
+@using Microsoft.AspNetCore.Http
+@{
+    var culture = Context.Features.Get<Microsoft.AspNetCore.Localization.IRequestCultureFeature>();
+    var cultureList = locOptions?.Value?.SupportedUICultures?.Select(x => new SelectListItem { Value = x.Name, Text = x.Name }).ToList() ?? new List<SelectListItem>();
+    var returnUrl = string.IsNullOrWhiteSpace(Context.Request.Path) ? "~/" : $"~{Context.Request.Path.Value}{Context.Request.QueryString}";
+    var _language = Context.Request.Cookies["language"];
+}
+
+<a href="javascript:void(0)" class="dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" style="height: 35px; display: inline-flex; align-items: center; width: 65px; justify-content: flex-end;">
+    <span style="margin-right: 5px;"><img id="imageLanguage" src="@((_language == null || _language == "vi" ) ? "/img/vietnam.png" : "/img/united-kingdom.png" )" /></span>
+</a>
+<ul class="dropdown-menu">
+   
+    @if (_language == null || _language == "vi")
+    {
+        <li><a class="dropdown-item" href="javascript:void()" id="english" onclick="ChangeLanguage('en')"><img src="~/img/united-kingdom.png" /> Tiếng Anh</a></li>
+    }
+    else
+    {
+        <li><a class="dropdown-item" href="javascript:void()" id="vietname" onclick="ChangeLanguage('vi')"><img src="~/img/vietnam.png" /> Tiếng Việt</a></li>
+    }
+</ul>
+@*<div>
+    <form asp-action="CultureManagement" asp-controller="Home" method="post" asp-route-returnUrl="@returnUrl">
+        <select name="culture" asp-for="@culture.RequestCulture.UICulture.Name" asp-items="@cultureList" onchange="this.form.submit();">
+        </select>
+    </form>
+</div>*@

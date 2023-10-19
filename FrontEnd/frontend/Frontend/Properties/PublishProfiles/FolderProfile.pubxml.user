@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <_PublishTargetUrl>D:\Source\BookingApp\frontend\Frontend\obj\Docker\publish</_PublishTargetUrl>
+    <History>True|2022-09-08T03:52:56.0564846Z;True|2022-09-08T10:51:09.1252624+07:00;True|2022-09-05T15:54:19.1767755+07:00;True|2022-09-05T08:40:59.7383835+07:00;True|2022-08-31T17:23:04.8364971+07:00;True|2022-08-31T17:21:48.2152161+07:00;True|2022-08-28T17:47:58.5933090+07:00;True|2022-08-26T08:56:53.2001973+07:00;True|2022-08-23T17:31:55.3614427+07:00;True|2022-08-16T08:41:29.8492317+07:00;True|2022-08-11T17:29:43.9906449+07:00;True|2022-08-11T16:23:41.9521860+07:00;</History>
+  </PropertyGroup>
+</Project>

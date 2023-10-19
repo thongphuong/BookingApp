@@ -1,0 +1,109 @@
+﻿@using Frontend.Resource
+@{
+    ViewBag.Title = "Store";
+    Layout = "_Layout";
+}
+<style>
+    .header {
+        text-transform: uppercase !important;
+    }
+</style>
+<div class="row clearfix">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2 class="pull-left">@Resource.lbl_header_detail_system_parameter</h2>
+            </div>
+            <div class="body clearfix">
+                <form id="form_data" class="formsubmit formdata" method="post" action="" enctype="multipart/form-data">
+                    <input type="hidden" id="reference_id" name="reference_id" />
+                    <input type="hidden" id="id" name="id" />
+                    <div class="row" style="margin-bottom: 15px;">
+                        <div class="col-md-6" style="border-right: 1px solid #d8d5d5;">
+                            <div style="padding-right:30px">
+                                <div class="col-md-12 no-padding">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label>@Resource.lbl_param_name</label>
+                                            <div class="form-group">
+                                                <div class="form-line selectlist">
+                                                    <input class="form-control frmData" required type="text" id="parameter_name" name="parameter_name" style="width:100%" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 no-padding">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label>@Resource.lbl_param_value</label>
+                                            <div class="form-group">
+                                                <div class="form-group">
+                                                    <div class="form-line selectlist">
+                                                        <input class="form-control frmData" type="text" id="value" name="value" style="width:100%" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div style="padding-left:30px">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label>@Resource.lbl_param_note</label>
+                                        <div class="form-group">
+                                            <div class="form-line selectlist">
+                                                <textarea class="form-control frmData" required id="note" name="note" rows="4" cols="50" style="width:100%"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <button type="button" onclick="GoBack()" class="btn waves-effect" style="margin-right:5px">Back</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        $(document).ready(function() {
+            ShowData(GetUrlParam('reference_id'));
+        })
+
+
+        function ShowData(referenceid) {
+            GetUrl(apiConfig.api.host_user_service,
+                apiConfig.api.systemparameter.controller,
+                apiConfig.api.systemparameter.action.get_function.path,
+                apiConfig.api.systemparameter.action.get_function.method,
+                {
+                    reference_id: referenceid
+                },
+                'fnGetSuccess', 'msgError');
+        }
+
+        function fnGetSuccess(result) {
+            $('#id').val(result.id)
+            $('#reference_id').val(result.reference_id)
+            $("#parameter_name").val(result.parameter_name);
+            $("#value").val(result.value);
+            $("#note").text(result.note);
+            $("input").prop("readonly", true);
+            $("textarea").prop("readonly", true);
+        }
+
+        function GoBack() {
+           window.location.href = '/SystemParameter'
+        }
+    </script>
+}
+
+

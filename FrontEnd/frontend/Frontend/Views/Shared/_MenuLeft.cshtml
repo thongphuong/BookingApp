@@ -1,0 +1,34 @@
+﻿<style>
+    .main-class-menu {
+        height: 100%;
+        background: rgb(249 226 246 / 88%);
+        width: 100%;
+    }
+</style>
+
+<div id="sidepanel-drop" class="sidepanel-drop"></div>
+<div class="sidepanel-inner d-flex flex-column">
+    <a href="#" id="sidepanel-close" class="sidepanel-close d-xl-none">&times;</a>
+    <div>
+        <a href="/">
+            <img src="~/assets/images/logo/aeon-logo.png" width="100%" />
+        </a>
+    </div><!--//app-branding-->
+
+    <nav id="app-nav-main" class="app-nav app-nav-main flex-grow-1">
+        <div class="main-class-menu">
+            @await Component.InvokeAsync("Menu")
+        </div>
+        @*<img src="~/img/pink-love-backgrounds.jpg" />*@
+      
+    </nav><!--//app-nav-->
+    <div class="app-sidepanel-footer">
+        <div class="container text-center py-3">
+            <!--/* This template is free as long as you keep the footer attribution link. If you'd like to use the template without the attribution link, you can buy the commercial license via our website: themes.3rdwavemedia.com Thank you for your support. :) */-->
+            <small class="copyright">Copyright © 2022 by <a class="app-link" href="#" style="color:#b51c8e !important"><b>AEON Vietnam</b></a></small>
+
+        </div>
+    </div>
+    <!--//app-sidepanel-footer-->
+
+</div><!--//sidepanel-inner-->

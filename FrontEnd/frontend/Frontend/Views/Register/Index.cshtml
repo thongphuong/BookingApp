@@ -1,0 +1,498 @@
+﻿@using Frontend.Resource
+@{
+    ViewBag.Title = "Index";
+    Layout = "_LayoutPortal";
+}
+
+
+<style>
+    input, select {
+        height: 35px
+    }
+
+    #modal-image img {
+        display: unset !important
+    }
+</style>
+<section class="vh-100 bg-image"
+         style="background-image: url('https://mdbcdn.b-cdn.net/img/Photos/new-templates/search-box/img4.webp');">
+    <div class="mask d-flex align-items-center h-100 gradient-custom-3" style="overflow: auto">
+        <div class="container h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-lg-10 col-xl-10 py-3">
+                    <div class="card rounded-3">
+                        <div class="card-body p-4 p-md-5">
+                            <h3 class="pb-2 pb-md-0 px-md-2 text-center">@Resource.lbl_register_form</h3>
+                            <h6 id="timeout" class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2 text-center" style="color:red"></h6>
+                            <form id="form_data" class="px-md-2">
+
+                                <!--Store/Delivery vehicle-->
+                                <div class="row">
+                                    <div class="col-md-6 mb-4">
+                                        <label class="required">@Resource.lbl_register_store</label>
+                                        <select class="form-control frmData" required id="store_reference" name="store_reference" style="width:100%">
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 mb-4">
+                                        <label class="required">@Resource.lbl_register_delivery_vehicle</label>
+                                        <select class="form-control frmData select2" required id="vehicle_name" name="vehicle_name" style="width:100%">
+                                            <option></option>
+                                            <option>Xe máy</option>
+                                            <option>Xe ba gác</option>
+                                            <option>Xe ô tô</option>
+                                            <option>Xe tải 1 tấn</option>
+                                            <option>Xe tải 2 tấn</option>
+                                            <option>Xe tải trên 3 tấn</option>
+                                            <option>Xe khác</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <!--Supplier No/License plates-->
+                                <div class="row">
+                                    <div class="col-md-6 mb-4">
+                                        <label class="required">@Resource.lbl_register_supplier_no</label>
+                                        <select class="form-control frmData" required id="supplier_reference" name="supplier_reference" style="width:100%">
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 mb-4">
+                                        <label class="required">@Resource.lbl_register_driver_license_plates</label>
+                                        <input class="form-control frmData" required type="text" style="width:100%" id="license_plate" name="license_plate" />
+                                    </div>
+                                </div>
+                                <!--Supplier name/Dilivery driver name-->
+                                <div class="row">
+                                    <div class="col-md-6 mb-4">
+                                        <label>@Resource.lbl_register_supplier_name</label>
+                                        <input class="form-control frmData" readonly type="text" style="width:100%" id="supplier_name" name="supplier_name" />
+                                    </div>
+                                    <div class="col-md-6 mb-4">
+                                        <label class="required">@Resource.lbl_register_driver_name</label>
+                                        <input class="form-control frmData" required type="text" style="width:100%" id="driver_name" name="driver_name" />
+                                    </div>
+                                </div>
+                                <!--Email/CMND-->
+                                <div class="row">
+                                    <div class="col-md-6 mb-4">
+                                        <label>@Resource.lbl_register_supplier_email</label>
+                                        <input class="form-control frmData" readonly type="text" style="width:100%" id="supplier_email" name="supplier_email" />
+                                    </div>
+                                    <div class="col-md-6 mb-4">
+                                        <label class="required">@Resource.lbl_register_driver_cmnd</label>
+                                        <input class="form-control frmData" required type="text" style="width:100%" id="cmnd" name="cmnd" />
+                                    </div>
+                                </div>
+                                <!--Contract phone/Emergency Email-->
+                                <div class="row">
+                                    <div class="col-md-6 mb-4">
+                                        <label>@Resource.lbl_register_supplier_phone</label>
+                                        <input class="form-control frmData" readonly type="text" style="width:100%" id="supplier_phone" name="supplier_phone" />
+                                    </div>
+                                    <div class="col-md-6 mb-4">
+                                        <label>@Resource.lbl_register_driver_emergency_email</label>
+                                        <input class="form-control frmData" type="text" style="width:100%" id="emergn_email" name="emergn_email" />
+                                    </div>
+                                </div>
+                                <!--Department/Emergency Phone-->
+                                <div class="row">
+                                    <div class="col-md-6 mb-4">
+                                        <label class="required">@Resource.lbl_register_department</label>
+                                        <select class="form-select frmData" required id="department_reference" name="department_reference" onchange="ChangeSelect(this)" style="width:100%">
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 mb-4">
+                                        <label>@Resource.lbl_register_driver_emergency_phone</label>
+                                        <input class="form-control frmData" type="tel" style="width:100%" maxlength="10" id="emergn_phone" name="emergn_phone" />
+                                    </div>
+                                </div>
+                                <!--Line/Delivery item quantity-->
+                                <div class="row">
+                                    <div class="col-md-6 mb-4">
+                                        <label>@Resource.lbl_register_line</label>
+                                        <input class="form-control" id="line_reference" readonly name="line_reference" data-reference="" style="width:100%" />
+                                    </div>
+                                    <div class="col-md-6 mb-4">
+                                        <label>@Resource.lbl_register_delivery_item_quantity</label>
+                                        <input class="form-control frmData" type="number" min="0" style="width:100%" id="delivery_item_quantity" name="delivery_item_quantity" value="0" />
+                                    </div>
+                                </div>
+                                <!--Delivery date/Delivery registration date-->
+                                <div class="row">
+                                    <div class="col-md-6 mb-4">
+                                        <label class="required">@Resource.lbl_register_delivery_date</label>
+                                        <input type="date" required class="form-control frmData" id="delivery_date" name="delivery_date">
+                                    </div>
+                                    <div class="col-md-6 mb-4">
+                                        <label class="required">@Resource.lbl_register_delivery_registration_date</label>
+                                        <input type="date" required class="form-control frmData" readonly id="delivery_regis_date" name="delivery_regis_date">
+                                    </div>
+                                </div>
+                                <!--Delivery registration time-->
+                                <div class="row">
+                                    <div class="col-md-6 mb-4">
+                                    </div>
+                                    <div class="col-md-6 mb-4">
+                                        <label class="required">@Resource.lbl_register_delivery_registration_time</label>
+                                        <select class="form-select frmData" required id="registime_reference" name="registime_reference" style="width:100%">
+                                        </select>
+                                    </div>
+                                </div>
+                                <!--Delivery Order Quantity/Invoice Number-->
+                                <div class="row">
+                                    <div class="col-md-6 mb-4">
+                                        <label class="required">@Resource.lbl_register_delivery_order_quantity</label>
+                                        <input class="form-control frmData" required type="number" min="0" style="width:100%" id="delivery_order_quantity" name="delivery_order_quantity" value="0" />
+                                    </div>
+                                    <div class="col-md-6 mb-4">
+                                        <label class="required">@Resource.lbl_register_invoice_number</label>
+                                        <input class="form-control frmData" required type="number" min="0" style="width:100%" id="invoice_number" name="invoice_number" value="0" />
+                                    </div>
+                                </div>
+                                <!--Delivery Order Code Table/Receipt No Table-->
+                                <div class="row">
+                                    <div class="col-md-6 mb-4">
+                                        <label class="required">@Resource.lbl_register_delivery_order_code</label>
+                                        <div class="table-responsive">
+                                            <table id="table-order-code" class="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col" class="fw-bold col-no">@Resource.lbl_no</th>
+                                                        <th scope="col" class="fw-bold">@Resource.lbl_register_delivery_order_code</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-4">
+                                        <label class="required">@Resource.lbl_register_receipt_no</label>
+                                        <div class="table-responsive">
+                                            <table id="table-invoice" class="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col" class="fw-bold col-no">@Resource.lbl_no</th>
+                                                        <th scope="col" class="fw-bold">@Resource.lbl_register_receipt_no</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row text-center">
+                                    <button type="button" onclick="Submit()" style="background-color:#b51c8e !important;color:white" class="btn btn-lg mb-1 m-auto col-md-2">@Resource.btn_submit</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<div id="QRModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="text-center">
+                    <p>@Html.Raw(Resource.lbl_modal_qr_tile)</p>
+                </div>
+                <div class="text-center" style="margin:0 auto;width:50%;height:50%" id="modal-image">
+                </div>
+                <div class="text-center">
+                    <p>@Resource.lbl_modal_qr_code <span id="modal-code"></span></p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="Download()" data-dismiss="modal" class="btn btn-primary m-auto">@Resource.btn_download</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        var day = 0;
+        var timeOut;
+        var delayTimer = null;
+        $(document).ready(function() {
+            setInputFilter(document.getElementById("emergn_phone"), function(value) {
+                return /^-?\d*$/.test(value);
+            });
+            GetUrl(apiConfig.api.host_user_service,
+                apiConfig.api.systemparameter.controller,
+                apiConfig.api.systemparameter.action.get_redis.path,
+                apiConfig.api.systemparameter.action.get_redis.method,
+                null,
+                'fnGetSystemSuccess', 'msgError');
+
+            callApi_multipleselect(
+                '#store_reference', '@Html.Raw(Resource.lbl_choose_store)',
+                apiConfig.api.host_user_service,
+                apiConfig.api.store.controller,
+                apiConfig.api.store.action.dropdown_store.path,
+                false
+            );
+            callApi_multipleselectPaging(
+                '#supplier_reference', '@Html.Raw(Resource.lbl_choose_supplier)',
+                apiConfig.api.host_booking_service,
+                apiConfig.api.supplier.controller,
+                apiConfig.api.supplier.action.dropdown_supplier.path,
+                false
+            );
+
+            callApi_multipleselect(
+                "#department_reference", '@Html.Raw(@Resource.lbl_choose_line_department)',
+                apiConfig.api.host_booking_service,
+                apiConfig.api.line.controller,
+                apiConfig.api.line.action.dropdown_linedepartment.path,
+                false,
+            );
+
+            callApi_multipleselect(
+                '#registime_reference', '@Html.Raw(Resource.lbl_choose_time_frame)',
+                apiConfig.api.host_user_service,
+                apiConfig.api.timeframe.controller,
+                apiConfig.api.timeframe.action.dropdown_timeframe.path,
+                false,
+                {
+                    "s": "#store_reference"
+                }
+            );
+
+            $('#store_reference').on('select2:select', function(e) {
+                $('#registime_reference').val('').trigger('change');
+            });
+
+            $('#supplier_reference').on('select2:select', function(e) {
+                GetUrl(apiConfig.api.host_booking_service,
+                    apiConfig.api.supplier.controller,
+                    apiConfig.api.supplier.action.get_supplier.path,
+                    apiConfig.api.supplier.action.get_supplier.method,
+                    {
+                        reference_id: $(this).val()
+                    },
+                    'fnGetSuccess', 'msgError');
+            });
+
+            $('#delivery_order_quantity').on('keyup mouseup', function(e) {
+                var value = $(this).val();
+                genaratoionTable("#table-order-code tbody", value);
+            })
+
+            $('#invoice_number').on('keyup mouseup', function(e) {
+                var value = $(this).val();
+                genaratoionTable("#table-invoice tbody", value);
+            })
+
+            $('#delivery_date').on('change', function() {
+                var value = $(this).val();
+                var departmentcode = $("#department_reference").select2('data')[0].priority
+                if (value != '') {
+                    $("#delivery_regis_date").prop("readonly", false);
+                    if (departmentcode == 'True') {
+                        $("#delivery_regis_date").attr("min", moment(value).format("YYYY-MM-DD"));
+                    } else {
+                        $("#delivery_regis_date").attr("min", moment(value).add(1, 'days').format("YYYY-MM-DD"));
+                    }
+                    $("#delivery_regis_date").attr("max", moment(value).add(day, 'days').format("YYYY-MM-DD"));
+                }
+            })
+
+            $('#QRModal').on('hidden.bs.modal', function() {
+                $("#store_reference").empty();
+                $("#registime_reference").empty();
+            })
+            ShowData((GetUrlParam('t') || "").substring(0, 36));
+        })
+
+        function fnGetSystemSuccess(result) {
+            day = parseInt(result.find(o => o.key === 'DAY').value || '0');
+            timeOut = moment().add(parseInt(result.find(o => o.key === 'SESSION').value || '0'), 'm');
+            $("#timeout").text('@Html.Raw(@Resource.lbl_timeout): ' + parseInt(result.find(o => o.key === 'SESSION').value || '0') + " @Html.Raw(Resource.lbl_minute)");
+        }
+        function ShowData(referenceid) {
+            if (referenceid != "" && referenceid != null)
+                GetUrl(apiConfig.api.host_booking_service,
+                    apiConfig.api.order.controller,
+                    apiConfig.api.order.action.get_order.path,
+                    apiConfig.api.order.action.get_order.method,
+                    {
+                        reference_id: referenceid
+                    },
+                    'fnGetDataSuccess', 'msgError');
+        }
+
+        function ChangeSelect(input) {
+            $("#line_reference").val($(input).select2('data')[0].line_value);
+            $("#line_reference").data('reference', $(input).select2('data')[0].line_reference);
+        }
+
+        function fnGetDataSuccess(result) {
+            $('#reference_id').val(result.reference_id)
+            $('#store_reference').append(new Option(result.store_name, result.store_reference, true, true)).trigger('change');
+            $('#vehicle_name').append(new Option(result.vehicle_name, result.vehicle_name, true, true)).trigger('change');
+            $('#supplier_reference').append(new Option(result.supplier_code, result.supplier_reference, true, true)).trigger('change');
+            $('#license_plate').val(result.license_plate);
+            $('#supplier_name').val(result.supplier_name);
+            $('#driver_name').val(result.driver_name);
+            $('#supplier_email').val(result.supplier_email);
+            $('#cmnd').val(result.cmnd);
+            $('#supplier_phone').val(result.supplier_phone);
+            $('#emergn_email').val(result.emergn_email);
+            $('#emergn_phone').val(result.emergn_phone);
+            $('#department_reference').append(new Option(result.department_code + " - " + result.department_name, result.department_reference, true, true)).trigger('change');
+            $('#line_reference').val(result.line_name);
+            $('#line_reference').data("reference", result.line_reference);
+            $('#delivery_item_quantity').val(result.delivery_item_quantity);
+            $('#delivery_date').val(moment(result.delivery_date).format("YYYY-MM-DD"));
+            $('#delivery_regis_date').val(moment(result.delivery_regis_date).format("YYYY-MM-DD"));
+            $('#registime_reference').append(new Option(result.registime_from + " - " + result.registime_to, result.registime_reference, true, true)).trigger('change');
+            $('#delivery_order_quantity').val(result.delivery_order_quantity);
+            $('#invoice_number').val(result.invoice_number);
+            genarationTableData("#table-order-code tbody", result.order_delivery);
+            genarationTableData("#table-invoice tbody", result.order_receipt);
+            $("select").prop("disabled", true);
+            $("input").prop("readonly", true);
+            $("button").remove();
+            $("label").removeClass('required');
+
+        }
+
+        function genaratoionTable(selector, value) {
+            clearTimeout(delayTimer);
+            delayTimer = setTimeout(function() {
+                $(selector).html('');
+                var length = value;
+                var html = "";
+                for (var i = 1; i <= length; i++) {
+                    html += '<tr>';
+                    html += `<th scope="row" class="col-no">${i}</th>`;
+                    html += `<th scope="row"><input class="form-control col-code" style="width:100%" /></th>`;
+                    html += '</tr>'
+                }
+                $(selector).html(html);
+            }, 250);
+        }
+
+        function genarationTableData(selector, value) {
+            $(selector).html('');
+            var index = 1;
+            var html = '';
+            for (var item of value) {
+                html += '<tr>';
+                html += `<th scope="row" class="col-no">${index}</th>`;
+                html += `<th scope="row"><input class="form-control col-code" readonly style="width:100%" value="${item.code}" /></th>`;
+                html += '</tr>'
+                index++;
+            }
+            $(selector).html(html);
+
+        }
+
+        function fnGetSuccess(result) {
+            $("#supplier_name").val(result.supplier_name);
+            $("#supplier_email").val(result.supplier_email);
+            $("#supplier_phone").val(result.supplier_phone);
+        }
+
+        var required_mgs = '<label id="name-error" class="error">@Html.Raw(Resource.lbl_required)</label>';
+        function Submit() {
+
+            if (moment() > timeOut) {
+                window.location.reload();
+                return;
+            }
+
+            $("label.error").remove();
+            $(".error").removeClass("error");
+            var data = [];
+            var $filter = $('#form_data').find('.frmData');
+            $.each($filter, function(i, o) {
+                data.push({ "name": $(o).attr('name'), "value": $(o).val() });
+            });
+            var obj = {};
+            var checkvalidate = false;
+            for (var key of data) {
+
+                if ($("#" + key.name).prop("required") && (key.value == null || key.value.toString().trim() == ""
+                    || (key.name == 'delivery_order_quantity' && $("#delivery_order_quantity").val() == '0')
+                    || (key.name == 'invoice_number' && $("#invoice_number").val() == '0'))) {
+                    $("#" + key.name).parent().addClass("error");
+                    $("#" + key.name).parent().append(required_mgs);
+                    checkvalidate = true;
+                }
+                if (key.name == 'delivery_item_quantity' && $("#delivery_item_quantity").val() == '')
+                    key.value = 0;
+                obj[key.name] = key.value;
+            }
+            obj["line_reference"] = $("#line_reference").data('reference');
+            obj["order_delivery"] = []
+            $("#table-order-code tbody").find('tr').each(function() {
+                if ($(this).find(".col-code").val() != '')
+                    obj["order_delivery"].push({ "code": $(this).find(".col-code").val() });
+            });
+
+            obj["order_receipt"] = []
+            $("#table-invoice tbody").find('tr').each(function() {
+                if ($(this).find(".col-code").val() != '')
+                    obj["order_receipt"].push({ "code": $(this).find(".col-code").val() });
+            });
+
+            if ($("#emergn_phone").val() != '' && !validatePhone("#emergn_phone", $("#emergn_phone").val())) {
+                checkvalidate = true;
+            }
+
+            if ($("#emergn_phone").val() != '' && !validateEmail("#emergn_email", $("#emergn_email").val())) {
+                checkvalidate = true;
+            }
+
+            if (obj["order_receipt"].length == 0) {
+                $("#table-invoice").parent().addClass("error");
+                $("#table-invoice").parent().append(required_mgs);
+                checkvalidate = true;
+            }
+
+            if (obj["order_delivery"].length == 0) {
+                $("#table-order-code").parent().addClass("error");
+                $("#table-order-code").parent().append(required_mgs);
+                checkvalidate = true;
+            }
+            if (!checkvalidate) {
+                PostBody(apiConfig.api.host_booking_service,
+                    apiConfig.api.order.controller,
+                    apiConfig.api.order.action.add_order.path,
+                    apiConfig.api.order.action.add_order.method,
+                    obj,
+                    'fnAddSuccess', 'msgError');
+                return;
+            }
+        }
+
+        function fnAddSuccess(result) {
+            $("#modal-image").html('');
+            $("#modal-code").text(result.code);
+            var qrcode = new QRCode("modal-image", {
+                text: result.code,
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+                width: 200,
+                Height: 230,
+                correctLevel: QRCode.CorrectLevel.H
+            });
+            //$("#modal-image").attr("src", result.qr_image);
+            $('#QRModal').modal('show');
+
+        }
+
+        function Download() {
+            var a = document.createElement("a");
+            a.href = $("#modal-image img").attr("src");
+            a.download = $("#modal-code").text() + ".png";
+            a.click();
+            a.remove();
+        }
+    </script>
+}

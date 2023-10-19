@@ -1,0 +1,481 @@
+﻿@using Frontend.Resource
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .dataTables_wrapper {
+        position: relative;
+        margin-top: 30px;
+    }
+
+    .btn-header {
+        min-width: 100px;
+        margin-bottom: 10px;
+        padding: 3px;
+    }
+
+    .aeon-img {
+        min-width: 100px;
+        padding: 0px 5px !important;
+    }
+
+        .aeon-img img {
+            border-radius: 5px;
+        }
+
+    .fstElement {
+        width: 100%;
+        font-size: 9px;
+        border: none;
+        display: block;
+    }
+
+    .fstMultipleMode .fstControls {
+        width: 100%;
+        padding: 0.5em 0 0 0;
+    }
+
+    .fstToggleBtn {
+        font-size: 14px;
+        padding: 4px 6px;
+    }
+
+    .description-text {
+        width: 30%;
+    }
+
+    .btn-header i {
+        font-size: 18px !important;
+    }
+
+    .maxwidth {
+        min-width: 200px !important;
+        max-width: 200px !important;
+        white-space: normal !important;
+    }
+    .index{
+        text-align:center
+    }
+    .number{
+        text-align:right
+    }
+    .error{
+        color:red
+    }
+        a {
+      text-decoration: none;
+      display: inline-block;
+      padding: 8px 16px;
+    }
+
+    a:hover {
+      background-color: #ddd;
+      color: black;
+    }
+
+    .previous {
+      background-color: #f1f1f1;
+      color: black;
+    }
+
+    .next {
+      background-color: #04AA6D;
+      color: white;
+    }
+
+    .round {
+      border-radius: 50%;
+    }
+</style>
+@section jsFooter{
+    <script type="text/javascript">
+        var sTable;
+        var totalrow = 0;
+        var skip = 1;
+        var toprow = 100;
+        var total = 0;
+        $(document).ready(function () { 
+
+              callApi_multipleselect(
+            '#store_reference', '@Html.Raw(@Resource.lbl_enter_store_name)',
+            apiConfig.api.host_user_service,
+            apiConfig.api.store.controller,
+            apiConfig.api.store.action.dropdown_store.path,
+            false
+            );
+
+            callApi_multipleselect(
+            '#supplier_reference', '@Html.Raw(Resource.lbl_enter_supplier_no)',
+            apiConfig.api.host_booking_service,
+            apiConfig.api.supplier.controller,
+            apiConfig.api.supplier.action.dropdown_supplier.path,
+            false
+            );
+
+            callApi_multipleselect(
+               '#line_reference', '@Html.Raw(Resource.lbl_choose_line)',
+               apiConfig.api.host_booking_service,
+                apiConfig.api.line.controller,
+               apiConfig.api.line.action.dropdown_line.path,
+              false
+            );
+
+            callApi_multipleselect(
+            "#department_reference", '@Html.Raw(@Resource.lbl_choose_department)',
+            apiConfig.api.host_booking_service,
+            apiConfig.api.line.controller,
+            apiConfig.api.line.action.dropdown_linedepartment.path,
+            false,
+            {
+                "l": "#line_reference"
+            }
+            );
+
+
+
+           $('#line_reference').on('select2:select', function(e) {
+                 $('#department_reference').val('').trigger('change');
+            });
+
+          $('#store_reference').on('select2:select', function(e) {
+            $('#registime_reference').val('').trigger('change');
+        });
+
+        $('#supplier_reference').on('select2:select', function(e) {                 
+            $("#supplier_name").empty();
+            $("#supplier_name").val
+            (
+               GetUrl1(apiConfig.api.host_booking_service,
+                apiConfig.api.supplier.controller,
+                apiConfig.api.supplier.action.get_supplier.path,
+                apiConfig.api.supplier.action.get_supplier.method,
+                {
+                    reference_id: $(this).val()
+                },
+                'fnSuccess1', 'msgError').supplier_name
+            );
+
+         });
+        
+        });      
+        
+        function initializeSelect2(selector) {
+            callApi_multipleselectPaging(
+                selector, '@Html.Raw(@Resource.lbl_choose_line_department)',
+                apiConfig.api.host_booking_service,
+                apiConfig.api.product.controller,
+                apiConfig.api.product.action.dropdown_product.path,
+                false
+            );
+        };
+
+        function IsNumeric(e) {
+            var specialKeys = new Array();
+            specialKeys.push(8);
+            var keyCode = e.which ? e.which : e.keyCode
+            var ret = ((keyCode >= 48 && keyCode <= 57) || specialKeys.indexOf(keyCode) != -1);
+            return ret;
+        }
+
+        function createdatadropdown(data) 
+        {
+            var html = ''
+            if (data != null) {
+                
+                html += '<option value=""></option>';
+                data.rs.forEach((item) => {
+                html += '<option value="' + item.id + '">' + item.text + '</option>';
+                toprow = data.rs.length;
+                total = data.rs[0].total;
+            });        
+            }
+            
+            return html;
+        }      
+        function fnSuccess(result)
+        { 
+            return createdatadropdown(result);
+        }
+        function fnSuccess1(result) { 
+            return result;
+        }
+        function fnError(request,status,error) 
+        { 
+            return request;
+        }
+
+        //add new row
+        function addrow() {         
+                markup = "<tr class='returndetail'>"
+                    + "<td class='index'></td>"
+                    + "<td><select class='productcode form-control frmFilter' onchange='getNameByCode(event)' required></select></td>"
+                    + "<td><label class='productname form-control frmFilter'/></label></td>"
+                    + "<td><input  class='number form-control frmFilter' onkeypress='return IsNumeric(event);' type='text' maxlength = '9'/></td>"
+                    + "<td><input class='note form-control frmFilter' maxlength = '200'/></td>"                    
+                    + "<td> <button type='button' class='btn bg-aeon waves-effect' onClick='Deleterow(event)'><i class='material-icons'>remove</i></button></td>"
+                    + "</tr>";
+                tableBody = $("#Return tbody");
+                tableBody.append(markup);
+            var newSelection = $("#Return tr").last().find(".productcode");
+            initializeSelect2(newSelection);
+            addindex();
+            //ix++;
+        };
+        function addindex() {
+            $.each($("#Return tr"), function(i, v) {               
+                $(v).find(".index").html(i);
+                totalrow = i;
+            });
+        };
+
+        function Deleterow(event) {                                
+                    if (totalrow > 1) {
+                        if ($(event.target).closest("tr").hasClass("update")) {
+                            var object = {
+                            reference_id: $(event.target).closest("tr").find(".detail_reference_id").text(),
+                            id: $(event.target).closest("tr").find(".detail_id").text()
+                            };
+                            ArrayDelete.push(object);
+                        }
+                        
+                        $(event.target).closest("tr").remove();
+                        addindex();
+                    }
+                    else {                       
+                         $(event.target).closest("tr").find(".productcode").empty();
+                         $(event.target).closest("tr").find(".productname").text('');
+                         $(event.target).closest("tr").find(".number").val('');
+                         $(event.target).closest("tr").find(".note").val('');
+                    }                                
+        };
+
+        //get name when select change
+        function getNameByCode(event) { 
+             
+            var result =  GetUrl1(apiConfig.api.host_booking_service,
+                apiConfig.api.product.controller,
+                apiConfig.api.product.action.get_product.path,
+                apiConfig.api.product.action.get_product.method,
+                {
+                    reference_id: $(event.target).val()
+                },
+                'fnSuccess1', 'fnError');
+
+                $(event.target).closest("tr").find(".productname").text(result.product_name != null ? result.product_name :'');
+               
+        };
+
+        function Save() {
+            var formdata = new FormData($(".formdata")[0]);      
+            validateform(formdata);
+        }
+        
+        function fnAddSuccess(result) {
+            toastr.success('@Html.Raw(Resource.lbl_addSuccess)', '@Html.Raw(@Resource.lbl_noti)');
+            setTimeout(function() {
+                window.location.href = '/Return'
+            }, 600)
+        }
+
+        var required_mgs = '<label id="name-error" class="error">This field is required.</label>';
+        function validateform(formdata) {
+            $("label.error").remove();
+            $(".error").removeClass("error");
+            var count = 0;
+            var checkvalidate = false;
+                if ($("#" + "store_reference").val() == null) {
+                    $(".formdata #" + "store_reference").parent().addClass("error");
+                    $(".formdata #" + "store_reference").parent().parent().append(required_mgs);
+                    checkvalidate = true;
+                }
+                 if ($("#" + "line_reference").val() == null) {
+                    $(".formdata #" + "line_reference").parent().addClass("error");
+                    $(".formdata #" + "line_reference").parent().parent().append(required_mgs);
+                    checkvalidate = true;
+                }
+                 if ($("#" + "department_reference").val() == null) {
+                    $(".formdata #" + "department_reference").parent().addClass("error");
+                    $(".formdata #" + "department_reference").parent().parent().append(required_mgs);
+                    checkvalidate = true;
+                }
+                 if ($("#" + "supplier_reference").val() == null) {
+                    $(".formdata #" + "supplier_reference").parent().addClass("error");
+                    $(".formdata #" + "supplier_reference").parent().parent().append(required_mgs);
+                    checkvalidate = true;
+                }
+
+                $("#Return tr.returndetail").each(function(i, v) {
+                    if ($(v).find(".productcode").val() == null) {
+                        $(v).find(".productcode").parent().addClass("error");
+                        $(v).find(".productcode").parent().append(required_mgs);
+                        checkvalidate = true;
+                    };
+                });                  
+                 if (!checkvalidate) {
+                var formdata = new FormData();
+                var index = 0;
+                 $(".formdata").each(function () {
+                    var _formdata = new FormData(this);
+                    formdata.append("ReturnParam.ReturnModel.store_reference", $("#store_reference").val());
+                    formdata.append("ReturnParam.ReturnModel.line_reference", $("#line_reference").val());
+                    formdata.append("ReturnParam.ReturnModel.department_reference", $("#department_reference").val());
+                    formdata.append("ReturnParam.ReturnModel.supplier_reference", $("#supplier_reference").val())
+                    formdata.append("ReturnParam.ReturnModel.supplier_name", $("#supplier_name").val());
+                    formdata.append("ReturnParam.ReturnModel.date", $("#date").val());
+                    formdata.append("ReturnParam.ReturnModel.time", $("#time").val());
+                     $.each($("#Return tr.returndetail"), function(i, v) {
+                         if ($(v).find(".productcode :selected").text() != null) { 
+                              formdata.append("ReturnParam.ReturnDetailModelCreate[" + i + "].product_code", $(v).find(".productcode :selected").text());
+                              formdata.append("ReturnParam.ReturnDetailModelCreate[" + i + "].product_name", $(v).find(".productname").text());
+                              formdata.append("ReturnParam.ReturnDetailModelCreate[" + i + "].number", $(v).find(".number").val());
+                              formdata.append("ReturnParam.ReturnDetailModelCreate[" + i + "].note", $(v).find(".note").val());
+                              formdata.append("ReturnParam.ReturnDetailModelCreate[" + i + "].product_reference", $(v).find(".productcode").val());  
+                         }                      
+                     }
+                     );
+                     index++;
+                   
+                })            
+                PostFormData(apiConfig.api.host_booking_service,apiConfig.api.return.controller,apiConfig.api.return.action.add_return.path,apiConfig.api.return.action.add_return.method,formdata
+                   ,'fnAddSuccess', 'fnError');
+            }
+       }  
+    </script>
+}
+<div class="row clearfix">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2>@Resource.lbl_return_title</h2>
+               
+            </div>
+
+            <div class="body">
+                <div class="table-responsive">
+                    <form id="form_data" class="formsubmit formdata" method="post" action="" enctype="multipart/form-data">
+                        <div>
+                            <div class="col-md-12">
+                                      <div class="col-md-1 lbl-title no-padding" style="display:inline-table;">
+                                    <label class="required">@Resource.lbl_store</label>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <div class="form-line selectlist">
+                                           <select class="form-control frmFilter" id="store_reference" required name="store_reference" style="width:100%">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> 
+                            <div class="col-md-12">
+                                <div class="col-md-1 lbl-title no-padding">
+                                <label class="required">@Resource.lbl_line</label>
+                            </div>
+                             <div class="col-md-5">
+                                    <div class="form-group">
+                                        <div class="form-line selectlist">
+                                            <select class="form-control frmFilter" id="line_reference" required name="line_reference" style="width:100%">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-1 lbl-title no-padding">
+                                <label class="required">@Resource.lbl_department</label>
+                            </div>
+                             <div class="col-md-5">
+                                    <div class="form-group">
+                                        <div class="form-line selectlist">
+                                            <select class="form-control frmFilter" id="department_reference" required name="department_reference" style="width:100%">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                             <div class="col-md-12">
+                                <div class="col-md-1 lbl-title no-padding">
+                                <label class="required">@Resource.lbl_supplier_no</label>
+                            </div>
+                             <div class="col-md-5">
+                                    <div class="form-group">
+                                        <div class="form-line selectlist">
+                                            <select class="form-control frmFilter" id="supplier_reference" required name="supplier_reference" style="width:100%">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> 
+                             <div class="col-md-12">
+                                <div class="col-md-1 lbl-title no-padding">
+                                <label>@Resource.lbl_supplier_name</label>
+                            </div>
+                             <div class="col-md-5">
+                                    <div class="form-group">
+                                        <div class="form-line selectlist">
+                                            <input type="text"  class="form-control frmFilter" id="supplier_name" placeholder ="@Resource.lbl_enter_supplier_name" name="supplier_name" style="width:100%" disabled/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>          
+                               <div class="col-md-2 lbl-title" style="display:inline-table">
+                                      <label style="min-width:30px;">@Resource.lbl_date</label>
+                              </div>
+                              <div class="col-md-3">
+                                <div class="form-group">
+                                    <div class="form-line selectlist">                       
+                                        <div style="display:block;z-index:50;">
+                                            <input class="form-control frmFilter" id="date" name="date" tabindex="-1" type="date">
+                                        </div>
+                                    </div>
+                               </div>
+                                                          
+                               </div>
+
+                                <div class="col-md-2 lbl-title" style="display:inline-table">
+                                      <label style="min-width:30px;">@Resource.lbl_choose_time</label>
+                              </div>
+                               <div class="col-md-3">
+                                <div class="form-group">
+                                    <div class="form-line selectlist">                       
+                                        <div style="display:block;z-index:50;">
+                                              <input class="form-control frmFilter" id="time" name="date" tabindex="-1" type="time">
+                                        </div>
+                                    </div>
+                                </div>
+                               </div>
+                                <div class="col-md-12">
+                                    <table id="Return" class="table table-bordered table-striped table-hover dataTable js-exportable" style="min-width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center">@Resource.lbl_no</th>                                
+                                                <th><label class="required">@Resource.lbl_product_code</label></th>
+                                                <th>@Resource.lbl_product_name</th>
+                                                <th>@Resource.lbl_number</th>
+                                                <th>@Resource.lbl_note</th>
+                                                 <th style="width:1%"><button type="button" onclick="addrow()" class="btn btn-success"><i class="material-icons">add</i></button></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                               
+                      </div>
+                     <div>                    
+                </div>
+                    </form>
+                    
+
+                </div>
+
+            </div>
+           
+        </div>
+        <div>
+            <button type="button" onclick="window.location.href='/Return'" class="btn waves-effect" style="margin-right:5px">Back</button>
+                    <button type="button" class="btn bg-aeon waves-effect" onclick="Save()">Save</button>
+        </div>
+    </div>
+</div>
+

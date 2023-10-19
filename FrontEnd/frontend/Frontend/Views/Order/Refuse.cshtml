@@ -1,0 +1,402 @@
+﻿@using Frontend.Resource
+@{
+    ViewBag.Title = "Refuse";
+    Layout = "_Layout";
+}
+<link href="~/css/register.css" rel="stylesheet" type="text/css" />
+<style>
+
+    .img-content {
+        width: 100%;
+    }
+
+    .img-content {
+        position: relative;
+        border: 1px solid #ddd;
+        display: inline-block;
+    }
+
+    .product {
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+        width: 30px;
+        height: 30px;
+    }
+
+        .product img {
+            flex-shrink: 0;
+            width: 30px;
+            height: 30px
+        }
+
+</style>
+<div class="mask d-flex align-items-center h-100 gradient-custom-3" style="overflow: auto">
+    <div class="container h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-lg-12 col-xl-12">
+                <div class="card rounded-3">
+                    <div class="card-body p-4 p-md-5">
+                        <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2 text-center">Vui lòng nhập thông tin bên dưới để phê duyệt</h3>
+                        <form id="form_data" class="px-md-2">
+                            <input type="hidden" class="frmData" id="ReferenceId" name="ReferenceId" />
+                            <!--Store-->
+                            <div class="row my-2">
+                                <div class="col-md-3 col-sm-3 col-xs-3 col-xl-3">
+                                    <label>@Resource.lbl_register_store</label>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <input class="form-control" readonly id="store_reference" name="store_reference" style="width:100%" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Department code-->
+                            <div class="row my-2">
+                                <div class="col-md-3 col-sm-3 col-xs-3 col-xl-3">
+                                    <label>@Resource.lbl_register_department_code</label>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <input class="form-control" readonly id="department_code" name="department_code" style="width:100%" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Receipt no-->
+                            <div class="row my-2">
+                                <div class="col-md-3 col-sm-3 col-xs-3 col-xl-3">
+                                    <label>@Resource.lbl_register_receipt_no</label>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <input class="form-control" readonly id="receipt_no" name="receipt_no" style="width:100%" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Receiver name-->
+                            <div class="row my-2">
+                                <div class="col-md-3 col-sm-3 col-xs-3 col-xl-3">
+                                    <label class="required">@Resource.lbl_register_receiver_name</label>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <input class="form-control frmData" required id="Receiver_Name" name="Receiver_Name" style="width:100%" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Receiver department name-->
+                            <div class="row my-2">
+                                <div class="col-md-3 col-sm-3 col-xs-3 col-xl-3">
+                                    <label class="required">@Resource.lbl_register_receiver_department_name</label>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <input class="form-control frmData" required id="Receiver_Department" name="Receiver_Department" style="width:100%" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Reason-->
+                            <div class="row my-2">
+                                <div class="col-md-3 col-sm-3 col-xs-3 col-xl-3">
+                                    <label class="required">@Resource.lbl_register_reason</label>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <input class="form-control frmData" required id="Reason" name="Reason" style="width:100%" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Refuse status-->
+                            <div class="row my-2">
+                                <div class="col-md-3 col-sm-3 col-xs-3 col-xl-3">
+                                    <label>@Resource.lbl_register_refuse</label>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="form-group row">
+                                        <div class="col-md-2">
+                                            <input type="radio" name="Refuse_Status" id="Full" class="with-gap" checked="checked" value="0">
+                                            <label for="Full" style="margin-bottom:0">Full</label>
+                                        </div>
+                                        <div class="col-md-2" style="border-left:0;">
+                                            <input type="radio" name="Refuse_Status" id="Apart" class="with-gap" value="1">
+                                            <label for="Apart" style="margin-bottom:0">A Part</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Receipt status-->
+                            <div class="row my-2">
+                                <div class="col-md-3 col-sm-3 col-xs-3 col-xl-3">
+                                    <label>@Resource.lbl_register_receipt_status</label>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <select class="form-control frmData" id="Receipt_Status" name="Receipt_Status" readonly>
+                                            <option value="3">@Resource.lbl_receipt_return</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Image info-->
+                            <div class="row my-2 full">
+                                <div class="col-md-12">
+                                    <label>Image</label>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="img-content">
+                                                <input type="file" hidden id="ImageFile1" name="ImageFile1" required onchange="readURLC(this);" data-imageid="Image1" />
+                                                <img id="Image1" src="https://dummyimage.com/600x400/000/fff" onclick="$('#ImageFile1').click()" style="cursor:pointer;width:100%;" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="img-content">
+                                                <input type="file" hidden id="ImageFile2" name="ImageFile2" required onchange="readURLC(this);" data-imageid="Image2" />
+                                                <img id="Image2" src="https://dummyimage.com/600x400/000/fff" onclick="$('#ImageFile2').click()" style="cursor:pointer;width:100%;" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="img-content">
+                                                <input type="file" hidden id="ImageFile3" name="ImageFile3" required onchange="readURLC(this);" data-imageid="Image3" />
+                                                <img id="Image3" src="https://dummyimage.com/600x400/000/fff" onclick="$('#ImageFile3').click()" style="cursor:pointer;width:100%;" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Suplier info-->
+                            <div class="apart" style="display:none">
+                                <div class="row my-2">
+                                    <div class="col-md-3 col-sm-3 col-xs-3 col-xl-3">
+                                        <label>@Resource.lbl_register_supplier_no</label>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="form-group">
+                                            <input class="form-control" readonly id="supplier_code" name="supplier_code" style="width:100%" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row my-2">
+                                    <div class="col-md-3 col-sm-3 col-xs-3 col-xl-3">
+                                        <label>@Resource.lbl_register_supplier_name</label>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="form-group">
+                                            <input class="form-control" readonly id="supplier_name" name="supplier_name" style="width:100%" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--product-->
+                            <div class="row my-2 apart" style="display:none">
+                                <div class="col-md-12 mb-4">
+                                    <div class="table-responsive">
+                                        <table id="tableproduct" class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col" class="fw-bold">@Resource.lbl_product_code</th>
+                                                    <th scope="col" class="fw-bold">@Resource.lbl_product_name</th>
+                                                    <th scope="col" class="fw-bold">@Resource.lbl_product_total_order</th>
+                                                    <th scope="col" class="fw-bold">@Resource.lbl_product_total_refuse</th>
+                                                    <th scope="col" class="fw-bold">@Resource.lbl_product_upload_image</th>
+                                                    <th scope="col" class="fw-bold">@Resource.lbl_product_note</th>
+                                                    <th scope="col" class="fw-bold"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="row">
+                                        <button type="button" onclick="AddRow()" class="btn btn-success btn-lg mb-1 m-auto" style="width:100px">
+                                            <i class="material-icons">add</i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row text-center my-2">
+                                <div class="col-md-6">
+                                    <button onclick="Submit()" type="button" class="btn btn-success btn-lg mb-1 m-auto col-md-6 float-right">@Resource.btn_approve</button>
+                                </div>
+                                <div class="col-md-6">
+                                    <button onclick="GoBack()" type="button" class="btn btn-lg mb-1 m-auto col-md-6 float-left">@Resource.btn_cancel</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function() {
+            $("#Receipt_Status").on('change', function() {
+                var value = $(this).val();
+                if (value == 2) {
+                    $("#receipt_label").text('@Html.Raw(Resource.lbl_register_miss_invoice)');
+                    $(".Delivery_Invoice_Date").show();
+                    $(".Miss_Invoice_Number").show();
+                    $(".required_item").prop("required", true);
+                } else
+                    if (value == 3) {
+                        $("#receipt_label").text('@Html.Raw(Resource.lbl_register_return_invoice)');
+                        $(".Delivery_Invoice_Date").show();
+                        $(".Miss_Invoice_Number").show();
+                        $(".required_item").prop("required", true);
+                    } else {
+                        $(".Delivery_Invoice_Date").hide();
+                        $(".Miss_Invoice_Number").hide();
+                        $(".required_item").prop("required", false);
+                    }
+            })
+
+            $("input[name='Refuse_Status']").on('change', function() {
+                var value = $(this).val();
+                if (value == 0) {
+                    $(".full").css("display", "block")
+                    $(".apart").css("display", "none")
+                }
+                else {
+                    $(".full").css("display", "none")
+                    $(".apart").css("display", "block");
+                }
+            })
+
+            GetUrl(apiConfig.api.host_booking_service,
+                apiConfig.api.order.controller,
+                apiConfig.api.order.action.get_order.path,
+                apiConfig.api.order.action.get_order.method,
+                {
+                    reference_id: GetUrlParam('reference_id')
+                },
+                'fnGetSuccess', 'msgError');
+        })
+
+        function initializeSelect2(selector) {
+            callApi_multipleselectPaging(
+                selector, '@Html.Raw(@Resource.lbl_choose_line_department)',
+                apiConfig.api.host_booking_service,
+                apiConfig.api.product.controller,
+                apiConfig.api.product.action.dropdown_product.path,
+                false
+            );
+        }
+
+        function ChangeSelect(input) {
+            $(input).closest("tr").find(".product_name").text($(input).select2('data')[0].product_name);
+        }
+        function fnGetSuccess(result) {
+            $("#ReferenceId").val(GetUrlParam('reference_id'));
+            $("#store_reference").val(result.store_name);
+            $("#department_code").val(result.department_code);
+            $("#receipt_no").val(result.order_receipt.map(u => u.code).join(', '));
+            $("#supplier_code").val(result.supplier_code);
+            $("#supplier_name").val(result.supplier_name);
+        }
+
+        function AddRow() {
+            var html = `<tr>\
+                                        <td><select class="product_reference" onchange="ChangeSelect(this)"></select></td>\
+                                        <td class="product_name" style="word-break: break-word;width:350px"></td>\
+                                        <td><input type="number" oninput="this.value = !!this.value && Math.abs(this.value) >= 0 ? Math.abs(this.value) : null;" class="product_total_order" min="0" value="0" style="width:100px" /></td>\
+                                        <td><input type="number" oninput="this.value = !!this.value && Math.abs(this.value) >= 0 ? Math.abs(this.value) : null;" class="product_total_refuse" min="0" value="0" style="width:100px" /></td>\
+                                        <td style="width:120px">\
+                                            <div class="d-flex flex-wrap">\
+                                                <div class="product justify-content-center align-items-center">\
+                                                    <input type="file" hidden id="ProductFile1" name="ProductFile1" onchange="readURLC(this);" data-imageid="ProductImage1" />\
+                                                    <img id="ProductImage1" src="https://dummyimage.com/600x400/000/fff" onclick="ImageClick(this)" style="cursor:pointer;width:100%;" />\
+                                                </div>\
+                                                <div class="product justify-content-center align-items-center">\
+                                                    <input type="file" hidden id="ProductFile2" name="ProductFile2" onchange="readURLC(this);" data-imageid="ProductImage2" />\
+                                                    <img id="ProductImage2" src="https://dummyimage.com/600x400/000/fff" onclick="ImageClick(this)" style="cursor:pointer;width:100%;" />\
+                                                </div>\
+                                                <div class="product justify-content-center align-items-center">\
+                                                    <input type="file" hidden id="ProductFile3" name="ProductFile3" onchange="readURLC(this);" data-imageid="ProductImage3" />\
+                                                    <img id="ProductImage3" src="https://dummyimage.com/600x400/000/fff" onclick="ImageClick(this)" style="cursor:pointer;width:100%;" />\
+                                                </div>\
+                                            </div>\
+                                        </td>\
+                                        <td><textarea rows="2" maxlength="200" class="product_note"></textarea></td>\
+                                        <td><button title="Remove" type="button" class="btn btn-action btn-danger waves-effect" onclick="Remove(this)"><i class="material-icons">close</i></button></td>\
+                                                                                                                                                                                                                                            </tr>`;
+            $("#tableproduct").append(html);
+            var newSelection = $("#tableproduct").find("select").last();
+            initializeSelect2(newSelection);
+
+        }
+
+        function ImageClick(input) {
+            $(input).parent().find('input[type="file"]').click();
+        }
+        function Remove(input) {
+            $(input).closest('tr').remove();
+        }
+
+        var required_mgs = '<label id="name-error" class="error">@Html.Raw(Resource.lbl_required)</label>';
+        function Submit() {
+            var formData = new FormData();
+            $("label.error").remove();
+            $(".error").removeClass("error");
+            var data = [];
+            var $filter = $('#form_data').find('.frmData');
+            $.each($filter, function(i, o) {
+                data.push({ "name": $(o).attr('name'), "value": $(o).val() });
+            });
+            var obj = {};
+            var checkvalidate = false;
+            for (var key of data) {
+                if ($("#" + key.name).prop("required") && (key.value == null || key.value.toString().trim() == "")) {
+                    $("#" + key.name).parent().addClass("error");
+                    $("#" + key.name).parent().append(required_mgs);
+                    checkvalidate = true;
+                }
+                formData.append("orderRefuseDto." + key.name, key.value);
+            }
+            formData.append("orderRefuseDto.Refuse_Status", $("input[name='Refuse_Status']:checked").val());
+            formData.append("orderRefuseDto.ImageFile", $('#ImageFile1')[0].files[0]);
+            formData.append("orderRefuseDto.ImageFile", $('#ImageFile2')[0].files[0]);
+            formData.append("orderRefuseDto.ImageFile", $('#ImageFile3')[0].files[0]);
+            var image = []
+            var checkproduct = 0;
+            $("#tableproduct tbody").find("tr").each(function(e, v) {
+                checkproduct = 1;
+                formData.append("orderRefuseDto.Order_Product[" + e + "].Product_Reference", $(v).find(".product_reference").val());
+                formData.append("orderRefuseDto.Order_Product[" + e + "].Product_Code", $(v).find(".product_reference").text());
+                formData.append("orderRefuseDto.Order_Product[" + e + "].Product_Name", $(v).find(".product_name").text());
+                formData.append("orderRefuseDto.Order_Product[" + e + "].Product_Total_Order", $(v).find(".product_total_order").val());
+                formData.append("orderRefuseDto.Order_Product[" + e + "].Product_Total_Refuse", $(v).find(".product_total_refuse").val());
+                formData.append("orderRefuseDto.Order_Product[" + e + "].Product_Note", $(v).find(".product_note").val());
+                formData.append("orderRefuseDto.Order_Product[" + e + "].ImageFile", $(v).find("#ProductFile1")[0].files[0]);
+                formData.append("orderRefuseDto.Order_Product[" + e + "].ImageFile", $(v).find("#ProductFile2")[0].files[0]);
+                formData.append("orderRefuseDto.Order_Product[" + e + "].ImageFile", $(v).find("#ProductFile3")[0].files[0]);
+            })
+
+            if ($("input[name='Refuse_Status']:checked").val() == 1 && checkproduct == 0) {
+                toastr.warning('@Html.Raw(Resource.lbl_choose_product)', '@Html.Raw(@Resource.lbl_warning)');
+                checkvalidate = true;
+            }
+
+            if (!checkvalidate) {
+                PostFormData(apiConfig.api.host_booking_service,
+                    apiConfig.api.order.controller,
+                    apiConfig.api.order.action.refuse_order.path,
+                    apiConfig.api.order.action.refuse_order.method,
+                    formData,
+                    'fnRefuseSuccess', 'msgError');
+                return;
+            }
+        }
+
+        function fnRefuseSuccess(result) {
+            toastr.success('@Html.Raw(Resource.lbl_refuseSuccess)', '@Html.Raw(@Resource.lbl_noti)');
+            setTimeout(function() {
+                window.location.href = '/Order'
+            }, 600)
+        }
+
+        function GoBack() {
+            window.location.href = '/Order'
+        }
+    </script>
+}

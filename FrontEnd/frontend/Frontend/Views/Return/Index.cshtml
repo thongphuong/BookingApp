@@ -1,0 +1,355 @@
+﻿@using Frontend.Resource
+@using Frontend.Utils
+@{
+    ViewBag.Title = "Index";
+    Layout = "_Layout";
+}
+
+<style>
+    .dataTables_wrapper {
+        position: relative;
+        margin-top: 30px;
+    }
+
+    .btn-header {
+        min-width: 100px;
+        margin-bottom: 10px;
+        padding: 3px;
+    }
+
+    .aeon-img {
+        min-width: 100px;
+        padding-left: 5px !important;
+        padding-right: 5px !important;
+    }
+
+        .aeon-img img {
+            border-radius: 5px;
+        }
+
+    .fstElement {
+        width: 100%;
+        font-size: 9px;
+        border: none;
+        display: block;
+    }
+
+    .fstMultipleMode .fstControls {
+        width: 100%;
+        padding: 0.5em 0 0 0;
+    }
+
+    .fstToggleBtn {
+        font-size: 14px;
+        padding: 4px 6px;
+    }
+
+    .description-text {
+        width: 30%;
+    }
+
+    .btn-header i {
+        font-size: 18px !important;
+    }
+
+    .wrapok {
+        white-space: normal;
+        min-width: 200px;
+        word-break: break-word;
+        max-width: 300px
+    }
+</style>
+<div class="row clearfix">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2 class="pull-left">
+                    @Resource.lbl_return_search_title
+                </h2>        
+            </div>
+            <div class="body">
+                <div class="table-responsive">
+                    <form id="frmFilter" method="post" class="formsearch">
+                        
+                            <div class="col-md-1" style="float:left">
+                                <button type="submit" class="btn btn-sm btn-header bg-aeon waves-effect">
+                                    <i class="material-icons">search</i>
+                                    <span>@Resource.btn_search</span>
+                                </button>
+                                <button type="reset" class="btn btn-sm btn-header bg-cyan waves-effect" onclick="Reset()">
+                                    <i class="material-icons">refresh</i>
+                                    <span>@Resource.btn_clear</span>
+                                </button>
+                                 @if (Permission.CheckPermissions("Return", "Add"))
+                                {
+                                     <button type="button" class="btn btn-sm btn-header btn-success waves-effect" onclick="window.location.href='/Return/Add'">
+                                         <i class="material-icons">add</i>
+                                        <span>@Resource.btn_add</span>
+                                    </button>
+                                    <p style="height:40px;width:0px">
+                                    </p>
+                                }                          
+                                
+                            </div>               
+
+                        <div class="row">
+                                     
+                               <div class="col-md-2 lbl-title">
+                                    <label>@Resource.lbl_store</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="form-line selectlist">
+                                            <select class="form-control frmFilter" id="store_reference" name="store_reference" style="width:100%">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 lbl-title">
+                                    <label>@Resource.lbl_supplier_name</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="form-line selectlist">
+                                             <select class="form-control frmFilter" id="supplier_reference" name="supplier_reference" style="width:100%">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row col-md-11">
+                                 <div class="col-md-2 lbl-title">
+                                    <label>@Resource.lbl_line_code</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="form-line selectlist">
+                                            <select class="form-control frmFilter" id="line_reference" name="line_reference" style="width:100%">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                     <div class="col-md-2 lbl-title" style="display:inline-table">
+                                             <label style="min-width:30px;">@Resource.lbl_time</label>
+                                        </div>
+                                 <div class="col-md-2">
+                                <div class="form-group">
+                                    <div class="form-line selectlist">                       
+                                        <div style="display:block;z-index:50;">
+                                            <input class="form-control frmFilter" id="start_date" name="start_date" tabindex="-1" type="date">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <div class="form-line selectlist">
+                                        <div style="display:block;z-index:50;">                                     
+                                            <input class="form-control frmFilter" id="end_date" name="end_date" tabindex="-1" type="date">
+                                        </div>
+                                    </div>
+                                </div>
+                                              
+                            </div>                      
+                                 
+                            </div>
+                            <div class="row">
+                                  <div class="col-md-2 lbl-title">
+                                    <label>@Resource.lbl_department</label>
+                                </div>
+                                 <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="form-line selectlist">
+                                           <select class="form-control frmFilter" id="department_reference" name="department_reference" style="width:100%">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                        </div>
+                    </form>
+                    <div class="col-md-12">
+                        <table id="return" class="table table-bordered table-striped table-hover dataTable js-exportable" style="width:99%;">
+                            <thead>
+                                <tr>
+                                    <th>@Resource.lbl_no</th>
+                                    <th>@Resource.lbl_line</th>
+                                    <th>@Resource.lbl_department</th>
+                                    <th>@Resource.lbl_supplier_name</th>
+                                    <th>@Resource.lbl_store</th>
+                                    <th>@Resource.lbl_date</th>                               
+                                    <th>@Resource.lbl_command</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                            <tbody role="alert" aria-live="polite" aria-relevant="all"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        var sTable;
+        $(document).ready(function () {
+            $(".focused").removeClass("focused")
+            var customRow = [
+                {
+                    "targets": [0,5],
+                    "width": "1%",
+                }
+                ,
+                {
+                    "targets": 2,
+                    "className": "text-center aeon-img",
+                    "width": "1%",
+                },
+                {
+                    "targets": [3, 4, 5],
+                    "className": "wrapok",
+                },
+                {
+                    orderable: false, targets: [0, 2, 5]
+                }
+            ];
+            callApi_multipleselect(
+            '#store_reference', '@Html.Raw(Resource.lbl_choose_store)',
+            apiConfig.api.host_user_service,
+            apiConfig.api.store.controller,
+            apiConfig.api.store.action.dropdown_store.path,
+            false
+            );
+
+            callApi_multipleselect(
+            '#supplier_reference', '@Html.Raw(Resource.lbl_choose_supplier)',
+            apiConfig.api.host_booking_service,
+           apiConfig.api.supplier.controller,
+            apiConfig.api.supplier.action.dropdown_supplier.path,
+            false
+            );
+
+            callApi_multipleselect(
+               '#line_reference', '@Html.Raw(Resource.lbl_choose_line)',
+               apiConfig.api.host_booking_service,
+              apiConfig.api.line.controller,
+              apiConfig.api.line.action.dropdown_line.path,
+              false
+            );
+
+          callApi_multipleselect(
+            "#department_reference", '@Html.Raw(@Resource.lbl_choose_line_department)',
+            apiConfig.api.host_booking_service,
+            apiConfig.api.line.controller,
+            apiConfig.api.line.action.dropdown_linedepartment.path,
+            false,
+            {
+                "l": "#line_reference"
+            }
+            );
+
+
+
+            $('#line_reference').on('select2:select', function(e) {
+                 $('#department_reference').val('').trigger('change');
+            });
+
+         $('#store_reference').on('select2:select', function(e) {
+            $('#registime_reference').val('').trigger('change');
+        });
+
+        $('#supplier_reference').on('select2:select', function(e) {
+            GetUrl(apiConfig.api.host_booking_service,
+                apiConfig.api.supplier.controller,
+                apiConfig.api.supplier.action.get_supplier.path,
+                apiConfig.api.supplier.action.get_supplier.method,
+                {
+                    reference_id: $(this).val()
+                },
+                'fnGetSuccess', 'msgError');
+        });
+
+        sTable = initDataTable("#return",apiConfig.api.host_booking_service + apiConfig.api.return.controller + apiConfig.api.return.action.get_table.path,customRow);
+        $('#frmFilter').submit(function (e) {
+             e.preventDefault();
+             sTable.draw();
+        });          
+        });
+        
+        function CallDelete(id) {
+            swal({
+                title: "@Html.Raw(Resource.lbl_delete_message)",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "@Html.Raw(Resource.btn_accept)",
+                cancelButtonText: "@Html.Raw(Resource.btn_cancel)",
+                closeOnConfirm: true,
+                closeOnCancel: true
+           },
+            function(isConfirm) {
+                if (isConfirm) {
+                    PostBody(apiConfig.api.host_booking_service, 
+                apiConfig.api.return.controller, 
+                apiConfig.api.return.action.delete_return.path, 
+                apiConfig.api.return.action.delete_return.method, 
+                { referenceId: id }, 
+                'fndeletesuccess',
+                msgError);
+                }
+            });           
+        }
+
+        function fndeletesuccess(data) {          
+           toastr.success('@Html.Raw(Resource.lbl_deleteSuccess)', '@Html.Raw(@Resource.lbl_noti)');
+             sTable.draw();
+        }
+
+        function CallChange(id) {
+
+             $.ajax({
+                type: 'POST',
+                url: "/Food/Changeactive",
+                datatype: 'json',
+                data: { referenceId: id },
+                success: function (data) {
+                    if (data.result) {
+                        notify.alert(data.message, 'SUCCESS', TITLE_STATUS_SUCCESS);
+                        sTable.draw();
+                    }
+                    else {
+                        notify.alert(data.message, 'ERROR', TITLE_STATUS_DANGER);
+                    }
+                }, complete: function () {
+                    spinner.close();
+                    sTable.draw();
+                }
+            });
+        }
+
+        function fnChangeSuccess(result) {
+        toastr.success('@Html.Raw(Resource.lbl_ChangeSuccess)', '@Html.Raw(@Resource.lbl_noti)');
+        sTable.draw();
+         }
+
+        function Edit(referenceid) {
+            window.location.href = "/Return/Edit?reference_id=" + referenceid;
+        }
+        function ShowDetail(referenceid) {
+            window.location.href = "/Return/Detail?reference_id=" + referenceid;
+        }
+         function Print(referenceid) {
+            window.location.href = "/Return/PrintInfo?reference_id=" + referenceid;
+        }
+        function Reset() {
+            $("#store_reference").empty();
+            $("#line_reference").empty();
+            $("#supplier_reference").empty();
+            $("#department_reference").empty();
+             $("#start_date").val('');
+              $("#end_date").val('');
+        }
+    </script>
+}

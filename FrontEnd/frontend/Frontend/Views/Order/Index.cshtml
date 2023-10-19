@@ -1,0 +1,288 @@
+﻿@using Frontend.Resource;
+@using Frontend.Utils
+@{
+    ViewData["Title"] = "List";
+    Layout = "_Layout";
+}
+<style>
+    .btn-header {
+        min-width: 100px;
+        margin-bottom: 10px;
+        padding: 3px;
+    }
+</style>
+
+<div class="row clearfix">
+    <div class="col-md-12 col-sm-12 col-xs-12 col-xl-12 col-lg-12">
+        <div class="card">
+            <div class="header">
+                <h2>
+                    @Resource.lbl_header_order
+                </h2>
+            </div>
+            <div class="body">
+                <form id="frmFilter" method="post" class="formsearch">
+                    <div class="row" style="justify-content: space-between;">
+                        <div class="col-md-1 col-sm-1 col-xs-1 col-xl-1 col-lg-1" style="display: inline-grid;">
+                            <button type="submit" class="btn btn-sm btn-header bg-aeon waves-effect">
+                                <i class="material-icons">search</i>
+                                <span>@Resource.btn_search</span>
+                            </button>
+                            <button type="reset" class="btn btn-sm btn-header bg-cyan waves-effect" onclick="resetForm(this.form,'registertable')">
+                                <i class="material-icons">refresh</i>
+                                <span>@Resource.btn_clear</span>
+                            </button>
+                            @if (Permission.CheckPermissions("Order", "Add"))
+                            {
+                                <button type="button" class="btn btn-sm btn-header btn-success waves-effect" onclick="window.location.href='/User/Add'">
+                                    <i class="material-icons">add</i>
+                                    <span>@Resource.btn_add</span>
+                                </button>
+                            }
+                            <button type="button" class="btn btn-sm btn-header bg-aeon waves-effect" onclick="Export()">
+                                <i class="material-icons">file_download</i>
+                                <span>@Resource.btn_export</span>
+                            </button>
+
+                        </div>
+                        <div class="col-md-10">
+                            <!--Supplier name / Department Code-->
+                            <div class="row">
+                                <div class="col-md-2 col-sm-2 col-xs-2 col-xl-2">
+                                    <label>@Resource.lbl_register_supplier_name</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input class="form-control frmFilter" id="supplier_name" name="supplier_name" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 col-sm-2 col-xs-2 col-xl-2">
+                                    <label>@Resource.lbl_register_department_code</label>
+                                </div>
+                                <div class="col-md-4 col-sm-4 col-xs-4 col-xl-4">
+                                    <div class="form-group">
+                                        <div class="form-line selectlist">
+                                            <input class="form-control frmFilter" id="department_code" name="department_code" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Delivery Status / Receipt Status-->
+                            <div class="row">
+                                <div class="col-md-2 col-sm-2 col-xs-2 col-xl-2">
+                                    <label>@Resource.lbl_register_delivery_status</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <select class="form-control frmFilter select2" id="delivery_status" name="delivery_status">
+                                                <option value="">All</option>
+                                                <option value="1">@Resource.lbl_delivered_full</option>
+                                                <option value="2">@Resource.lbl_delivered_partialy</option>
+                                                <option value="3">@Resource.lbl_delivered_not</option>
+                                                <option value="4">@Resource.lbl_delivered_return</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 col-sm-2 col-xs-2 col-xl-2">
+                                    <label>@Resource.lbl_register_receipt_status</label>
+                                </div>
+                                <div class="col-md-4 col-sm-4 col-xs-4 col-xl-4">
+                                    <div class="form-group">
+                                        <div class="form-line selectlist">
+                                            <select class="form-control frmFilter select2" id="receipt_status" name="receipt_status">
+                                                <option value="">All</option>
+                                                <option value="1">@Resource.lbl_receipt_full</option>
+                                                <option value="2">@Resource.lbl_receipt_missing</option>
+                                                <option value="3">@Resource.lbl_receipt_return</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Store / time-->
+                            <div class="row">
+                                <div class="col-md-2 col-sm-2 col-xs-2 col-xl-2">
+                                    <label>@Resource.lbl_register_store</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input class="form-control frmFilter" id="store" name="store" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 col-sm-2 col-xs-2 col-xl-2">
+                                    <label>@Resource.lbl_date</label>
+                                </div>
+                                <div class="col-md-4 col-sm-4 col-xs-4 col-xl-4">
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <input class="form-control frmFilter" type="date" id="date_from" name="date_from" />
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input class="form-control frmFilter" type="date" id="date_to" name="date_to" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        <table id="registertable" class="table table-bordered table-striped table-hover dataTable js-exportable" style="min-width:100%;">
+                            <thead>
+                                <tr>
+                                    <th>@Resource.lbl_no</th>
+                                    <th>@Resource.lbl_register_store</th>
+                                    <th>@Resource.lbl_register_department_code</th>
+                                    <th>@Resource.lbl_register_supplier_name</th>
+                                    <th>@Resource.lbl_register_driver_name</th>
+                                    <th>@Resource.lbl_register_receiver_name</th>
+                                    <th>@Resource.lbl_date</th>
+                                    <th>@Resource.lbl_register_receive_time</th>
+                                    <th>@Resource.lbl_register_check_in</th>
+                                    <th>@Resource.lbl_register_check_out</th>
+                                    <th>@Resource.lbl_register_delivery_status</th>
+                                    <th>@Resource.lbl_register_receipt_status</th>
+                                    <th>@Resource.lbl_register_reason</th>
+                                    <th>@Resource.lbl_register_public_link</th>
+                                    <th>@Resource.lbl_register_approve</th>
+                                    <th>@Resource.lbl_command</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                            <tbody role="alert" aria-live="polite" aria-relevant="all"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var sTable;
+    $(document).ready(function() {
+
+        var customRow = [
+            {
+                "targets": [0, 15],
+                "width": "1%",
+            },
+            {
+                "targets": [13],
+                "width": "100px",
+                render: function(data, type, row, meta) {
+                    if (data == "") return "";
+                    var url = location.protocol + '//' + location.host + "/register?t=" + data;
+                    return `<div style="display: flex;justify-content: center"><input type="text" value="${url}" readonly /><button title="copy" type="button" class="btn btn-action waves-effect" onclick="Copy('${url}')"><i class="material-icons">content_copy</i></button></div>`
+                }
+            },
+            {
+                "targets": [10, 11],
+                "sortable": false,
+                render: function(data, type, row, meta) {
+                    if (data == "") return "";
+                    return localizationResources[data];
+                }
+            },
+            {
+                orderable: false, targets: [0, 10, 11, 12, 13, 14, 15]
+            },
+        ];
+        sTable = initDataTable("#registertable", apiConfig.api.host_booking_service + apiConfig.api.order.controller + apiConfig.api.order.action.table_order.path, customRow);
+        $('#frmFilter').submit(function(e) {
+            e.preventDefault();
+            sTable.draw();
+        });
+    });
+
+    function Copy(element) {
+        var $temp = $("<input>");
+        $("body").append($temp);
+        $temp.val(element).select();
+        document.execCommand("copy");
+        $temp.remove();
+    }
+
+    function CallDelete(reference_id) {
+        swal({
+            title: "@Html.Raw(Resource.lbl_delete_message)",
+            showCancelButton: true,
+            confirmButtonClass: "btn-danger",
+            confirmButtonText: "@Html.Raw(Resource.btn_accept)",
+            cancelButtonText: "@Html.Raw(Resource.btn_cancel)",
+            closeOnConfirm: true,
+            closeOnCancel: true
+        },
+            function(isConfirm) {
+                if (isConfirm) {
+                    PostBody(apiConfig.api.host_booking_service,
+                        apiConfig.api.order.controller,
+                        apiConfig.api.order.action.delete_order.path,
+                        apiConfig.api.order.action.delete_order.method,
+                        reference_id,
+                        'fnDeleteSuccess', 'msgError');
+                }
+            });
+    }
+
+    function fnDeleteSuccess(result) {
+        toastr.success('@Html.Raw(Resource.lbl_deleteSuccess)', '@Html.Raw(@Resource.lbl_noti)');
+        sTable.draw();
+    }
+
+    function Edit(reference_id) {
+        window.location.href = "/Order/Edit?reference_id=" + reference_id;
+    }
+
+    function ShowDetail(reference_id) {
+        window.location.href = "/Order/Detail?reference_id=" + reference_id;
+    }
+
+    function Approve(reference_id) {
+        window.location.href = "/Order/Approve?reference_id=" + reference_id;
+    }
+
+    function Refuse(reference_id) {
+        window.location.href = "/Order/Refuse?reference_id=" + reference_id;
+    }
+
+    function Return(reference_id) {
+        window.location.href = "/Order/Return?reference_id=" + reference_id;
+    }
+
+    function Export() {
+        var search = $('#frmFilter').serialize();
+        var lang = $("#culture_RequestCulture_UICulture_Name").val();
+        var request = new XMLHttpRequest();
+        request.responseType = "blob";
+        request.open("GET", apiConfig.api.host_booking_service + apiConfig.api.order.controller +
+            apiConfig.api.order.action.export_order.path + "?" + search + "&lang=" + lang + "&url=" + location.protocol + '//' + location.host + "/register");
+        request.setRequestHeader('Authorization', getSessionToken());
+        request.setRequestHeader('x-api-key', API_KEY);
+        request.onload = function() {
+            if (this.status == 200) {
+                var link = document.createElement('a');
+                link.href = window.URL.createObjectURL(this.response);
+                var time = moment().format("YYYYMMDDHHmmssfff");
+                link.download = `Order-${time}.xlsx`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+            if (this.status == 400) {
+                toastr.error(localizationResources.error400, localizationResources.lbl_error);
+            }
+
+        }
+        request.send();
+    }
+</script>
